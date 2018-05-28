@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.idou.modules.app.dao.UserDao">
+    <select id="queryObject" resultType="com.idou.modules.app.entity.ApiUserEntity">
+      select * from t_user where id = #{value}
+    </select>
+
+    <select id="queryList" resultType="com.idou.modules.app.entity.ApiUserEntity">
+        select * from t_user
+        <where>
+            <if test="utel != null and utel.trim() != ''">
+                and `utel` like concat('%',#{utel},'%')
+            </if>
+            <if test="ustatu!=null and ustatu !=-1">
+                AND ustatu = #{ustatu}
+            </if>
+        </where>
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+            <otherwise>
+                order by id asc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="queryTotal" resultType="int">
+        select count(*) from t_user
+        <where>
+            <if test="utel != null and utel.trim() != ''">
+                and `utel` like concat('%',#{utel},'%')
+            </if>
+            <if test="ustatu!=null and ustatu !=-1">
+                AND ustatu = #{ustatu}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateStatu" parameterType="map">
+        UPDATE
+          `t_user`
+        SET
+          `uStatu` = #{uStatu}
+        WHERE `id` = #{id}
+    </update>
+
+    <!-- f -->
+    <insert id="saveOrUpdate" parameterType="com.idou.modules.app.entity.ApiUserEntity">
+        INSERT INTO `t_user` (
+          `openId`,
+          `nickName`,
+          `utel`,
+          `gender`,
+          `province`,
+          `country`,
+          `headimgurl`,
+          `isSubscribe`,
+          `subscribeTime`,
+          `lastLoginTime`,
+          `source`,
+          `createTime`
+        )
+        VALUES
+          (
+            #{openId},
+            #{nickName},
+            #{utel},
+            #{gender},
+            #{province},
+            #{country},
+            #{headimgurl},
+            #{isSubscribe},
+            #{subscribeTime},
+            NOW(),
+            #{source},
+            NOW()
+          )
+          ON DUPLICATE KEY
+          UPDATE
+            `t_user`
+          SET
+            `nickName` = #{nickName},
+            `utel` = #{utel},
+            `gender` = #{gender},
+            `province` = #{province},
+            `country` = #{country},
+            `headimgurl` = #{headimgurl},
+            `isSubscribe` = #{isSubscribe},
+            `subscribeTime` = #{subscribeTime},
+            `lastLoginTime` = NOW()
+          WHERE `openId` = #{openId}
+    </insert>
+</mapper>

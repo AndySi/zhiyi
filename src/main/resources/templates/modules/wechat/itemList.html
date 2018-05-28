@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="UTF-8">
+    <title>商品列表</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}">
+    <link rel="stylesheet" th:href="@{/plugins/ztree/css/metroStyle/metroStyle.css}">
+    <link rel="stylesheet" th:href="@{/plugins/layui/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/css/comm.css}">
+    <script th:src="@{/libs/jquery.min.js}"></script>
+    <script th:src="@{/plugins/layer/layer.js}"></script>
+    <script th:src="@{/libs/vue.min.js}"></script>
+    <script th:src="@{/plugins/ztree/jquery.ztree.all.min.js}"></script>
+    <script th:src="@{/js/common.js}"></script>
+    <style>
+        .layui-form-label {
+            width: 110px;
+        }
+
+        .d-content .layui-input {
+            width: 94%;
+        }
+
+        .layui-word-aux {
+            color: #ff032f !important;
+        }
+    </style>
+</head>
+<body>
+<section class="layui-app-box" style="width: 97%;">
+    <div id="vApp" v-cloak>
+        <div v-show="showList">
+            <form class="layui-form" action="javascript:;">
+                <div class="layui-form-item">
+                    <div class="layui-input-inline">
+                        <input type="text" v-model="q.name" placeholder="商品名称" autocomplete="off"
+                               class="layui-input">
+                    </div>
+                    <div class="layui-input-inline">
+                        <select lay-filter="lf-type">
+                            <option v-for="option in typeList" :value="option.id">{{ option.name }}</option>
+                        </select>
+                    </div>
+                    <button class="layui-btn" data-type="reload"><i class="fa fa-search"></i>&nbsp;查询</button>
+                    <button shiro:hasPermission="wx:item:add" class="layui-btn layui-btn-normal" data-type="add"><i
+                            class="fa fa-plus"></i>&nbsp;新增
+                    </button>
+                    <button shiro:hasPermission="wx:item:update" class="layui-btn layui-btn-warm" data-type="update">
+                        <i class="fa fa-pencil-square-o"></i>&nbsp;修改
+                    </button>
+                    <button shiro:hasPermission="wx:item:delete" class="layui-btn layui-btn-danger" data-type="delete">
+                        <i class="fa fa-trash-o"></i>&nbsp;删除
+                    </button>
+                </div>
+            </form>
+            <table id="layui-grid" class="layui-table" lay-filter="lf-credit"></table>
+        </div>
+        <!-- 修改页面 -->
+        <div v-show="!showList">
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend>{{title}}</legend>
+            </fieldset>
+            <div class="d-content">
+                <form class="layui-form" action="javascript:;">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">商品名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" lay-verify="required" autocomplete="off" class="layui-input"
+                                   v-model="itemInfo.name">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">商品分类</label>
+                        <div class="layui-input-block">
+                            <input type="text" lay-verify="lvType" class="layui-input"
+                                   v-model="itemInfo.typeName" style="cursor:pointer;" readonly="readonly"
+                                   @click="getTypeTree">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">商品描述</label>
+                        <div class="layui-input-block">
+                            <input type="text" lay-verify="required" class="layui-input"
+                                   v-model="itemInfo.describe">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">产品图片</label>
+                        <div class="layui-input-inline" style="width: 110px;">
+                            <button type="button" class="layui-btn" id="test10">
+                                <i class="layui-icon">&#xe67c;</i>图片上传
+                            </button>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <blockquote class="layui-elem-quote layui-quote-nm"
+                                        style="margin-left:26px;margin-top: 10px;">
+                                预览图：
+                                <div class="layui-upload-list" id="d-review"></div>
+                            </blockquote>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button id="btn-uploadCover" class="layui-btn layui-btn-normal"
+                                    style="margin-left:26px;">
+                                <i class="layui-icon">&#xe618;</i>开始上传
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">商品详情</label>
+                        <div class="layui-input-inline" style="width: 110px;">
+                            <button type="button" class="layui-btn" id="btn-detail">
+                                <i class="layui-icon">&#xe67c;</i>图片上传
+                            </button>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <div class="layui-upload-list" style="margin-left:26px;">
+                                <table class="layui-table">
+                                    <thead>
+                                    <tr><th>文件名</th>
+                                        <th>大小</th>
+                                        <th>状态</th>
+                                        <th>操作</th>
+                                    </tr></thead>
+                                    <tbody id="detailListView"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button id="btn-uploadDetail" class="layui-btn layui-btn-normal"
+                                    style="margin-left:26px;">
+                                <i class="layui-icon">&#xe618;</i>开始上传
+                            </button>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" lay-submit="" lay-filter="btn-ok">确定</button>
+                            <button class="layui-btn layui-btn-warm" data-type="goback">返回</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- 选择菜单 -->
+<div id="typeLayer" style="display: none;padding:10px;">
+    <ul id="typeTree" class="ztree"></ul>
+</div>
+<!-- 详情模板页 -->
+<script type="text/html" id="detailTpl">
+    <div class="d-detail-view" style="padding: 10px;">
+        <form class="layui-form" action="javascript:;">
+            <div class="layui-form-item">
+                <label class="layui-form-label">商品类型</label>
+                <div class="layui-form-mid layui-word-aux">{{ d.typeName }}</div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">商品名称</label>
+                <div class="layui-form-mid layui-word-aux">{{ d.name }}</div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">商品描述</label>
+                <div class="layui-form-mid layui-word-aux">{{ d.describe }}</div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">商品图片</label>
+                <div class="layui-input-block"><img src="{{ d.coverUrl }}" height="100%" width="100%"></div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">商品详情</label>
+                {{#  layui.each(d.detailList, function(index, item){ }}
+                <div class="layui-input-block"><img src="{{ item.imgUrl }}" height="100%" width="100%"></div>
+                {{#  }); }}
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">SPU销量</label>
+                <div class="layui-form-mid layui-word-aux">{{ d.spusaleNum }}</div>
+            </div>
+        </form>
+    </div>
+</script>
+<!-- 表格操作按钮模板 -->
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="detail">点击查看</a>
+</script>
+<!-- 表格状态模板 -->
+<script type="text/html" id="statuTpl">
+    {{#  if(d.creditStatu === 0){ }}
+    <span style="color: #FFB800;">待审核</span>
+    {{#  } else if(d.creditStatu === 1){ }}
+    <span style="color: #009688;">通过</span>
+    {{#  } else { }}
+    <span style="color: #FF5722;">未通过</span>
+    {{#  } }}
+</script>
+<!-- 身份证模板 -->
+<script type="text/html" id="coverTpl">
+    <img src="{{ d.coverUrl }}" height="100%" width="100%"/>
+</script>
+<script th:src="@{/plugins/layui/layui.js}" charset="utf-8"></script>
+<script th:src="@{/js/modules/wechat/itemList.js}"></script>
+</body>
+</html>

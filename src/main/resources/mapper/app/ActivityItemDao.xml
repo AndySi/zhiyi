@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.idou.modules.app.dao.ActivityItemDao">
+    <select id="queryList" resultType="com.idou.modules.app.entity.ApiActivityItemEntity">
+        SELECT
+          ai.`id`,
+          ai.`activityId`,
+          ai.`itemId`,
+          ai.`createTime`,
+          i.`name` AS itemName,
+          a.`name` AS activityName
+        FROM
+          `t_activity_item` ai,
+          `t_item` i,
+          `t_activity` a
+        WHERE ai.`itemId` = i.id
+          AND ai.`activityId` = a.id
+        <if test="activityName!=null and activityName!=''">
+            AND a.`name` LIKE CONCAT('%',#{activityName},'%')
+        </if>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+    <select id="queryTotal" resultType="int">
+        SELECT
+        count(*)
+        FROM
+        `t_activity_item` ai,
+        `t_item` i,
+        `t_activity` a
+        WHERE ai.`itemId` = i.id
+        AND ai.`activityId` = a.id
+        <if test="activityName!=null and activityName!=''">
+            AND a.`name` LIKE CONCAT('%',#{activityName},'%')
+        </if>
+    </select>
+    <insert id="save">
+        INSERT INTO `t_activity_item` (
+          `activityId`,
+          `itemId`,
+          `createTime`
+        )
+        VALUES
+        <foreach collection="itemIdList" item="item" index="index" separator=",">
+            (
+            #{activityId},
+            #{item},
+            NOW()
+            )
+        </foreach>
+    </insert>
+
+    <delete id="deleteBatch">
+        DELETE
+        FROM
+        `t_activity_item`
+        WHERE `id` IN
+        <foreach item="item" collection="array" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <!-- 商品ID查询是否在今日必抢活动中 -->
+    <select id="queryRobByItemId" resultType="com.idou.modules.app.dto.ApiTotayRobEntity">
+        SELECT
+          ia.`itemId`,
+          a.`startTime`,
+          a.`endTime`
+        FROM
+          `t_activity_item` ia,
+          `t_activity` a
+        WHERE ia.`activityId` = a.`id`
+          AND ia.`itemId` = #{value}
+    </select>
+
+    <!-- 今日必抢活动列表 -->
+    <select id="queryTodayRobList" parameterType="map" resultType="com.idou.modules.app.dto.ApiTotayRobEntity">
+        SELECT
+          ia.`id`,
+          ia.`itemId`,
+          i.`coverUrl`,
+          i.`name`,
+          i.`describe`,
+          s.`originalPrice`,
+          s.`price`,
+          s.`stock`,
+          s.`saleNum`,
+          a.`startTime`,
+          a.`endTime`,
+          a.sendTime
+        FROM
+          `t_activity_item` ia,
+          `t_activity` a,
+          `t_item` i,
+          `t_item_sku` s
+        WHERE ia.`activityId` = a.`id`
+          AND ia.`itemId` = i.`id`
+          AND ia.`itemId` = s.`itemId`
+        <![CDATA[
+          AND UNIX_TIMESTAMP(NOW()) >= UNIX_TIMESTAMP(a.startTime)
+          AND UNIX_TIMESTAMP(NOW()) <= UNIX_TIMESTAMP(a.endTime)
+        ]]>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <!-- 今日必抢活动商品详情 -->
+    <select id="queryDetailByItemId" resultType="com.idou.modules.app.dto.ApiTotayRobEntity">
+        SELECT
+          ia.`itemId`,
+          i.`coverUrl`,
+          i.`name`,
+          i.`describe`,
+          a.`startTime`,
+          a.`endTime`,
+          a.`sendTime`,
+          s.`originalPrice`,
+          s.`price`,
+          s.`stock`,
+          s.`saleNum`
+        FROM
+          `t_activity_item` ia
+          LEFT JOIN `t_activity` a
+            ON ia.`activityId` = a.`id`
+          LEFT JOIN `t_item` i
+            ON ia.`itemId` = i.`id`
+          LEFT JOIN `t_item_sku` s
+            ON ia.`itemId` = s.`itemId`
+        WHERE ia.`itemId` = #{value}
+    </select>
+    
+    <!-- 今日必抢活动某一商品购买用户列表 -->
+    <select id="queryRobUserByItemId" resultType="com.idou.modules.app.dto.ApiRobUserVo">
+        SELECT
+          u.`headimgurl`,
+          o.`orderNum`,
+          o.`createTime`
+        FROM
+          `t_order` o,
+          `t_user` u
+        WHERE o.`userId` = u.`id`
+          AND o.`itemId` = #{itemId}
+          <if test="limit !=null">
+              LIMIT #{limit}
+          </if>
+    </select>
+</mapper>

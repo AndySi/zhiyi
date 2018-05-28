@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.idou.modules.app.dao.ItemDao">
+    <select id="queryAllList" resultType="com.idou.modules.app.entity.ApiItemEntity">
+      SELECT `id`,`name` FROM `t_item`
+    </select>
+
+    <select id="queryListByTid" resultType="int">
+        SELECT
+          count(*)
+        FROM
+          `t_item`
+        WHERE `typeId` = #{typeId}
+    </select>
+
+    <insert id="save" parameterType="com.idou.modules.app.dto.ApiItemVo" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO `t_item` (
+            `name`,
+            `typeId`,
+            `describe`,
+            `coverUrl`,
+            `createTime`
+        )
+        VALUES
+        (
+            #{name},
+            #{typeId},
+            #{describe},
+            #{coverUrl},
+            NOW()
+        )
+    </insert>
+
+    <delete id="deleteBatch">
+        DELETE FROM `t_item` WHERE `id` IN
+        <foreach item="item" collection="array" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        ;
+        DELETE FROM `t_item_detail` WHERE `itemId` IN
+        <foreach item="item" collection="array" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <update id="update" parameterType="com.idou.modules.app.dto.ApiItemVo">
+        UPDATE
+          `t_item`
+        SET
+          `name` = #{name},
+          `typeId` = #{typeId},
+          `describe` = #{describe},
+          `coverUrl` = #{coverUrl}
+        WHERE `id` = #{id}
+    </update>
+
+    <select id="queryInfo" resultType="com.idou.modules.app.dto.ApiItemVo">
+        SELECT
+        i.*,
+        t.`name` AS typeName
+        FROM
+        t_item i,
+        `t_item_type` t
+        WHERE i.`typeId` = t.`id`
+        AND i.id = #{value}
+    </select>
+
+    <select id="queryObject" resultType="com.idou.modules.app.entity.ApiItemEntity">
+        SELECT * FROM `t_item` WHERE `id` = #{value}
+    </select>
+
+    <select id="queryList" resultType="com.idou.modules.app.dto.ApiItemVo">
+        SELECT i.*,t.`name` AS typeName FROM t_item i,`t_item_type` t
+        <where>
+            i.`typeId` = t.`id`
+            <if test="typeId != null and typeId !=-1">
+                and `typeId` = #{typeId}
+            </if>
+        </where>
+        <choose>
+            <otherwise>
+                order by t.id asc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="queryTotal" resultType="int">
+        select count(*) from t_item
+        <where>
+            <if test="typeId != null and typeId !=-1">
+                and `typeId` = #{typeId}
+            </if>
+        </where>
+    </select>
+</mapper>

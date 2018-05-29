@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
-<mapper namespace="com.idou.modules.app.dao.BannerDao">
-    <select id="queryListByStatu" resultType="com.idou.modules.app.entity.ApiBannerEntity">
-        SELECT `id`,`imgUrl` FROM `t_banner` WHERE `statu` = 1
-    </select>
-</mapper>

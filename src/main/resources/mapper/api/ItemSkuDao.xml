@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.idou.modules.api.dao.ItemSkuDao">
+    <select id="queryActivityList" resultType="com.idou.modules.api.entity.ApiItemSkuEntity">
+      SELECT
+          s.*,
+          i.`name`
+        FROM
+          `t_item_sku` s,
+          `t_item` i
+        WHERE s.`itemId` = i.`id`
+    </select>
+
+    <select id="queryList" resultType="com.idou.modules.api.entity.ApiItemSkuEntity">
+      SELECT
+          s.*,
+          i.`name`
+        FROM
+          `t_item_sku` s,
+          `t_item` i
+        WHERE s.`itemId` = i.`id`
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="queryTotal" resultType="int">
+        SELECT count(*) FROM t_item_sku
+    </select>
+
+    <insert id="add" parameterType="com.idou.modules.api.entity.ApiItemSkuEntity">
+        INSERT IGNORE INTO `t_item_sku` (
+          `itemId`,
+          `attr`,
+          `originalPrice`,
+          `price`,
+          `stock`,
+          `saleNum`
+        )
+        VALUES
+          (
+            #{itemId},
+            #{attr},
+            #{originalPrice},
+            #{price},
+            #{stock},
+            #{saleNum}
+          )
+    </insert>
+
+    <update id="update" parameterType="com.idou.modules.api.entity.ApiItemSkuEntity">
+        UPDATE
+          `t_item_sku`
+        <set>
+            <if test="attr!=null and attr!=''">
+                `attr` = #{attr},
+            </if>
+            `saleNum` = #{saleNum},
+            `stock` = #{stock},
+            `originalPrice` = #{originalPrice},
+            `price` = #{price}
+        </set>
+        WHERE `id` = #{id}
+    </update>
+
+    <delete id="deleteBatch">
+        delete from t_item_sku where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

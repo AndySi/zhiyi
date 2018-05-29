@@ -1,7 +1,7 @@
 package com.idou.config;
 
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
-import com.idou.modules.sys.authc.AuthcRealm;
+import com.idou.modules.sysBs.authc.AuthcRealm;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;

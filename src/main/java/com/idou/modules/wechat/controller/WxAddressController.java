@@ -2,8 +2,8 @@ package com.idou.modules.wechat.controller;
 
 import com.idou.common.utils.Query;
 import com.idou.common.utils.R;
-import com.idou.modules.app.entity.ApiAddressEntity;
-import com.idou.modules.app.service.AddressService;
+import com.idou.modules.api.entity.ApiAddressEntity;
+import com.idou.modules.api.service.AddressService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

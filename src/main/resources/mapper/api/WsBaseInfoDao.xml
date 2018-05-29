@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.idou.modules.api.dao.WsBaseInfoDao">
+	<select id="queryInfo" resultType="com.idou.modules.api.domain.WsBaseInfoEntity">
+		select * from t_ws_baseinfo
+	</select>
+
+	<insert id="save" parameterType="com.idou.modules.api.domain.WsBaseInfoEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into t_ws_baseinfo
+		(
+			`logo`, 
+			`slogan`, 
+			`tel`, 
+			`qq`, 
+			`serverTime`, 
+			`qrCode`, 
+			`addr`, 
+			`aboutUs`, 
+			`copyright`
+		)
+		values
+		(
+			#{logo}, 
+			#{slogan}, 
+			#{tel}, 
+			#{qq}, 
+			#{servertime}, 
+			#{qrcode}, 
+			#{addr}, 
+			#{aboutus}, 
+			#{copyright}
+		)
+	</insert>
+
+	<delete id="delete">
+		delete from t_ws_baseinfo
+	</delete>
+</mapper>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="UTF-8">
+    <title>商品列表</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}">
+    <link rel="stylesheet" th:href="@{/plugins/ztree/css/metroStyle/metroStyle.css}">
+    <link rel="stylesheet" th:href="@{/plugins/layui/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/css/comm.css}">
+    <script th:src="@{/libs/jquery.min.js}"></script>
+    <script th:src="@{/plugins/layer/layer.js}"></script>
+    <script th:src="@{/libs/vue.min.js}"></script>
+    <script th:src="@{/plugins/ztree/jquery.ztree.all.min.js}"></script>
+    <script th:src="@{/js/common.js}"></script>
+</head>
+<body>
+<section class="layui-app-box" style="width: 97%;">
+    <div id="vApp" v-cloak>
+        <form class="layui-form" action="">
+            <div class="layui-form-item">
+                <label class="layui-form-label">公司Logo</label>
+                <div class="layui-input-inline" style="width: 110px;">
+                    <button type="button" class="layui-btn" id="test10">
+                        <i class="layui-icon">&#xe67c;</i>图片上传
+                    </button>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <blockquote class="layui-elem-quote layui-quote-nm"
+                                style="margin-top: 10px;">
+                        预览图：
+                        <div class="layui-upload-list" id="d-review"></div>
+                    </blockquote>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">宣传口号</label>
+                <div class="layui-input-block">
+                    <input type="text" name="username" lay-verify="required" placeholder="请输入" autocomplete="off"
+                           class="layui-input" v-model="data.slogan">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">资讯电话</label>
+                <div class="layui-input-block">
+                    <input type="text" name="username" lay-verify="required" placeholder="请输入" autocomplete="off"
+                           class="layui-input" v-model="data.tel">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">腾讯QQ</label>
+                <div class="layui-input-block">
+                    <input type="text" name="username" lay-verify="required" placeholder="请输入" autocomplete="off"
+                           class="layui-input" v-model="data.qq">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">服务时间</label>
+                <div class="layui-input-block">
+                    <input type="text" name="username" lay-verify="required" placeholder="请输入" autocomplete="off"
+                           class="layui-input" v-model="data.servertime">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">公司地址</label>
+                <div class="layui-input-block">
+                    <input type="text" name="username" lay-verify="required" placeholder="请输入" autocomplete="off"
+                           class="layui-input" v-model="data.addr">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">关于我们</label>
+                <div class="layui-input-block">
+                    <textarea placeholder="请输入内容" lay-verify="required" class="layui-textarea" v-model="data.aboutus"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">版权信息</label>
+                <div class="layui-input-block">
+                    <input type="text" name="username" lay-verify="required" placeholder="请输入" autocomplete="off"
+                           class="layui-input" v-model="data.copyright">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">二维码</label>
+                <div class="layui-input-inline" style="width: 110px;">
+                    <button type="button" class="layui-btn" id="btn_qrcode">
+                        <i class="layui-icon">&#xe67c;</i>图片上传
+                    </button>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <blockquote class="layui-elem-quote layui-quote-nm"
+                                style="margin-top: 10px;">
+                        预览图：
+                        <div class="layui-upload-list" id="d-review-qrcode"></div>
+                    </blockquote>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit="" lay-filter="btn-ok">确定</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+<script th:src="@{/plugins/layui/layui.js}" charset="utf-8"></script>
+<script th:src="@{/js/modules/sysEx/baseInfo.js}"></script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.idou.modules.api.dao.ItemAttrDao">
+    <select id="queryListByItemId" resultType="com.idou.modules.api.entity.ApiItemAttrEntity">
+        SELECT
+          r.id,
+          CONCAT(n.`name`, '-', v.`value`) AS attrName
+        FROM
+          `t_relationship_item_attr` r
+          LEFT JOIN `t_attr_value` v
+            ON r.`attrValueId` = v.id
+          LEFT JOIN `t_attr_name` n
+            ON r.`attrNameId` = n.id
+        WHERE r.`itemId` = #{itemId}
+    </select>
+
+    <select id="queryListByIds" resultType="com.idou.modules.api.entity.ApiItemAttrEntity">
+        SELECT
+          r.id,
+          n.`name` AS attrName,
+          v.`value` AS attrValue
+        FROM
+          `t_relationship_item_attr` r
+          LEFT JOIN `t_attr_value` v
+            ON r.`attrValueId` = v.id
+          LEFT JOIN `t_attr_name` n
+            ON r.`attrNameId` = n.id
+        WHERE r.`id` IN
+        <foreach item="item" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="queryList" resultType="com.idou.modules.api.entity.ApiItemAttrEntity">
+        SELECT
+            r.*,
+            i.`name` AS itemName,
+            n.`name` AS attrName,
+            v.`value` AS attrValue
+        FROM
+          `t_relationship_item_attr` r
+        LEFT JOIN `t_item` i
+          ON r.`itemId` = i.`id`
+        LEFT JOIN `t_attr_value` v
+          ON r.`attrValueId` = v.id
+        LEFT JOIN `t_attr_name` n
+          ON r.`attrNameId` = n.id
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+    <select id="queryTotal" resultType="int">
+        select count(*) from t_relationship_item_attr
+    </select>
+
+    <insert id="add" parameterType="com.idou.modules.api.entity.ApiItemAttrEntity">
+        INSERT IGNORE INTO `t_relationship_item_attr` (
+          `itemId`,
+          `attrNameId`,
+          `attrValueId`
+        )
+        VALUES
+          (
+            #{itemId},
+            #{attrNameId},
+            #{attrValueId}
+          )
+    </insert>
+
+    <update id="update" parameterType="com.idou.modules.api.entity.ApiItemAttrEntity">
+      UPDATE
+          `t_relationship_item_attr`
+        SET
+          `itemId` = #{itemId},
+          `attrNameId` = #{attrNameId},
+          `attrValueId` = #{attrValueId}
+        WHERE `id` = #{id}
+    </update>
+
+    <delete id="deleteBatch">
+      DELETE
+        FROM `t_relationship_item_attr`
+        WHERE `id` IN
+        <foreach item="item" collection="array" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+</mapper>

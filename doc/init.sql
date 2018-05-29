@@ -52,13 +52,13 @@ CREATE TABLE `sys_log` (
   `ip` varchar(64) DEFAULT NULL COMMENT 'IP地址',
   `create_date` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=203 DEFAULT CHARSET=utf8 COMMENT='系统日志';
+) ENGINE=InnoDB AUTO_INCREMENT=208 DEFAULT CHARSET=utf8 COMMENT='系统日志';
 
 /*Data for the table `sys_log` */
 
 LOCK TABLES `sys_log` WRITE;
 
-insert  into `sys_log`(`id`,`username`,`operation`,`method`,`params`,`time`,`ip`,`create_date`) values (198,'admin','修改定时任务','com.idou.modules.job.controller.ScheduleJobController.update()','{\"jobId\":1,\"beanName\":\"testTask\",\"methodName\":\"test\",\"params\":\"idou\",\"cronExpression\":\"0 0/30 * * * ?\",\"status\":0,\"remark\":\"有参数测试\",\"createTime\":\"Dec 1, 2016 11:16:46 PM\"}',448,'0:0:0:0:0:0:0:1','2018-01-11 11:34:39'),(199,'admin','立即执行任务','com.idou.modules.job.controller.ScheduleJobController.run()','[1]',286,'0:0:0:0:0:0:0:1','2018-01-11 14:23:36'),(200,'admin','立即执行任务','com.idou.modules.job.controller.ScheduleJobController.run()','[1]',55,'0:0:0:0:0:0:0:1','2018-01-11 14:27:01'),(201,'admin','立即执行任务','com.idou.modules.job.controller.ScheduleJobController.run()','[1]',4557,'0:0:0:0:0:0:0:1','2018-01-11 14:38:30'),(202,'admin','立即执行任务','com.idou.modules.job.controller.ScheduleJobController.run()','[1]',97,'0:0:0:0:0:0:0:1','2018-01-11 14:39:14');
+insert  into `sys_log`(`id`,`username`,`operation`,`method`,`params`,`time`,`ip`,`create_date`) values (198,'admin','修改定时任务','com.idou.modules.job.controller.ScheduleJobController.update()','{\"jobId\":1,\"beanName\":\"testTask\",\"methodName\":\"test\",\"params\":\"idou\",\"cronExpression\":\"0 0/30 * * * ?\",\"status\":0,\"remark\":\"有参数测试\",\"createTime\":\"Dec 1, 2016 11:16:46 PM\"}',448,'0:0:0:0:0:0:0:1','2018-01-11 11:34:39'),(199,'admin','立即执行任务','com.idou.modules.job.controller.ScheduleJobController.run()','[1]',286,'0:0:0:0:0:0:0:1','2018-01-11 14:23:36'),(200,'admin','立即执行任务','com.idou.modules.job.controller.ScheduleJobController.run()','[1]',55,'0:0:0:0:0:0:0:1','2018-01-11 14:27:01'),(201,'admin','立即执行任务','com.idou.modules.job.controller.ScheduleJobController.run()','[1]',4557,'0:0:0:0:0:0:0:1','2018-01-11 14:38:30'),(202,'admin','立即执行任务','com.idou.modules.job.controller.ScheduleJobController.run()','[1]',97,'0:0:0:0:0:0:0:1','2018-01-11 14:39:14'),(203,'admin','保存菜单','com.idou.modules.sysBs.controller.SysMenuController.save()','{\"parentId\":0,\"parentName\":\"一级菜单\",\"name\":\"网站管理\",\"type\":0,\"icon\":\"fa fa-product-hunt\",\"orderNum\":0}',57,'0:0:0:0:0:0:0:1','2018-05-29 15:23:07'),(204,'admin','保存菜单','com.idou.modules.sysBs.controller.SysMenuController.save()','{\"parentId\":1056,\"parentName\":\"网站管理\",\"name\":\"基本信息\",\"url\":\"modules/sysEx/baseInfo.html\",\"perms\":\"sysWs:baseinfo:info\",\"type\":1,\"icon\":\"fa fa-list\",\"orderNum\":0}',64,'0:0:0:0:0:0:0:1','2018-05-29 15:31:20'),(205,'admin','保存角色','com.idou.modules.sysBs.controller.SysRoleController.save()','{\"roleId\":2,\"roleName\":\"网站管理员\",\"createUserId\":1,\"menuIdList\":[1056,1057],\"createTime\":\"May 29, 2018 3:50:10 PM\"}',134,'0:0:0:0:0:0:0:1','2018-05-29 15:50:10'),(206,'admin','删除角色','com.idou.modules.sysBs.controller.SysRoleController.delete()','[1]',68,'0:0:0:0:0:0:0:1','2018-05-29 15:50:17'),(207,'admin','保存菜单','com.idou.modules.sysBs.controller.SysMenuController.save()','{\"parentId\":1056,\"parentName\":\"网站管理\",\"name\":\"网站菜单\",\"url\":\"modules/sysEx/menu.html\",\"perms\":\"sysWs:menu:info\",\"type\":1,\"icon\":\"fa fa-th-list\",\"orderNum\":1}',55,'0:0:0:0:0:0:0:1','2018-05-29 15:55:00');
 
 UNLOCK TABLES;
 
@@ -76,13 +76,13 @@ CREATE TABLE `sys_menu` (
   `icon` varchar(50) DEFAULT NULL COMMENT '菜单图标',
   `order_num` int(11) DEFAULT NULL COMMENT '排序',
   PRIMARY KEY (`menu_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1056 DEFAULT CHARSET=utf8 COMMENT='菜单管理';
+) ENGINE=InnoDB AUTO_INCREMENT=1059 DEFAULT CHARSET=utf8 COMMENT='菜单管理';
 
 /*Data for the table `sys_menu` */
 
 LOCK TABLES `sys_menu` WRITE;
 
-insert  into `sys_menu`(`menu_id`,`parent_id`,`name`,`url`,`perms`,`type`,`icon`,`order_num`) values (1,0,'系统管理',NULL,NULL,0,'fa fa-cog',999),(2,1,'管理员列表','modules/sys/user.html',NULL,1,'fa fa-user',1),(3,1,'角色管理','modules/sys/role.html',NULL,1,'fa fa-user-secret',2),(4,1,'菜单管理','modules/sys/menu.html',NULL,1,'fa fa-th-list',3),(5,1,'SQL监控','druid/sql.html',NULL,1,'fa fa-bug',4),(6,1,'定时任务','modules/job/schedule.html',NULL,1,'fa fa-tasks',5),(7,6,'查看',NULL,'sys:schedule:list,sys:schedule:info',2,NULL,0),(8,6,'新增',NULL,'sys:schedule:save',2,NULL,0),(9,6,'修改',NULL,'sys:schedule:update',2,NULL,0),(10,6,'删除',NULL,'sys:schedule:delete',2,NULL,0),(11,6,'暂停',NULL,'sys:schedule:pause',2,NULL,0),(12,6,'恢复',NULL,'sys:schedule:resume',2,NULL,0),(13,6,'立即执行',NULL,'sys:schedule:run',2,NULL,0),(14,6,'日志列表',NULL,'sys:schedule:log',2,NULL,0),(15,2,'查看',NULL,'sys:user:list,sys:user:info',2,NULL,0),(16,2,'新增',NULL,'sys:user:save,sys:role:select',2,NULL,0),(17,2,'修改',NULL,'sys:user:update,sys:role:select',2,NULL,0),(18,2,'删除',NULL,'sys:user:delete',2,NULL,0),(19,3,'查看',NULL,'sys:role:list,sys:role:info',2,NULL,0),(20,3,'新增',NULL,'sys:role:save,sys:menu:perms',2,NULL,0),(21,3,'修改',NULL,'sys:role:update,sys:menu:perms',2,NULL,0),(22,3,'删除',NULL,'sys:role:delete',2,NULL,0),(23,4,'查看',NULL,'sys:menu:list,sys:menu:info',2,NULL,0),(24,4,'新增',NULL,'sys:menu:save,sys:menu:select',2,NULL,0),(25,4,'修改',NULL,'sys:menu:update,sys:menu:select',2,NULL,0),(26,4,'删除',NULL,'sys:menu:delete',2,NULL,0),(27,1,'参数管理','modules/sys/config.html','sys:config:list,sys:config:info,sys:config:save,sys:config:update,sys:config:delete',1,'fa fa-sun-o',6),(29,1,'系统日志','modules/sys/log.html','sys:log:list',1,'fa fa-file-text-o',7),(30,1,'文件上传','modules/oss/oss.html','sys:oss:all',1,'fa fa-file-image-o',6),(32,0,'用户管理',NULL,NULL,0,'fa fa-book',1),(33,32,'用户列表','modules/wechat/userList.html','wx:user:list,wx:user:info',1,'fa fa-th-list',0),(1002,34,'新增',NULL,'sys:banner:save',2,NULL,0),(1007,34,'修改',NULL,'sys:banner:update',2,NULL,0),(1015,33,'修改用户状态',NULL,'wx:user:audit',2,NULL,0),(1017,0,'订单管理',NULL,NULL,0,'fa fa-telegram',3),(1018,1017,'订单列表','modules/wechat/orderList.html','wx:order:list',1,'fa fa-th-list',0),(1019,1018,'审核',NULL,'wx:order:audit',2,NULL,0),(1020,0,'商品管理',NULL,NULL,0,'fa fa-product-hunt',0),(1021,1020,'商品列表','modules/wechat/itemList.html','wx:item:list,wx:item:info',1,'fa fa-list',0),(1022,1020,'分类列表','modules/wechat/itemTypeList.html','wx:itemtype:info,wx:itemtype:list',1,'fa fa-list',0),(1023,1021,'修改',NULL,'wx:item:update',2,NULL,0),(1024,1021,'删除',NULL,'wx:item:delete',2,NULL,0),(1025,1021,'新增',NULL,'wx:item:add',2,NULL,0),(1026,0,'属性管理',NULL,NULL,0,'fa fa-cogs',3),(1027,1026,'属性名','modules/wechat/attrNameList.html','wx:attrname:list',1,'fa fa-th-list',0),(1028,1026,'属性值','modules/wechat/attrValueList.html','wx:attrvalue:list',1,'fa fa-th-list',1),(1029,1026,'商品属性','modules/wechat/itemAttrList.html','wx:itemattr:list',1,'fa fa-th-list',3),(1030,1022,'新增',NULL,'wx:itemtype:add',2,NULL,0),(1031,1022,'修改',NULL,'wx:itemtype:update',2,NULL,0),(1032,1022,'删除',NULL,'wx:itemtype:delete',2,NULL,0),(1033,1020,'库存管理','modules/wechat/itemSkuList.html','wx:itemsku:list',1,'fa fa-th-list',3),(1034,1027,'新增',NULL,'wx:attrname:add',2,NULL,0),(1035,1027,'修改',NULL,'wx:attrname:update',2,NULL,0),(1036,1027,'删除',NULL,'wx:attrname:delete',2,NULL,0),(1037,1028,'新增',NULL,'wx:attrvalue:add',2,NULL,0),(1038,1028,'修改',NULL,'wx:attrvalue:update',2,NULL,0),(1039,1028,'删除',NULL,'wx:attrvalue:delete',2,NULL,0),(1040,1029,'新增',NULL,'wx:itemattr:add',2,NULL,0),(1041,1029,'修改',NULL,'wx:itemattr:update',2,NULL,0),(1042,1029,'删除',NULL,'wx:itemattr:delete',2,NULL,0),(1043,1033,'新增',NULL,'wx:itemsku:add',2,NULL,0),(1044,1033,'修改',NULL,'wx:itemsku:update',2,NULL,0),(1045,1033,'删除',NULL,'wx:itemsku:delete',2,NULL,0),(1046,0,'活动管理',NULL,NULL,0,'fa fa-calendar-minus-o',5),(1047,1046,'活动列表','modules/wechat/activityList.html','wx:activity:list',1,'fa fa-gift',0),(1048,1047,'新增',NULL,'wx:activity:add',2,NULL,0),(1049,1047,'修改',NULL,'wx:activity:update',2,NULL,0),(1050,1047,'删除',NULL,'wx:activity:delete',2,NULL,0),(1051,1046,'活动商品','modules/wechat/activityItem.html','wx:activityitem:list',1,'fa fa-gift',1),(1052,1051,'新增',NULL,'wx:activityitem:add',2,NULL,0),(1053,1051,'删除',NULL,'wx:activityitem:delete',2,NULL,0),(1054,1018,'修改',NULL,'wx:order:update',2,NULL,0),(1055,32,'地址管理','modules/wechat/addressList.html','wx:addr:list',1,'fa fa-th',0);
+insert  into `sys_menu`(`menu_id`,`parent_id`,`name`,`url`,`perms`,`type`,`icon`,`order_num`) values (1,0,'系统管理',NULL,NULL,0,'fa fa-cog',999),(2,1,'管理员列表','modules/sysBs/user.html',NULL,1,'fa fa-user',1),(3,1,'角色管理','modules/sysBs/role.html',NULL,1,'fa fa-user-secret',2),(4,1,'菜单管理','modules/sysBs/menu.html',NULL,1,'fa fa-th-list',3),(5,1,'SQL监控','druid/sql.html',NULL,1,'fa fa-bug',4),(15,2,'查看',NULL,'sys:user:list,sys:user:info',2,NULL,0),(16,2,'新增',NULL,'sys:user:save,sys:role:select',2,NULL,0),(17,2,'修改',NULL,'sys:user:update,sys:role:select',2,NULL,0),(18,2,'删除',NULL,'sys:user:delete',2,NULL,0),(19,3,'查看',NULL,'sys:role:list,sys:role:info',2,NULL,0),(20,3,'新增',NULL,'sys:role:save,sys:menu:perms',2,NULL,0),(21,3,'修改',NULL,'sys:role:update,sys:menu:perms',2,NULL,0),(22,3,'删除',NULL,'sys:role:delete',2,NULL,0),(23,4,'查看',NULL,'sys:menu:list,sys:menu:info',2,NULL,0),(24,4,'新增',NULL,'sys:menu:save,sys:menu:select',2,NULL,0),(25,4,'修改',NULL,'sys:menu:update,sys:menu:select',2,NULL,0),(26,4,'删除',NULL,'sys:menu:delete',2,NULL,0),(27,1,'参数管理','modules/sysBs/config.html','sys:config:list,sys:config:info,sys:config:save,sys:config:update,sys:config:delete',1,'fa fa-sun-o',6),(29,1,'系统日志','modules/sysBs/log.html','sys:log:list',1,'fa fa-file-text-o',7),(32,0,'用户管理',NULL,NULL,0,'fa fa-book',1),(33,32,'用户列表','modules/wechat/userList.html','wx:user:list,wx:user:info',1,'fa fa-th-list',0),(1015,33,'修改用户状态',NULL,'wx:user:audit',2,NULL,0),(1017,0,'订单管理',NULL,NULL,0,'fa fa-telegram',3),(1018,1017,'订单列表','modules/wechat/orderList.html','wx:order:list',1,'fa fa-th-list',0),(1019,1018,'审核',NULL,'wx:order:audit',2,NULL,0),(1020,0,'商品管理',NULL,NULL,0,'fa fa-product-hunt',0),(1021,1020,'商品列表','modules/wechat/itemList.html','wx:item:list,wx:item:info',1,'fa fa-list',0),(1022,1020,'分类列表','modules/wechat/itemTypeList.html','wx:itemtype:info,wx:itemtype:list',1,'fa fa-list',0),(1023,1021,'修改',NULL,'wx:item:update',2,NULL,0),(1024,1021,'删除',NULL,'wx:item:delete',2,NULL,0),(1025,1021,'新增',NULL,'wx:item:add',2,NULL,0),(1026,0,'属性管理',NULL,NULL,0,'fa fa-cogs',3),(1027,1026,'属性名','modules/wechat/attrNameList.html','wx:attrname:list',1,'fa fa-th-list',0),(1028,1026,'属性值','modules/wechat/attrValueList.html','wx:attrvalue:list',1,'fa fa-th-list',1),(1029,1026,'商品属性','modules/wechat/itemAttrList.html','wx:itemattr:list',1,'fa fa-th-list',3),(1030,1022,'新增',NULL,'wx:itemtype:add',2,NULL,0),(1031,1022,'修改',NULL,'wx:itemtype:update',2,NULL,0),(1032,1022,'删除',NULL,'wx:itemtype:delete',2,NULL,0),(1033,1020,'库存管理','modules/wechat/itemSkuList.html','wx:itemsku:list',1,'fa fa-th-list',3),(1034,1027,'新增',NULL,'wx:attrname:add',2,NULL,0),(1035,1027,'修改',NULL,'wx:attrname:update',2,NULL,0),(1036,1027,'删除',NULL,'wx:attrname:delete',2,NULL,0),(1037,1028,'新增',NULL,'wx:attrvalue:add',2,NULL,0),(1038,1028,'修改',NULL,'wx:attrvalue:update',2,NULL,0),(1039,1028,'删除',NULL,'wx:attrvalue:delete',2,NULL,0),(1040,1029,'新增',NULL,'wx:itemattr:add',2,NULL,0),(1041,1029,'修改',NULL,'wx:itemattr:update',2,NULL,0),(1042,1029,'删除',NULL,'wx:itemattr:delete',2,NULL,0),(1043,1033,'新增',NULL,'wx:itemsku:add',2,NULL,0),(1044,1033,'修改',NULL,'wx:itemsku:update',2,NULL,0),(1045,1033,'删除',NULL,'wx:itemsku:delete',2,NULL,0),(1046,0,'活动管理',NULL,NULL,0,'fa fa-calendar-minus-o',5),(1047,1046,'活动列表','modules/wechat/activityList.html','wx:activity:list',1,'fa fa-gift',0),(1048,1047,'新增',NULL,'wx:activity:add',2,NULL,0),(1049,1047,'修改',NULL,'wx:activity:update',2,NULL,0),(1050,1047,'删除',NULL,'wx:activity:delete',2,NULL,0),(1051,1046,'活动商品','modules/wechat/activityItem.html','wx:activityitem:list',1,'fa fa-gift',1),(1052,1051,'新增',NULL,'wx:activityitem:add',2,NULL,0),(1053,1051,'删除',NULL,'wx:activityitem:delete',2,NULL,0),(1054,1018,'修改',NULL,'wx:order:update',2,NULL,0),(1055,32,'地址管理','modules/wechat/addressList.html','wx:addr:list',1,'fa fa-th',0),(1056,0,'网站管理',NULL,NULL,0,'fa fa-product-hunt',0),(1057,1056,'基本信息','modules/sysEx/wsbaseinfo.html','sysWs:baseinfo:info',1,'fa fa-list',0),(1058,1056,'网站菜单','modules/sysEx/wsmenu.html','sysWs:menu:list',1,'fa fa-th-list',1);
 
 UNLOCK TABLES;
 
@@ -114,13 +114,13 @@ CREATE TABLE `sys_role` (
   `create_user_id` bigint(20) DEFAULT NULL COMMENT '创建者ID',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='角色';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='角色';
 
 /*Data for the table `sys_role` */
 
 LOCK TABLES `sys_role` WRITE;
 
-insert  into `sys_role`(`role_id`,`role_name`,`remark`,`create_user_id`,`create_time`) values (1,'博客管理员',NULL,1,'2017-09-20 14:15:53');
+insert  into `sys_role`(`role_id`,`role_name`,`remark`,`create_user_id`,`create_time`) values (2,'网站管理员',NULL,1,'2018-05-29 15:50:10');
 
 UNLOCK TABLES;
 
@@ -133,13 +133,13 @@ CREATE TABLE `sys_role_menu` (
   `role_id` bigint(20) DEFAULT NULL COMMENT '角色ID',
   `menu_id` bigint(20) DEFAULT NULL COMMENT '菜单ID',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=utf8 COMMENT='角色与菜单对应关系';
+) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8 COMMENT='角色与菜单对应关系';
 
 /*Data for the table `sys_role_menu` */
 
 LOCK TABLES `sys_role_menu` WRITE;
 
-insert  into `sys_role_menu`(`id`,`role_id`,`menu_id`) values (59,1,1000),(60,1,32),(61,1,33),(66,1,1002),(67,1,1007);
+insert  into `sys_role_menu`(`id`,`role_id`,`menu_id`) values (68,2,1056),(69,2,1057);
 
 UNLOCK TABLES;
 
@@ -183,8 +183,6 @@ CREATE TABLE `sys_user_role` (
 /*Data for the table `sys_user_role` */
 
 LOCK TABLES `sys_user_role` WRITE;
-
-insert  into `sys_user_role`(`id`,`user_id`,`role_id`) values (5,3,1);
 
 UNLOCK TABLES;
 
@@ -265,7 +263,7 @@ CREATE TABLE `t_address` (
   `isDefault` tinyint(1) DEFAULT '1' COMMENT '是否默认（0：默认，1：不默认）',
   `createTime` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_address` */
 
@@ -519,6 +517,217 @@ CREATE TABLE `t_user` (
 LOCK TABLES `t_user` WRITE;
 
 insert  into `t_user`(`id`,`openId`,`nickName`,`utel`,`gender`,`province`,`country`,`headimgurl`,`isSubscribe`,`subscribeTime`,`lastLoginTime`,`source`,`uStatu`,`createTime`) values (1,'wx007','剑圣','18573163183',1,'湖南省','长沙市',NULL,1,'2017-12-02 10:12:25','2017-12-02 10:12:27','0',0,'2017-12-01 10:12:37');
+
+UNLOCK TABLES;
+
+/*Table structure for table `t_ws_banner` */
+
+DROP TABLE IF EXISTS `t_ws_banner`;
+
+CREATE TABLE `t_ws_banner` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `url` varchar(50) DEFAULT NULL COMMENT 'banner图片路径',
+  `link` varchar(50) DEFAULT NULL COMMENT 'banner图片链接',
+  `sortNum` int(11) DEFAULT NULL COMMENT '排序',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `t_ws_banner` */
+
+LOCK TABLES `t_ws_banner` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `t_ws_baseinfo` */
+
+DROP TABLE IF EXISTS `t_ws_baseinfo`;
+
+CREATE TABLE `t_ws_baseinfo` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `logo` varchar(50) DEFAULT NULL COMMENT 'logo',
+  `slogan` varchar(50) DEFAULT NULL COMMENT '口号',
+  `tel` varchar(16) DEFAULT NULL COMMENT '服务热线',
+  `qq` varchar(32) DEFAULT NULL COMMENT 'QQ',
+  `serverTime` varchar(32) DEFAULT NULL COMMENT '服务时间',
+  `qrCode` varchar(50) DEFAULT NULL COMMENT '二维码',
+  `addr` varchar(250) DEFAULT NULL COMMENT '地址',
+  `aboutUs` varchar(250) DEFAULT NULL COMMENT '关于我们',
+  `copyright` varchar(120) DEFAULT NULL COMMENT '版权信息',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10001 DEFAULT CHARSET=utf8;
+
+/*Data for the table `t_ws_baseinfo` */
+
+LOCK TABLES `t_ws_baseinfo` WRITE;
+
+insert  into `t_ws_baseinfo`(`id`,`logo`,`slogan`,`tel`,`qq`,`serverTime`,`qrCode`,`addr`,`aboutUs`,`copyright`) values (10000,NULL,'中国最具影响力的品牌策划公司之一中国品牌设计50强上','400-8888-888','917661718','周一~周五 08:30~18:00',NULL,'湖南长沙开福区普瑞金大道518号 三角大楼88栋888号','专注于品牌战略与价值管理，善于从市场和竞争的角度出发，通过行业市场分析与消费者调研，同时结合企业的实际情况，找到精准而差异化的定位，并创造出独特的品牌视觉符号，结合相应的产品、定价、渠道、传播策略。','All Rights Reserved. © 2018-2020 湖南长沙致亿策划营销有限公司. 湘ICP备XXXXXXXX号');
+
+UNLOCK TABLES;
+
+/*Table structure for table `t_ws_case` */
+
+DROP TABLE IF EXISTS `t_ws_case`;
+
+CREATE TABLE `t_ws_case` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `title` varchar(50) DEFAULT NULL COMMENT '标题',
+  `cover` varchar(50) DEFAULT NULL COMMENT '封面',
+  `typeId` bigint(20) NOT NULL COMMENT '案例类型',
+  `createTime` datetime DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `t_ws_case` */
+
+LOCK TABLES `t_ws_case` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `t_ws_case_type` */
+
+DROP TABLE IF EXISTS `t_ws_case_type`;
+
+CREATE TABLE `t_ws_case_type` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(32) DEFAULT NULL COMMENT '案例类型名称',
+  `sortNum` int(11) DEFAULT NULL COMMENT '排序',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `t_ws_case_type` */
+
+LOCK TABLES `t_ws_case_type` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `t_ws_contact` */
+
+DROP TABLE IF EXISTS `t_ws_contact`;
+
+CREATE TABLE `t_ws_contact` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `tel1` varchar(16) DEFAULT NULL COMMENT '总机电话',
+  `tel2` varchar(16) DEFAULT NULL COMMENT '电话',
+  `fax` varchar(16) DEFAULT NULL COMMENT '传真',
+  `email` varchar(36) DEFAULT NULL COMMENT '邮箱',
+  `addr` varchar(120) DEFAULT NULL COMMENT '地址',
+  `addrPic` varchar(50) DEFAULT NULL COMMENT '地址图片',
+  `workTime` varchar(36) DEFAULT NULL COMMENT '工作时间',
+  `banner` varchar(50) DEFAULT NULL COMMENT 'banner',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `t_ws_contact` */
+
+LOCK TABLES `t_ws_contact` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `t_ws_join` */
+
+DROP TABLE IF EXISTS `t_ws_join`;
+
+CREATE TABLE `t_ws_join` (
+  `id` bigint(20) DEFAULT NULL,
+  `content` text,
+  `createTime` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `t_ws_join` */
+
+LOCK TABLES `t_ws_join` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `t_ws_links` */
+
+DROP TABLE IF EXISTS `t_ws_links`;
+
+CREATE TABLE `t_ws_links` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL COMMENT '网址名',
+  `url` varchar(50) NOT NULL COMMENT '网址链接',
+  `createTime` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `t_ws_links` */
+
+LOCK TABLES `t_ws_links` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `t_ws_menu` */
+
+DROP TABLE IF EXISTS `t_ws_menu`;
+
+CREATE TABLE `t_ws_menu` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(10) NOT NULL COMMENT '菜单名',
+  `sortNum` int(11) NOT NULL COMMENT '排序号',
+  `usable` tinyint(4) DEFAULT '0' COMMENT '0:可用，1不可用',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10007 DEFAULT CHARSET=utf8;
+
+/*Data for the table `t_ws_menu` */
+
+LOCK TABLES `t_ws_menu` WRITE;
+
+insert  into `t_ws_menu`(`id`,`name`,`sortNum`,`usable`) values (10000,'首页',1,0),(10001,'案例',2,0),(10002,'服务',3,0),(10003,'关于',4,0),(10004,'动态',5,0),(10005,'加入',6,0),(10006,'联系',7,0);
+
+UNLOCK TABLES;
+
+/*Table structure for table `t_ws_news` */
+
+DROP TABLE IF EXISTS `t_ws_news`;
+
+CREATE TABLE `t_ws_news` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `title` varchar(50) DEFAULT NULL COMMENT '标题',
+  `content` text COMMENT '内容',
+  `typeId` bigint(20) NOT NULL COMMENT '类型ID',
+  `cover` varchar(50) DEFAULT NULL COMMENT '封面',
+  `createTime` datetime DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `t_ws_news` */
+
+LOCK TABLES `t_ws_news` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `t_ws_news_type` */
+
+DROP TABLE IF EXISTS `t_ws_news_type`;
+
+CREATE TABLE `t_ws_news_type` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(36) DEFAULT NULL,
+  `sortNum` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `t_ws_news_type` */
+
+LOCK TABLES `t_ws_news_type` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `t_ws_server` */
+
+DROP TABLE IF EXISTS `t_ws_server`;
+
+CREATE TABLE `t_ws_server` (
+  `id` bigint(20) DEFAULT NULL,
+  `title` varchar(50) DEFAULT NULL COMMENT '标题',
+  `content` text COMMENT '内容',
+  `createTime` datetime DEFAULT NULL COMMENT '创建时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `t_ws_server` */
+
+LOCK TABLES `t_ws_server` WRITE;
 
 UNLOCK TABLES;
 

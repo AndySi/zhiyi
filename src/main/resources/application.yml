@@ -55,7 +55,7 @@ spring:
 # Mybatis配置
 mybatis:
     mapper-locations: classpath:mapper/**/*.xml
-    type-aliases-package: com.idou.modules.sys.entity,com.idou.modules.app.entity
+    type-aliases-package: com.idou.modules.sysBs.entity
     check-config-location: true
     config-location: classpath:mybatis.xml
 

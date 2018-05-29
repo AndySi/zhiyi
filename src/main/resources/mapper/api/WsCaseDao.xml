@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.idou.modules.api.dao.WsCaseDao">
+	<select id="queryObject" resultType="com.idou.modules.api.domain.WsCaseEntity">
+		select * from t_ws_case where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.idou.modules.api.domain.WsCaseEntity">
+		select * from t_ws_case
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from t_ws_case 
+	</select>
+	 
+	<insert id="save" parameterType="com.idou.modules.api.domain.WsCaseEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into t_ws_case
+		(
+			`title`, 
+			`cover`, 
+			`typeId`, 
+			`createTime`
+		)
+		values
+		(
+			#{title}, 
+			#{cover}, 
+			#{typeid}, 
+			#{createtime}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.idou.modules.api.domain.WsCaseEntity">
+		update t_ws_case 
+		<set>
+			<if test="title != null">`title` = #{title}, </if>
+			<if test="cover != null">`cover` = #{cover}, </if>
+			<if test="typeid != null">`typeId` = #{typeid}, </if>
+			<if test="createtime != null">`createTime` = #{createtime}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from t_ws_case where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from t_ws_case where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

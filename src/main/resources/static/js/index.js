@@ -37,7 +37,7 @@ var vm = new Vue({
 	data:{
 		user:{},
 		menuList:{},
-		main: baseURL + "main.html",
+		main: baseURL + "/modules/sysEx/wsbaseinfo.html",
 		password:'',
 		newPassword:'',
         navTitle:"欢迎页"

@@ -1,7 +1,7 @@
 package com.idou.common.utils;
 
 import com.idou.common.exception.RRException;
-import com.idou.modules.sys.entity.SysUserEntity;
+import com.idou.modules.sysBs.entity.SysUserEntity;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;

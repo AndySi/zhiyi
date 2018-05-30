@@ -20,7 +20,7 @@ public class Weixin4jConfig {
     private static Properties props;
 
     public Weixin4jConfig() {
-        Resource resource = new ClassPathResource("/weixin4j.properties");
+        Resource resource = new ClassPathResource("/upload.properties");
         try {
             props = PropertiesLoaderUtils.loadProperties(resource);
         } catch (IOException e) {

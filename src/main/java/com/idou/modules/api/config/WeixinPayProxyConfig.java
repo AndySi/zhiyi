@@ -15,7 +15,7 @@ import org.springframework.context.annotation.PropertySource;
  **/
 @Configuration
 @ConfigurationProperties(prefix = "weixin4j")
-@PropertySource("classpath:/weixin4j.properties")
+@PropertySource("classpath:/upload.properties")
 public class WeixinPayProxyConfig {
     private String account;
 

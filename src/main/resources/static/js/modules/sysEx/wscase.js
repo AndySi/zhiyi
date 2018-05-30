@@ -68,74 +68,7 @@ layui.use(['table', 'form', 'laytpl', 'upload'], function () {
             parent.layer.closeAll('loading'); //关闭loading
         }
     });
-    // 详情图片上传
-    var detailListView = $('#detailListView')
-        , uploadListIns = upload.render({
-        elem: '#btn-detail'
-        , url: baseURL+'sys/oss/uploadCover'
-        , auto: false   //选择文件后不自动上传
-        , accept: 'images'
-        , multiple: true
-        , bindAction: '#btn-uploadDetail' //指向一个按钮触发上传
-        , before: function (obj) {
-            parent.layer.load();    //上传loading
-        }
-        , choose: function (obj) {
-            // 按扭启用
-            $('#btn-uploadDetail').removeClass("layui-btn-disabled");
-            $('#btn-uploadDetail').removeAttr("disabled");
-            //将每次选择的文件追加到文件队列
-            var files = this.files = obj.pushFile();
-            //预读本地文件示例，不支持ie8
-            obj.preview(function (index, file, result) {
-                var tr = $(['<tr id="upload-' + index + '">'
-                    , '<td>' + file.name + '</td>'
-                    , '<td>' + (file.size / 1014).toFixed(1) + 'kb</td>'
-                    , '<td>等待上传</td>'
-                    , '<td>'
-                    , '<button class="layui-btn layui-btn-mini demo-reload layui-hide">重传</button>'
-                    , '<button class="layui-btn layui-btn-mini layui-btn-danger demo-delete">删除</button>'
-                    , '</td>'
-                    , '</tr>'].join(''));
 
-                //单个重传
-                tr.find('.demo-reload').on('click', function () {
-                    obj.upload(index, file);
-                });
-
-                //删除
-                tr.find('.demo-delete').on('click', function () {
-                    delete files[index]; //删除对应的文件
-                    tr.remove();
-                    uploadListIns.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
-                });
-                detailListView.append(tr);
-            });
-        }
-        , done: function (res, index, upload) {
-            // 按扭禁用
-            $('#btn-uploadDetail').addClass("layui-btn-disabled");
-            $('#btn-uploadDetail').attr("disabled", true);
-            if (res.code == 0) { //上传成功
-                parent.layer.closeAll('loading');   //关闭loading
-                vm.detailList.push(res.data.src);   // 追加到数组保存下来
-                vm.itemInfo.detailArr = vm.detailList;
-                var tr = detailListView.find('tr#upload-' + index)
-                    , tds = tr.children();
-                tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
-                tds.eq(3).html(''); //清空操作
-                return delete this.files[index];    //删除文件队列已经上传成功的文件
-            }
-            this.error(index, upload);
-        }
-        , error: function (index, upload) {
-            parent.layer.closeAll('loading'); //关闭loading
-            var tr = detailListView.find('tr#upload-' + index)
-                , tds = tr.children();
-            tds.eq(2).html('<span style="color: #FF5722;">上传失败</span>');
-            tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
-        }
-    });
     // 监听提交
     form.on('submit(btn-ok)', function (data) {
         var url = vm.itemInfo.id == null ? baseURL+"sysWx/item/add" : baseURL+"sysWx/item/update";

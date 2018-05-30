@@ -68,3 +68,5 @@ idou:
         expire: 604800
         header: token
 
+img:
+    location: F:/websiteImgFile

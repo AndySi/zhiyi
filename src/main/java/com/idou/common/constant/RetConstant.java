@@ -1,5 +1,7 @@
 package com.idou.common.constant;
 
+import sun.swing.plaf.synth.DefaultSynthStyle;
+
 /**
  * 返回结果错误码
  *  错误码：1开头
@@ -26,4 +28,6 @@ public class RetConstant {
     public static final int NULL_CAPTCHA = 20003;
     /**帐户锁定**/
     public static final int LOCK_ACCT = 30001;
+    /**图片不能为空*/
+    public static final int IMG_NOT_NULL = 40001;
 }

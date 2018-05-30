@@ -1,7 +1,6 @@
 package com.idou.modules.api.domain;
 
 import java.io.Serializable;
-import java.util.Date;
 
 
 /**
@@ -20,6 +19,28 @@ public class WsCaseTypeEntity implements Serializable {
 	private String name;
 	//排序
 	private Integer sortnum;
+
+	/**
+	 * ztree属性
+	 */
+	private Boolean open;
+	private Long pid;
+
+	public Boolean getOpen() {
+		return open;
+	}
+
+	public void setOpen(Boolean open) {
+		this.open = open;
+	}
+
+	public Long getPid() {
+		return pid;
+	}
+
+	public void setPid(Long pid) {
+		this.pid = pid;
+	}
 
 	/**
 	 * 设置：

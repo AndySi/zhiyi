@@ -25,7 +25,12 @@ public class WsCaseTypeServiceImpl implements WsCaseTypeService {
 	public List<WsCaseTypeEntity> queryList(Map<String, Object> map){
 		return wsCaseTypeDao.queryList(map);
 	}
-	
+
+	@Override
+	public List<WsCaseTypeEntity> queryList() {
+		return wsCaseTypeDao.queryAllList();
+	}
+
 	@Override
 	public int queryTotal(Map<String, Object> map){
 		return wsCaseTypeDao.queryTotal(map);

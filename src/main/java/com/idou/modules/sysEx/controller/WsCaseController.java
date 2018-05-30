@@ -1,6 +1,5 @@
 package com.idou.modules.sysEx.controller;
 
-import com.idou.common.utils.PageUtils;
 import com.idou.common.utils.Query;
 import com.idou.common.utils.R;
 import com.idou.modules.api.domain.WsCaseEntity;
@@ -23,7 +22,7 @@ import java.util.Map;
  * @date 2018-05-29 16:21:07
  */
 @RestController
-@RequestMapping("/api/wscase")
+@RequestMapping("/sysWs/wscase")
 public class WsCaseController {
 	@Autowired
 	private WsCaseService wsCaseService;
@@ -32,17 +31,15 @@ public class WsCaseController {
 	 * 列表
 	 */
 	@RequestMapping("/list")
-	@RequiresPermissions("api:wscase:list")
+	@RequiresPermissions("sysWs:wscase:list")
 	public R list(@RequestParam Map<String, Object> params){
 		//查询列表数据
         Query query = new Query(params);
 
-		List<WsCaseEntity> wsCaseList = wsCaseService.queryList(query);
+		List<WsCaseEntity> list = wsCaseService.queryList(query);
 		int total = wsCaseService.queryTotal(query);
-		
-		PageUtils pageUtil = new PageUtils(wsCaseList, total, query.getLimit(), query.getPage());
-		
-		return R.ok().put("page", pageUtil);
+
+		return R.page(total, list);
 	}
 	
 	
@@ -50,18 +47,18 @@ public class WsCaseController {
 	 * 信息
 	 */
 	@RequestMapping("/info/{id}")
-	@RequiresPermissions("api:wscase:info")
+	@RequiresPermissions("sysWs:wscase:info")
 	public R info(@PathVariable("id") Long id){
 		WsCaseEntity wsCase = wsCaseService.queryObject(id);
 		
-		return R.ok().put("wsCase", wsCase);
+		return R.ok().put("data", wsCase);
 	}
 	
 	/**
 	 * 保存
 	 */
 	@RequestMapping("/save")
-	@RequiresPermissions("api:wscase:save")
+	@RequiresPermissions("sysWs:wscase:save")
 	public R save(@RequestBody WsCaseEntity wsCase){
 		wsCaseService.save(wsCase);
 		
@@ -72,7 +69,7 @@ public class WsCaseController {
 	 * 修改
 	 */
 	@RequestMapping("/update")
-	@RequiresPermissions("api:wscase:update")
+	@RequiresPermissions("sysWs:wscase:update")
 	public R update(@RequestBody WsCaseEntity wsCase){
 		wsCaseService.update(wsCase);
 		
@@ -83,7 +80,7 @@ public class WsCaseController {
 	 * 删除
 	 */
 	@RequestMapping("/delete")
-	@RequiresPermissions("api:wscase:delete")
+	@RequiresPermissions("sysWs:wscase:delete")
 	public R delete(@RequestBody Long[] ids){
 		wsCaseService.deleteBatch(ids);
 		

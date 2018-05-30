@@ -1,6 +1,5 @@
 package com.idou.modules.sysEx.controller;
 
-import com.idou.common.utils.PageUtils;
 import com.idou.common.utils.Query;
 import com.idou.common.utils.R;
 import com.idou.modules.api.domain.WsMenuEntity;
@@ -34,57 +33,19 @@ public class WsMenuController {
 		//查询列表数据
         Query query = new Query(params);
 
-		List<WsMenuEntity> wsMenuList = wsMenuService.queryList(query);
+		List<WsMenuEntity> list = wsMenuService.queryList(query);
 		int total = wsMenuService.queryTotal(query);
 		
-		PageUtils pageUtil = new PageUtils(wsMenuList, total, query.getLimit(), query.getPage());
-		
-		return R.ok().put("page", pageUtil);
-	}
-	
-	
-	/**
-	 * 信息
-	 */
-	@RequestMapping("/info/{id}")
-	@RequiresPermissions("generator:wsmenu:info")
-	public R info(@PathVariable("id") Long id){
-		WsMenuEntity wsMenu = wsMenuService.queryObject(id);
-		
-		return R.ok().put("wsMenu", wsMenu);
-	}
-	
-	/**
-	 * 保存
-	 */
-	@RequestMapping("/save")
-	@RequiresPermissions("generator:wsmenu:save")
-	public R save(@RequestBody WsMenuEntity wsMenu){
-		wsMenuService.save(wsMenu);
-		
-		return R.ok();
+		return R.page(total, list);
 	}
 	
 	/**
 	 * 修改
 	 */
 	@RequestMapping("/update")
-	@RequiresPermissions("generator:wsmenu:update")
-	public R update(@RequestBody WsMenuEntity wsMenu){
-		wsMenuService.update(wsMenu);
-		
+	@RequiresPermissions("sysWs:menu:update")
+	public R update(@RequestParam("id") long id, @RequestParam("val") boolean val){
+		wsMenuService.update(id, val);
 		return R.ok();
 	}
-	
-	/**
-	 * 删除
-	 */
-	@RequestMapping("/delete")
-	@RequiresPermissions("generator:wsmenu:delete")
-	public R delete(@RequestBody Long[] ids){
-		wsMenuService.deleteBatch(ids);
-		
-		return R.ok();
-	}
-	
 }

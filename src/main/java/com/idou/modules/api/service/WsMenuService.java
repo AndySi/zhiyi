@@ -13,18 +13,9 @@ import java.util.Map;
  * @date 2018-05-29 11:27:30
  */
 public interface WsMenuService {
-	
-	WsMenuEntity queryObject(Long id);
-	
 	List<WsMenuEntity> queryList(Map<String, Object> map);
 	
 	int queryTotal(Map<String, Object> map);
 	
-	void save(WsMenuEntity wsMenu);
-	
-	void update(WsMenuEntity wsMenu);
-	
-	void delete(Long id);
-	
-	void deleteBatch(Long[] ids);
+	void update(long id, boolean val);
 }

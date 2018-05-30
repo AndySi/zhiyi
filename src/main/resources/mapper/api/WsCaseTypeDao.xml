@@ -6,7 +6,7 @@
 		select * from t_ws_case_type where id = #{value}
 	</select>
 
-	<select id="queryList" resultType="com.idou.modules.api.domain.WsCaseTypeEntity">
+	<select id="queryList" parameterType="map" resultType="com.idou.modules.api.domain.WsCaseTypeEntity">
 		select * from t_ws_case_type
         <choose>
             <when test="sidx != null and sidx.trim() != ''">
@@ -24,7 +24,11 @@
  	<select id="queryTotal" resultType="int">
 		select count(*) from t_ws_case_type 
 	</select>
-	 
+
+	<select id="queryAllList" resultType="com.idou.modules.api.domain.WsCaseTypeEntity">
+		select * from t_ws_case_type ORDER by sortNum,id
+	</select>
+
 	<insert id="save" parameterType="com.idou.modules.api.domain.WsCaseTypeEntity" useGeneratedKeys="true" keyProperty="id">
 		insert into t_ws_case_type
 		(

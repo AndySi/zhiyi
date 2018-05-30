@@ -1,6 +1,5 @@
 package com.idou.modules.sysEx.controller;
 
-import com.idou.common.utils.PageUtils;
 import com.idou.common.utils.Query;
 import com.idou.common.utils.R;
 import com.idou.modules.api.domain.WsCaseTypeEntity;
@@ -23,7 +22,7 @@ import java.util.Map;
  * @date 2018-05-29 16:21:07
  */
 @RestController
-@RequestMapping("/api/wscasetype")
+@RequestMapping("/sysWs/wscasetype")
 public class WsCaseTypeController {
 	@Autowired
 	private WsCaseTypeService wsCaseTypeService;
@@ -32,17 +31,15 @@ public class WsCaseTypeController {
 	 * 列表
 	 */
 	@RequestMapping("/list")
-	@RequiresPermissions("api:wscasetype:list")
+	@RequiresPermissions("sysWs:wscasetype:list")
 	public R list(@RequestParam Map<String, Object> params){
 		//查询列表数据
         Query query = new Query(params);
 
-		List<WsCaseTypeEntity> wsCaseTypeList = wsCaseTypeService.queryList(query);
+		List<WsCaseTypeEntity> list = wsCaseTypeService.queryList(query);
 		int total = wsCaseTypeService.queryTotal(query);
-		
-		PageUtils pageUtil = new PageUtils(wsCaseTypeList, total, query.getLimit(), query.getPage());
-		
-		return R.ok().put("page", pageUtil);
+
+		return R.page(total, list);
 	}
 	
 	
@@ -50,18 +47,18 @@ public class WsCaseTypeController {
 	 * 信息
 	 */
 	@RequestMapping("/info/{id}")
-	@RequiresPermissions("api:wscasetype:info")
+	@RequiresPermissions("sysWs:wscasetype:info")
 	public R info(@PathVariable("id") Long id){
 		WsCaseTypeEntity wsCaseType = wsCaseTypeService.queryObject(id);
 		
-		return R.ok().put("wsCaseType", wsCaseType);
+		return R.ok().put("data", wsCaseType);
 	}
 	
 	/**
 	 * 保存
 	 */
 	@RequestMapping("/save")
-	@RequiresPermissions("api:wscasetype:save")
+	@RequiresPermissions("sysWs:wscasetype:add")
 	public R save(@RequestBody WsCaseTypeEntity wsCaseType){
 		wsCaseTypeService.save(wsCaseType);
 		
@@ -72,7 +69,7 @@ public class WsCaseTypeController {
 	 * 修改
 	 */
 	@RequestMapping("/update")
-	@RequiresPermissions("api:wscasetype:update")
+	@RequiresPermissions("sysWs:wscasetype:update")
 	public R update(@RequestBody WsCaseTypeEntity wsCaseType){
 		wsCaseTypeService.update(wsCaseType);
 		
@@ -83,11 +80,24 @@ public class WsCaseTypeController {
 	 * 删除
 	 */
 	@RequestMapping("/delete")
-	@RequiresPermissions("api:wscasetype:delete")
+	@RequiresPermissions("sysWs:wscasetype:delete")
 	public R delete(@RequestBody Long[] ids){
 		wsCaseTypeService.deleteBatch(ids);
 		
 		return R.ok();
 	}
-	
+
+
+	/**
+	 * 属性名-商品类别选择
+	 *
+	 * @return
+	 */
+	@RequestMapping("/queryAllList")
+	@RequiresPermissions("sysWs:wscasetype:list")
+	public R queryAllList() {
+		//查询列表数据
+		List<WsCaseTypeEntity> list = wsCaseTypeService.queryList();
+		return R.ok().put("data", list);
+	}
 }

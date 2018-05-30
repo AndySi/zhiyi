@@ -18,7 +18,9 @@ public interface WsCaseTypeService {
 	WsCaseTypeEntity queryObject(Long id);
 	
 	List<WsCaseTypeEntity> queryList(Map<String, Object> map);
-	
+
+	List<WsCaseTypeEntity> queryList();
+
 	int queryTotal(Map<String, Object> map);
 	
 	void save(WsCaseTypeEntity wsCaseType);

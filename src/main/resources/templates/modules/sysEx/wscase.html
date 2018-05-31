@@ -15,19 +15,6 @@
     <script th:src="@{/libs/vue.min.js}"></script>
     <script th:src="@{/plugins/ztree/jquery.ztree.all.min.js}"></script>
     <script th:src="@{/js/modules/sysEx/common.js}"></script>
-    <style>
-        .layui-form-label {
-            width: 110px;
-        }
-
-        .d-content .layui-input {
-            width: 94%;
-        }
-
-        .layui-word-aux {
-            color: #ff032f !important;
-        }
-    </style>
 </head>
 <body>
 <section class="layui-app-box" style="width: 97%;">
@@ -36,7 +23,7 @@
             <form class="layui-form" action="javascript:;">
                 <div class="layui-form-item">
                     <div class="layui-input-inline">
-                        <input type="text" v-model="q.name" placeholder="案例名称" autocomplete="off"
+                        <input type="text" v-model="q.title" placeholder="案例名称" autocomplete="off"
                                class="layui-input">
                     </div>
                     <div class="layui-input-inline">
@@ -72,14 +59,14 @@
                         <label class="layui-form-label">案例标题</label>
                         <div class="layui-input-block">
                             <input type="text" lay-verify="required" autocomplete="off" class="layui-input"
-                                   v-model="itemInfo.name">
+                                   v-model="itemInfo.title">
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">案例分类</label>
                         <div class="layui-input-block">
                             <input type="text" lay-verify="required" class="layui-input"
-                                   v-model="itemInfo.typeName" style="cursor:pointer;" readonly="readonly"
+                                   v-model="itemInfo.typename" style="cursor:pointer;" readonly="readonly"
                                    @click="getTypeTree">
                         </div>
                     </div>
@@ -94,7 +81,7 @@
                     <div class="layui-form-item">
                         <div class="layui-input-block">
                             <blockquote class="layui-elem-quote layui-quote-nm"
-                                        style="margin-left:26px;margin-top: 10px;">
+                                        style="margin-top: 10px;">
                                 预览图：
                                 <div class="layui-upload-list" id="d-review"></div>
                             </blockquote>
@@ -102,17 +89,23 @@
                     </div>
                     <div class="layui-form-item">
                         <div class="layui-input-block">
-                            <button id="btn-uploadCover" class="layui-btn layui-btn-normal"
-                                    style="margin-left:26px;">
+                            <button id="btn-uploadCover" class="layui-btn layui-btn-normal">
                                 <i class="layui-icon">&#xe608;</i>开始上传
                             </button>
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">案例内容</label>
-                        <div class="layui-input-block" style="margin-left: 136px;">
+                        <div class="layui-input-block">
                             <textarea class="layui-textarea" id="LAY_demo1" style="display: none">
                             </textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">访问量</label>
+                        <div class="layui-input-block">
+                            <input type="text" lay-verify="required|number" autocomplete="off" class="layui-input"
+                                   v-model="itemInfo.pv">
                         </div>
                     </div>
                     <div class="layui-form-item">
@@ -135,31 +128,25 @@
     <div class="d-detail-view" style="padding: 10px;">
         <form class="layui-form" action="javascript:;">
             <div class="layui-form-item">
-                <label class="layui-form-label">商品类型</label>
-                <div class="layui-form-mid layui-word-aux">{{ d.typeName }}</div>
+                <label class="layui-form-label">案例类型</label>
+                <div class="layui-form-mid layui-word-aux">{{ d.typename }}</div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">商品名称</label>
-                <div class="layui-form-mid layui-word-aux">{{ d.name }}</div>
+                <label class="layui-form-label">案例标题</label>
+                <div class="layui-form-mid layui-word-aux">{{ d.title }}</div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">商品描述</label>
-                <div class="layui-form-mid layui-word-aux">{{ d.describe }}</div>
+                <label class="layui-form-label">案例内容</label>
+                <div class="layui-form-mid layui-word-aux">{{ d.content }}</div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">商品图片</label>
-                <div class="layui-input-block"><img src="{{ d.coverUrl }}" height="100%" width="100%"></div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">商品详情</label>
-                {{# layui.each(d.detailList, function(index, item){ }}
-                <div class="layui-input-block"><img src="{{ item.imgUrl }}" height="100%" width="100%"></div>
-                {{# }); }}
+                <label class="layui-form-label">案例封面</label>
+                <div class="layui-input-block"><img src="{{ d.cover }}"></div>
             </div>
 
             <div class="layui-form-item">
-                <label class="layui-form-label">SPU销量</label>
-                <div class="layui-form-mid layui-word-aux">{{ d.spusaleNum }}</div>
+                <label class="layui-form-label">访问量</label>
+                <div class="layui-form-mid layui-word-aux">{{ d.pv }}</div>
             </div>
         </form>
     </div>
@@ -180,7 +167,7 @@
 </script>
 <!-- 身份证模板 -->
 <script type="text/html" id="coverTpl">
-    <img src="{{ d.coverUrl }}" height="100%" width="100%"/>
+    <img src="{{ d.cover }}" height="100%" width="100%"/>
 </script>
 <script th:src="@{/plugins/layui/layui.js}" charset="utf-8"></script>
 <script th:src="@{/js/modules/sysEx/wscase.js}"></script>

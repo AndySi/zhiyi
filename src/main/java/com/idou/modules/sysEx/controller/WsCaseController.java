@@ -67,7 +67,8 @@ public class WsCaseController {
         }
         try {
             mf.transferTo(dest);
-            ret.put("src", imageUtils.getNginxLocation() + location + fileName);
+            ret.put("src", imageUtils.getNginxLocation() + File.separator + location + fileName);
+            ret.put("title", fileName);
             return R.ok().put("data", ret);
         } catch (Exception e) {
             e.printStackTrace();

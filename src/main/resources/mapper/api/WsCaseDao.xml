@@ -3,17 +3,34 @@
 
 <mapper namespace="com.idou.modules.api.dao.WsCaseDao">
 	<select id="queryObject" resultType="com.idou.modules.api.domain.WsCaseEntity">
-		select * from t_ws_case where id = #{value}
+		SELECT
+		c.*,
+		t.`name` AS typename
+		FROM
+		t_ws_case c,
+		`t_ws_case_type` t where c.`typeId` = t.`id` and c.id = #{value}
 	</select>
 
 	<select id="queryList" resultType="com.idou.modules.api.domain.WsCaseEntity">
-		select * from t_ws_case
-        <choose>
+		SELECT
+		c.*,
+		t.`name` AS typename
+		FROM
+		t_ws_case c,
+		`t_ws_case_type` t
+		WHERE c.`typeId` = t.`id`
+		<if test="typeid != null">
+			and c.typeId = #{typeid}
+		</if>
+		<if test="title!=null and title!=''">
+			and c.title like concat('%',#{title},'%')
+		</if>
+		<choose>
             <when test="sidx != null and sidx.trim() != ''">
                 order by ${sidx} ${order}
             </when>
 			<otherwise>
-                order by id desc
+                order by c.id desc
 			</otherwise>
         </choose>
 		<if test="offset != null and limit != null">
@@ -30,15 +47,17 @@
 		(
 			`title`, 
 			`cover`, 
-			`typeId`, 
+			`typeId`,
+			content,
 			`createTime`
 		)
 		values
 		(
 			#{title}, 
 			#{cover}, 
-			#{typeid}, 
-			#{createtime}
+			#{typeid},
+			#{content},
+			NOW()
 		)
 	</insert>
 	 
@@ -48,7 +67,7 @@
 			<if test="title != null">`title` = #{title}, </if>
 			<if test="cover != null">`cover` = #{cover}, </if>
 			<if test="typeid != null">`typeId` = #{typeid}, </if>
-			<if test="createtime != null">`createTime` = #{createtime}</if>
+			<if test="content != null">`content` = #{content}</if>
 		</set>
 		where id = #{id}
 	</update>

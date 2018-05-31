@@ -32,8 +32,6 @@ public class WsCaseController {
     private static Logger logger = LoggerFactory.getLogger(WsCaseController.class);
     @Autowired
     private WsCaseService wsCaseService;
-    @Autowired
-    private ImageUtils imageUtils;
 
     /**
      * 封面图片上传
@@ -43,37 +41,7 @@ public class WsCaseController {
      */
     @RequestMapping(value = "/uploadCover", method = RequestMethod.POST)
     public R uploadImg(@RequestParam(value = "file") MultipartFile mf) {
-        JSONObject ret = new JSONObject();
-        if (mf.isEmpty()) {
-            return R.error(CodeMsg.FILE_NOT_NULL.getMsg());
-        }
-        // 获取文件名,文件类型
-        String fileName = mf.getOriginalFilename();
-        String contentType = mf.getContentType();
-        logger.info("上传的文件名为：:name={},type={}", fileName, contentType);
-        // 获取文件的后缀名
-        String suffixName = fileName.substring(fileName.lastIndexOf("."));
-        logger.info("上传的后缀名为：", suffixName);
-        // 文件上传后的路径
-        String location = "case" + File.separator + DateUtils.getYmd() + File.separator;
-        String filePath = imageUtils.getLocation() + location;
-        // 解决中文问题，liunx下中文路径，图片显示问题，重新生成图片名
-        fileName = KeyBuilder.generate() + suffixName;
-        // 构建文件目录
-        File dest = new File(filePath + fileName);
-        // 检测是否存在目录
-        if (!dest.getParentFile().exists()) {
-            dest.getParentFile().mkdirs();
-        }
-        try {
-            mf.transferTo(dest);
-            ret.put("src", imageUtils.getNginxLocation() + File.separator + location + fileName);
-            ret.put("title", fileName);
-            return R.ok().put("data", ret);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return R.error(CodeMsg.FILE_UPLOAD_FAIL.getMsg());
+        return ImageUtils.uploadSave(mf, "case");
     }
 
     /**

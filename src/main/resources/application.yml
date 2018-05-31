@@ -69,4 +69,5 @@ idou:
         header: token
 
 img:
-    location: F:/websiteImgFile
+    location: D:/FTPFinCloud/images/
+    nginxLocation: http://localhost:8088/

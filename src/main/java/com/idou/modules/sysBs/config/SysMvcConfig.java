@@ -20,6 +20,11 @@ import javax.servlet.MultipartConfigElement;
 @Configuration
 public class SysMvcConfig extends WebMvcConfigurerAdapter {
     /**
+     * 在配置文件中配置的文件保存路径
+     */
+    @Value("${img.location}")
+    private String tmpLocation;
+    /**
      * 设置spring-boot的默认首页
      *
      * @param registry
@@ -31,5 +36,17 @@ public class SysMvcConfig extends WebMvcConfigurerAdapter {
         registry.addViewController("/main.html").setViewName("/main");
         registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
         super.addViewControllers(registry);
+    }
+
+    /**
+     * 配置本地临时目录
+     *
+     * @return
+     */
+    @Bean
+    public MultipartConfigElement multipartConfigElement() {
+        MultipartConfigFactory factory = new MultipartConfigFactory();
+        factory.setLocation(tmpLocation);
+        return factory.createMultipartConfig();
     }
 }

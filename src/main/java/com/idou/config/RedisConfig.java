@@ -1,19 +1,14 @@
 package com.idou.config;
 
-import com.foxinmy.weixin4j.cache.RedisCacheStorager;
-import com.foxinmy.weixin4j.model.Token;
-import com.foxinmy.weixin4j.mp.WeixinProxy;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.cache.RedisCacheManager;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
+import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
 import java.lang.reflect.Method;
@@ -44,18 +39,17 @@ public class RedisConfig extends CachingConfigurerSupport {
     @Value("${spring.redis.pool.max-wait}")
     private long maxWaitMillis;
 
-    /**
-     * 缓存管理器
-     *
-     * @param redisTemplate
-     * @return
-     */
     @Bean
-    public CacheManager cacheManager(RedisTemplate<?, ?> redisTemplate) {
-        RedisCacheManager cacheManager = new RedisCacheManager(redisTemplate);
-        //设置缓存过期时间
-        //cacheManager.setDefaultExpiration(10000);
-        return cacheManager;
+    public JedisPool redisPoolFactory() {
+        Logger.getLogger(getClass()).info("JedisPool注入成功！！");
+        Logger.getLogger(getClass()).info("redis地址：" + host + ":" + port);
+        JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
+        jedisPoolConfig.setMaxIdle(maxIdle);
+        jedisPoolConfig.setMaxWaitMillis(maxWaitMillis);
+
+        JedisPool jedisPool = new JedisPool(jedisPoolConfig, host, port, timeout);
+
+        return jedisPool;
     }
 
     /**
@@ -80,20 +74,5 @@ public class RedisConfig extends CachingConfigurerSupport {
                 return sb.toString();
             }
         };
-    }
-
-    @Bean
-    public RedisCacheStorager<Token> redisCacheStorager() {
-        Logger.getLogger(getClass()).info("JedisPool注入成功！！");
-        Logger.getLogger(getClass()).info("redis地址：" + host + ":" + port);
-        JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
-        jedisPoolConfig.setMaxIdle(maxIdle);
-        jedisPoolConfig.setMaxWaitMillis(maxWaitMillis);
-        return new RedisCacheStorager<Token>(host, port, timeout, (String) null, jedisPoolConfig);
-    }
-
-    @Bean
-    public WeixinProxy mpWeixinProxy() {
-        return new WeixinProxy(redisCacheStorager());
     }
 }

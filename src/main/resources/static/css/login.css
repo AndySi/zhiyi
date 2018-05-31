@@ -31,12 +31,11 @@ body {
     left: 0px;
     top: 0px;
     position: absolute;
-    height: 44px;
-    width: 44px;
-    color: #f7f3eb;
-    background: #676056;
+    height: 32px;
+    width: 32px;
+    color: #696969;
     text-align: center;
-    line-height: 44px;
+    line-height: 32px;
     transition: all 0.3s ease-out;
     pointer-events: none;
 }
@@ -45,6 +44,7 @@ body {
 .login {
     position: relative;
     margin: 100px auto;
+    padding:20px 0;
     width: 370px;
     height: 378px;
     background: white;
@@ -67,9 +67,9 @@ body {
     font-weight: bold;
     font-family: 'Open Sans', sans-serif;
     text-transform: uppercase;
-    color: #fff;
+    color: #333;
     text-align: center;
-    background: #1abc9c;
+    background: transparent;
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
 }
@@ -118,7 +118,7 @@ body {
     font-family: 'Open Sans', Calibri, Arial, sans-serif;
     font-size: 14px;
     font-weight: 400;
-    padding: 10px 15px 10px 55px;
+    padding: 4px 15px 4px 55px;
     position: relative;
     width: 200px;
     height: 24px;

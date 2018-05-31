@@ -2,23 +2,21 @@ package com.idou.modules.sysEx.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
-import com.idou.common.exception.RRException;
+import com.idou.common.constant.CodeMsg;
 import com.idou.common.utils.Query;
 import com.idou.common.utils.R;
 import com.idou.modules.api.domain.WsCaseEntity;
 import com.idou.modules.api.service.WsCaseService;
+import com.idou.modules.sysEx.utils.DateUtils;
 import com.idou.modules.sysEx.utils.ImageUtils;
 import com.idou.modules.sysEx.utils.KeyBuilder;
-import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
@@ -37,45 +35,44 @@ public class WsCaseController {
     @Autowired
     private ImageUtils imageUtils;
 
-    @RequestMapping("/uploadImg")
-    public R uploadImg(HttpServletRequest request) {
+    /**
+     * 封面图片上传
+     *
+     * @param mf
+     * @return
+     */
+    @RequestMapping(value = "/uploadCover", method = RequestMethod.POST)
+    public R uploadImg(@RequestParam(value = "file") MultipartFile mf) {
         JSONObject ret = new JSONObject();
-        //返回信息
-        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-        Map<String, MultipartFile> filemap = multipartRequest.getFileMap();
-        // 指定一个上传图片目录
-        String realPath = imageUtils.getLocation();
-        String filePath = "/case" + "/";
-        String imgPath = realPath + filePath;
+        if (mf.isEmpty()) {
+            return R.error(CodeMsg.FILE_NOT_NULL.getMsg());
+        }
+        // 获取文件名,文件类型
+        String fileName = mf.getOriginalFilename();
+        String contentType = mf.getContentType();
+        logger.info("上传的文件名为：:name={},type={}", fileName, contentType);
+        // 获取文件的后缀名
+        String suffixName = fileName.substring(fileName.lastIndexOf("."));
+        logger.info("上传的后缀名为：", suffixName);
+        // 文件上传后的路径
+        String location = "case" + File.separator + DateUtils.getYmd() + File.separator;
+        String filePath = imageUtils.getLocation() + location;
+        // 解决中文问题，liunx下中文路径，图片显示问题，重新生成图片名
+        fileName = KeyBuilder.generate() + suffixName;
         // 构建文件目录
-        File file = new File(imgPath);
-        if (!file.exists()) {
-            file.mkdirs();
+        File dest = new File(filePath + fileName);
+        // 检测是否存在目录
+        if (!dest.getParentFile().exists()) {
+            dest.getParentFile().mkdirs();
         }
-
-        for (Map.Entry<String, MultipartFile> entity : filemap.entrySet()) {
-            // 上传文件
-            MultipartFile mf = entity.getValue();
-            if (mf.isEmpty() || StringUtils.isBlank(mf.getOriginalFilename())) {
-                throw new RRException("图片不能为空");
-            }
-            String contentType = mf.getContentType();
-            if (!contentType.contains("")) {
-                throw new RRException("图片格式错误");
-            }
-            String fileName = mf.getOriginalFilename();
-            logger.info("上传图片:name={},type={}", fileName, contentType);
-            // 重新生成图片名
-            String path = imgPath + KeyBuilder.generate();
-            File uploadFile = new File(path);
-            try {
-                mf.transferTo(uploadFile);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            ret.put("src", path);
+        try {
+            mf.transferTo(dest);
+            ret.put("src", imageUtils.getNginxLocation() + location + fileName);
+            return R.ok().put("data", ret);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return R.ok().put("data", ret);
+        return R.error(CodeMsg.FILE_UPLOAD_FAIL.getMsg());
     }
 
     /**
@@ -109,7 +106,7 @@ public class WsCaseController {
      * 保存
      */
     @RequestMapping("/save")
-    @RequiresPermissions("sysWs:wscase:save")
+    @RequiresPermissions("sysWs:wscase:add")
     public R save(@RequestBody WsCaseEntity wsCase) {
         wsCaseService.save(wsCase);
 

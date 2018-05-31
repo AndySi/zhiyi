@@ -18,6 +18,15 @@ public class ImageUtils {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     private String location;
+    private String nginxLocation;
+
+    public String getNginxLocation() {
+        return nginxLocation;
+    }
+
+    public void setNginxLocation(String nginxLocation) {
+        this.nginxLocation = nginxLocation;
+    }
 
     public String getLocation() {
         return location;

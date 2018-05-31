@@ -291,13 +291,6 @@
 			<groupId>org.apache.velocity</groupId>
 			<version>${velocity.version}</version>
 		</dependency>
-
-		<!-- weixin4j所需的jar -->
-		<dependency>
-			<groupId>com.foxinmy</groupId>
-			<artifactId>weixin4j-mp</artifactId>
-			<version>1.7.9</version>
-		</dependency>
 	</dependencies>
 
 	<build>

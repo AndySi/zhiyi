@@ -1,9 +1,20 @@
-layui.use(['table', 'form', 'laytpl', 'upload'], function () {
+layui.use(['table', 'form', 'laytpl', 'upload', 'layedit'], function () {
     var $ = layui.jquery
         , table = layui.table
         , form = layui.form
         , upload = layui.upload
-        , laytpl = layui.laytpl;
+        , laytpl = layui.laytpl
+        , layedit = layui.layedit;
+
+    //构建一个默认的编辑器
+    layedit.set({
+        uploadImage: {
+            url: baseURL+'sysWs/wscase/uploadCover' //接口url
+            ,type: 'post' //默认post
+        }
+    });
+    var index = layedit.build('LAY_demo1');
+
     table.render({
         elem: '#layui-grid'
         , url: baseURL+'sysWs/wscase/list'
@@ -34,7 +45,7 @@ layui.use(['table', 'form', 'laytpl', 'upload'], function () {
     // 产品封面图片上传
     upload.render({
         elem: '#test10'
-        , url: baseURL+'sys/oss/uploadCover'
+        , url: baseURL+'sysWs/wscase/uploadCover'
         , auto: false   //选择文件后不自动上传
         , accept: 'images'
         , size: 260
@@ -58,7 +69,7 @@ layui.use(['table', 'form', 'laytpl', 'upload'], function () {
             parent.layer.closeAll('loading'); //关闭loading
             if (res.code == "0") {
                 alert('上传成功', function (obj) {
-                    vm.itemInfo.coverUrl = res.data.src;
+                    vm.itemInfo.cover = res.data.src;
                 });
             } else {
                 alert(res.msg);
@@ -71,22 +82,26 @@ layui.use(['table', 'form', 'laytpl', 'upload'], function () {
 
     // 监听提交
     form.on('submit(btn-ok)', function (data) {
-        var url = vm.itemInfo.id == null ? baseURL+"sysWx/item/add" : baseURL+"sysWx/item/update";
-        if (typeof (vm.itemInfo.coverUrl) == "undefined") {
-            layer.msg("请上传产品图片", {time: 2000, icon: 5, anim: 6});
+        var url = vm.itemInfo.id == null ? baseURL+"sysWs/wscase/save" : baseURL+"sysWs/wscase/update";
+        if (typeof (vm.itemInfo.cover) == "undefined") {
+            parent.layer.msg("请上传案例封面", {time: 2000, icon: 5, anim: 6});
             return;
         }
-        if (vm.itemInfo.id == null && vm.detailList.length == 0) {
-            layer.msg("请上传产品详情图片", {time: 2000, icon: 5, anim: 6});
+        console.log(layedit.getContent(index))
+        vm.itemInfo.content = layedit.getContent(index);
+        if (layedit.getText(index) == '') {
+            parent.layer.msg("案例内容不能为空", {time: 2000, icon: 5, anim: 6});
             return;
         }
+        console.log("添加内容===>"+vm.itemInfo)
         $.fn_ajax(null, url, vm.itemInfo, function (r) {
             if (r.code === 0) {
                 parent.layer.msg('操作成功', {
                     icon: 1
                     , time: 2000
                 }, function () {
-                    window.location.reload();
+                    vm.showList = true;
+                    active.reload();
                 });
             } else {
                 alert(r.msg);
@@ -127,10 +142,10 @@ layui.use(['table', 'form', 'laytpl', 'upload'], function () {
     var $ = layui.$, active = {
         reload: function () {
             table.reload('idLayuiGrid', {
-                where: {
-                    utel: vm.q.utel,
-                    creditStatu: vm.q.creditStatu
-                }
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                },
+                where: {}
             });
         },
         goback: function () {

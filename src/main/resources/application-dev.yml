@@ -15,18 +15,3 @@ spring:
         testOnReturn: false
         poolPreparedStatements: true
         maxPoolPreparedStatementPerConnectionSize: 20
-
-oss:
-    aliyun:
-        aliyunDomain: all5156.com
-        aliyunPrefix: imgData
-        aliyunEndPoint: oss-cn-shenzhen.aliyuncs.com
-        aliyunAccessKeyId: LTAIeHFenovtLMKM
-        aliyunAccessKeySecret: vFTPrf1cnKcHPOtPPYnh6iSkX9KZhD
-        aliyunBucketName: bucket-idou
-    qiniu:
-        qiniuDomain: http://7xvsmx.com1.z0.glb.clouddn.com
-        qiniuPrefix: imgData
-        qiniuAccessKey: oyX8ORgfOq3mbuYZkmUcH52Rbrve9Y28jZAtt343
-        qiniuSecretKey: FUT_d0Jc628mdFBu_Vd6tfOzEdmoU27f1SnsNbwM
-        qiniuBucketName: sidou

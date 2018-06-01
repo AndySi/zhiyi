@@ -45,12 +45,6 @@ spring:
             max-wait: -1      # 连接池最大阻塞等待时间（使用负值表示没有限制）
             max-idle: 10      # 连接池中的最大空闲连接
             min-idle: 5       # 连接池中的最小空闲连接
-    # rabbitmq
-    rabbitmq:
-        host: 127.0.0.1
-        port: 5672
-        username: admin
-        password: adminpwd
 
 # Mybatis配置
 mybatis:
@@ -69,5 +63,5 @@ idou:
         header: token
 
 img:
-    location: F:/FTPFinCloud/images/
+    location: D:/FTPFinCloud/images/
     nginxLocation: http://localhost:8088

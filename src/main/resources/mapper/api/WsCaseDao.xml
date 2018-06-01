@@ -83,4 +83,12 @@
 		</foreach>
 	</delete>
 
+	<select id="queryAllList" resultType="com.idou.modules.api.domain.WsCaseEntity">
+		SELECT
+		c.*,
+		t.`name` AS typename
+		FROM
+		t_ws_case c,
+		`t_ws_case_type` t where c.`typeId` = t.`id`
+	</select>
 </mapper>

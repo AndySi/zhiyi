@@ -2,7 +2,7 @@ spring:
     datasource:
         url: jdbc:mysql://localhost:3306/zhiyi?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8
         username: root
-        password: rootpwd
+        password: Zyrootpwd13!
         initialSize: 10
         minIdle: 10
         maxActive: 100
@@ -15,18 +15,3 @@ spring:
         testOnReturn: false
         poolPreparedStatements: true
         maxPoolPreparedStatementPerConnectionSize: 20
-
-oss:
-    aliyun:
-        aliyunDomain: all5156.com
-        aliyunPrefix: imgData
-        aliyunEndPoint: oss-cn-shenzhen.aliyuncs.com
-        aliyunAccessKeyId: LTAIeHFenovtLMKM
-        aliyunAccessKeySecret: vFTPrf1cnKcHPOtPPYnh6iSkX9KZhD
-        aliyunBucketName: bucket-idou
-    qiniu:
-        qiniuDomain: http://7xvsmx.com1.z0.glb.clouddn.com
-        qiniuPrefix: imgData
-        qiniuAccessKey: oyX8ORgfOq3mbuYZkmUcH52Rbrve9Y28jZAtt343
-        qiniuSecretKey: FUT_d0Jc628mdFBu_Vd6tfOzEdmoU27f1SnsNbwM
-        qiniuBucketName: sidou

@@ -31,9 +31,8 @@ public class SysMvcConfig extends WebMvcConfigurerAdapter {
      */
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/index.html").setViewName("/index");
-        registry.addViewController("/login.html").setViewName("/login");
-        registry.addViewController("/main.html").setViewName("/main");
+        registry.addViewController("/index.html").setViewName("index");
+        registry.addViewController("/login.html").setViewName("login");
         registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
         super.addViewControllers(registry);
     }

@@ -14,7 +14,8 @@ import java.util.Map;
  * @date 2018-05-29 16:21:07
  */
 public interface WsBannerService {
-	
+	List<WsBannerEntity> queryListLimit();
+
 	WsBannerEntity queryObject(Long id);
 	
 	List<WsBannerEntity> queryList(Map<String, Object> map);

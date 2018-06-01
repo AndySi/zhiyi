@@ -4,17 +4,17 @@
 <mapper namespace="com.idou.modules.api.dao.WsBannerDao">
 
 	<select id="queryObject" resultType="com.idou.modules.api.domain.WsBannerEntity">
-		select * from t_ws_banner where id = #{value}
+		SELECT b.*,c.`title` FROM t_ws_banner b LEFT JOIN `t_ws_case` c ON b.`link` = c.`id` where b.id = #{value}
 	</select>
 
 	<select id="queryList" resultType="com.idou.modules.api.domain.WsBannerEntity">
-		select * from t_ws_banner
-        <choose>
+		SELECT b.*,c.`title` FROM t_ws_banner b LEFT JOIN `t_ws_case` c ON b.`link` = c.`id`
+		<choose>
             <when test="sidx != null and sidx.trim() != ''">
                 order by ${sidx} ${order}
             </when>
 			<otherwise>
-                order by id desc
+                order by b.id desc
 			</otherwise>
         </choose>
 		<if test="offset != null and limit != null">
@@ -62,4 +62,7 @@
 		</foreach>
 	</delete>
 
+	<select id="queryListLimit" resultType="com.idou.modules.api.domain.WsBannerEntity">
+		SELECT * FROM `t_ws_banner` ORDER BY `sortNum`,`id` LIMIT 4
+	</select>
 </mapper>

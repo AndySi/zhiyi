@@ -50,5 +50,10 @@ public class WsCaseServiceImpl implements WsCaseService {
 	public void deleteBatch(Long[] ids){
 		wsCaseDao.deleteBatch(ids);
 	}
-	
+
+	@Override
+	public List<WsCaseEntity> queryALlList() {
+		return wsCaseDao.queryAllList();
+	}
+
 }

@@ -14,7 +14,7 @@
     <script th:src="@{/plugins/layer/layer.js}"></script>
     <script th:src="@{/libs/vue.min.js}"></script>
     <script th:src="@{/plugins/ztree/jquery.ztree.all.min.js}"></script>
-    <script th:src="@{/js/common.js}"></script>
+    <script th:src="@{/js/modules/sysEx/common.js}"></script>
 </head>
 <body>
 <section class="layui-app-box" style="width: 97%;">
@@ -35,6 +35,13 @@
                         预览图：
                         <div class="layui-upload-list" id="d-review"></div>
                     </blockquote>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button id="btn-uploadLogo" class="layui-btn layui-btn-normal">
+                        <i class="layui-icon">&#xe608;</i>开始上传
+                    </button>
                 </div>
             </div>
             <div class="layui-form-item">
@@ -100,6 +107,13 @@
                         预览图：
                         <div class="layui-upload-list" id="d-review-qrcode"></div>
                     </blockquote>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button id="btn-uploadCode" class="layui-btn layui-btn-normal">
+                        <i class="layui-icon">&#xe608;</i>开始上传
+                    </button>
                 </div>
             </div>
             <div class="layui-form-item">

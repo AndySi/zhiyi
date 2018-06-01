@@ -15,7 +15,12 @@ import java.util.Map;
 public class WsBannerServiceImpl implements WsBannerService {
 	@Autowired
 	private WsBannerDao wsBannerDao;
-	
+
+	@Override
+	public List<WsBannerEntity> queryListLimit() {
+		return wsBannerDao.queryListLimit();
+	}
+
 	@Override
 	public WsBannerEntity queryObject(Long id){
 		return wsBannerDao.queryObject(id);

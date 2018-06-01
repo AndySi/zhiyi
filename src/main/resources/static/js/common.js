@@ -33,7 +33,6 @@ var baseURL = "/zhiyi/";
 
 //登录token
 var token = localStorage.getItem("token");
-console.log("token======>"+token);
 if(token == 'null'){
     parent.location.href = baseURL + 'login.html';
 }

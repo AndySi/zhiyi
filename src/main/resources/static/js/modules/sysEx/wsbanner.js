@@ -1,39 +1,37 @@
-layui.use(['table', 'form', 'laytpl', 'upload'], function () {
+layui.use(['table', 'form', 'laytpl', 'upload', 'layer'], function () {
     var $ = layui.jquery
         , table = layui.table
         , form = layui.form
         , upload = layui.upload
         , laytpl = layui.laytpl;
 
+
     table.render({
         elem: '#layui-grid'
-        , url: baseURL+'sysWs/wsbanner/list'
+        , url: baseURL + 'sysWs/wsbanner/list'
         , cols: [[
             {checkbox: true, fixed: true}
             , {field: 'id', title: 'ID'}
+            , {field: 'title', title: '案例链接'}
             , {
                 field: 'url',
-                title: 'banner图片',
+                title: 'banner',
                 templet: '#coverTpl',
                 event: 'showCover',
-                style: 'cursor: pointer;'
+                style: 'cursor: pointer;',
+                align: 'center'
             }
-            , {field: 'link', title: 'banner链接'}
-            , {field: 'sortNum', title: '排序', sort: true}
+            , {field: 'sortnum', title: '排序', sort: true}
         ]]
         , id: 'idLayuiGrid'
         , page: true
         , height: 'full-200'
     });
 
-    // 监听下拉选项框
-    form.on('select(lf-type)', function (data) {
-        vm.q.typeId = data.value;
-    });
     // 产品封面图片上传
     upload.render({
         elem: '#test10'
-        , url: baseURL+'sys/oss/uploadCover'
+        , url: baseURL + 'sysWs/wsbanner/uploadImg'
         , auto: false   //选择文件后不自动上传
         , accept: 'images'
         , size: 260
@@ -57,7 +55,7 @@ layui.use(['table', 'form', 'laytpl', 'upload'], function () {
             parent.layer.closeAll('loading'); //关闭loading
             if (res.code == "0") {
                 alert('上传成功', function (obj) {
-                    vm.itemInfo.coverUrl = res.data.src;
+                    vm.itemInfo.url = res.data.src;
                 });
             } else {
                 alert(res.msg);
@@ -70,9 +68,12 @@ layui.use(['table', 'form', 'laytpl', 'upload'], function () {
 
     // 监听提交
     form.on('submit(btn-ok)', function (data) {
-        var url = vm.itemInfo.id == null ? baseURL+"sysWx/item/add" : baseURL+"sysWx/item/update";
-        if (typeof (vm.itemInfo.coverUrl) == "undefined") {
-            layer.msg("请上传banner图片", {time: 2000, icon: 5, anim: 6});
+        if (vm.itemInfo.link == '') {
+            vm.itemInfo.link = '#';
+        }
+        var url = vm.itemInfo.id == null ? baseURL + "sysWs/wsbanner/save" : baseURL + "sysWs/wsbanner/update";
+        if (typeof (vm.itemInfo.url) == "undefined") {
+            parent.layer.msg("请上传Banner(大图)", {time: 2000, icon: 5, anim: 6});
             return;
         }
         $.fn_ajax(null, url, vm.itemInfo, function (r) {
@@ -81,17 +82,48 @@ layui.use(['table', 'form', 'laytpl', 'upload'], function () {
                     icon: 1
                     , time: 2000
                 }, function () {
-                    window.location.reload();
+                    vm.showList = true;
+                    active.reload();
                 });
             } else {
                 alert(r.msg);
             }
         });
     });
+    // 监听操作工具按钮
+    table.on('tool(lf-credit)', function (obj) {
+        var data = obj.data;
+        if (obj.event === 'showCover') {
+            parent.layer.open({
+                type: 1,
+                title: false,
+                closeBtn: 0,
+                area: 'auto',
+                skin: 'layui-layer-nobg', //没有背景色
+                shadeClose: true,
+                content: '<img src="' + data.url + '" height="100%" width="100%" />'
+            });
+        } else if (obj.event === 'detail') {   //查看
+            var getTpl = detailTpl.innerHTML;
+            laytpl(getTpl).render(data, function (html) {
+                //页面层
+                var lyIndex = layer.open({
+                    type: 1,
+                    area: ['660px', '560px'], //宽高
+                    maxmin: true,
+                    content: html
+                });
+                layer.full(lyIndex);
+            });
+        }
+    });
 
     var $ = layui.$, active = {
         reload: function () {
             table.reload('idLayuiGrid', {
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                },
                 where: {}
             });
         },
@@ -103,17 +135,19 @@ layui.use(['table', 'form', 'laytpl', 'upload'], function () {
         add: function () {
             vm.showList = false;
             vm.title = "新增";
-            vm.itemInfo = {typeName: null};
-            vm.getType(0);
+            vm.itemInfo = {title: null, sortnum: 0};
+            $('#d-review').html('');
+            vm.getType();
         },
         update: function () {    //修改
             var row = fn_getSelectedRow(table);
             if (row) {
-                $.get(baseURL+"sysWx/item/info/" + row.id, function (r) {
+                $.get(baseURL + "sysWs/wsbanner/info/" + row.id, function (r) {
                     if (r.code == 0) {
                         vm.showList = false;
                         vm.title = "修改";
                         vm.itemInfo = r.data;
+                        $('#d-review').html('<img src="' + vm.itemInfo.url + '" id="target" class="layui-upload-img"/>');
                         vm.getType();
                     } else {
                         alert(r.msg);
@@ -131,7 +165,7 @@ layui.use(['table', 'form', 'laytpl', 'upload'], function () {
                 fn_confirm('确定要删除选中的记录？', function () {
                     $.ajax({
                         type: "POST",
-                        url: baseURL+"sysWx/item/delete",
+                        url: baseURL + "sysWs/wsbanner/delete",
                         dataType: "json",
                         contentType: "application/json",
                         data: JSON.stringify(ids),
@@ -160,7 +194,7 @@ layui.use(['table', 'form', 'laytpl', 'upload'], function () {
     // 自定义验证
     form.verify({
         lvType: function (value) {
-            if (vm.itemInfo.typeId == 0) {
+            if (vm.itemInfo.typeid == 0) {
                 return '请选择商品类型';
             }
         }
@@ -177,7 +211,7 @@ var setting = {
             rootPId: -1
         },
         key: {
-            name: "name",
+            name: "title",
             url: "noUrl"
         }
     }
@@ -187,28 +221,26 @@ var vm = new Vue({
     el: '#vApp',
     data: {
         q: {
-            name: null,
-            typeId: 0
+            title: null,
+            typeid: 0
         },
         itemInfo: {
-            typeName: null
+            sortnum: 0
         },
-        detailList: [],
         typeList: {},
         showList: true,
         title: null
     },
     methods: {
-        getType: function (typeId) {
-            typeId = typeof (typeId) == "undefined" ? vm.itemInfo.typeId : typeId;
+        getType: function () {
             //加载类型树
-            console.log("加载类型树:" + JSON.stringify(vm.typeList));
             ztree = $.fn.zTree.init($("#typeTree"), setting, vm.typeList);
-            var node = ztree.getNodeByParam("id", typeId);
-            ztree.selectNode(node);
-
-            vm.itemInfo.typeId = node.id;
-            vm.itemInfo.typeName = node.name;
+            if (typeof (vm.itemInfo.link) != "undefined") {
+                var node = ztree.getNodeByParam("id", vm.itemInfo.link);
+                if (node) {
+                    ztree.selectNode(node);
+                }
+            }
         },
         getTypeTree: function () {
             layer.open({
@@ -224,15 +256,14 @@ var vm = new Vue({
                 , yes: function (index) {
                     var node = ztree.getSelectedNodes();
                     //选择上级菜单
-                    vm.itemInfo.typeId = node[0].id;
-                    vm.itemInfo.typeName = node[0].name;
-
+                    vm.itemInfo.link = node[0].id;
+                    vm.itemInfo.title = node[0].title;
                     layer.close(index);
                 }
             });
         },
         options: function () {
-            $.getJSON(baseURL+'sysWx/itemType/queryAllList', function (r) {
+            $.getJSON(baseURL + 'sysWs/wsbanner/getCaseList', function (r) {
                 vm.typeList = r.data;
             });
         }

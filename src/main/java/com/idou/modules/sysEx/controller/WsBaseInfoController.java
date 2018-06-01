@@ -3,11 +3,11 @@ package com.idou.modules.sysEx.controller;
 import com.idou.common.utils.R;
 import com.idou.modules.api.domain.WsBaseInfoEntity;
 import com.idou.modules.api.service.WsBaseInfoService;
+import com.idou.modules.sysEx.utils.ImageUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 
@@ -21,6 +21,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class WsBaseInfoController {
 	@Autowired
 	private WsBaseInfoService wsBaseinfoService;
+
+	/**
+	 * 图片上传
+	 *
+	 * @param mf
+	 * @return
+	 */
+	@RequestMapping(value = "/uploadImg", method = RequestMethod.POST)
+	public R uploadImg(@RequestParam(value = "file") MultipartFile mf) {
+		return ImageUtils.uploadSave(mf, "index");
+	}
 
 	/**
 	 * 信息

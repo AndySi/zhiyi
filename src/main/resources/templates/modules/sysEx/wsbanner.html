@@ -14,24 +14,13 @@
 	<script th:src="@{/plugins/layer/layer.js}"></script>
 	<script th:src="@{/libs/vue.min.js}"></script>
 	<script th:src="@{/plugins/ztree/jquery.ztree.all.min.js}"></script>
-	<script th:src="@{/js/common.js}"></script>
-	<style>
-		.layui-form-label {
-			width: 110px;
-		}
-
-		.d-content .layui-input {
-			width: 94%;
-		}
-
-		.layui-word-aux {
-			color: #ff032f !important;
-		}
-	</style>
+	<script th:src="@{/js/modules/sysEx/common.js}"></script>
 </head>
 <body>
-<section class="layui-app-box" style="width: 96%;">
-	<blockquote class="layui-elem-quote" style="color: #ff032f;">注意：首页banner图按排序取前4张</blockquote>
+<blockquote class="layui-elem-quote layui-text">
+	温馨提示：<span style="color:red">首页bannner显示数据为4张，根据排序取前4</span>
+</blockquote>
+<section class="layui-app-box" style="width: 97%;">
 	<div id="vApp" v-cloak>
 		<div v-show="showList">
 			<form class="layui-form" action="javascript:;">
@@ -39,10 +28,12 @@
 					<button shiro:hasPermission="sysWs:banner:add" class="layui-btn layui-btn-normal" data-type="add"><i
 							class="fa fa-plus"></i>&nbsp;新增
 					</button>
-					<button shiro:hasPermission="sysWs:banner:update" class="layui-btn layui-btn-warm" data-type="update">
+					<button shiro:hasPermission="sysWs:banner:update" class="layui-btn layui-btn-warm"
+							data-type="update">
 						<i class="fa fa-pencil-square-o"></i>&nbsp;修改
 					</button>
-					<button shiro:hasPermission="sysWs:banner:del" class="layui-btn layui-btn-danger" data-type="delete">
+					<button shiro:hasPermission="sysWs:banner:del" class="layui-btn layui-btn-danger"
+							data-type="delete">
 						<i class="fa fa-trash-o"></i>&nbsp;删除
 					</button>
 				</div>
@@ -59,23 +50,23 @@
 					<div class="layui-form-item">
 						<label class="layui-form-label">链接案例</label>
 						<div class="layui-input-block">
-							<input type="text" lay-verify="lvType" class="layui-input"
-								   v-model="itemInfo.typeName" style="cursor:pointer;" readonly="readonly"
+							<input type="text" class="layui-input"
+								   v-model="itemInfo.title" placeholder="不填默认为空链接" style="cursor:pointer;" readonly="readonly"
 								   @click="getTypeTree">
 						</div>
 					</div>
 					<div class="layui-form-item">
-						<label class="layui-form-label">banner图片</label>
+						<label class="layui-form-label">Banner</label>
 						<div class="layui-input-inline" style="width: 110px;">
 							<button type="button" class="layui-btn" id="test10">
-								<i class="layui-icon">&#xe67c;</i>图片选择
+								<i class="layui-icon">&#xe67c;</i>图片上传
 							</button>
 						</div>
 					</div>
 					<div class="layui-form-item">
 						<div class="layui-input-block">
 							<blockquote class="layui-elem-quote layui-quote-nm"
-										style="margin-left:26px;margin-top: 10px;">
+										style="margin-top: 10px;">
 								预览图：
 								<div class="layui-upload-list" id="d-review"></div>
 							</blockquote>
@@ -83,10 +74,16 @@
 					</div>
 					<div class="layui-form-item">
 						<div class="layui-input-block">
-							<button id="btn-uploadCover" class="layui-btn layui-btn-normal"
-									style="margin-left:26px;">
+							<button id="btn-uploadCover" class="layui-btn layui-btn-normal">
 								<i class="layui-icon">&#xe608;</i>开始上传
 							</button>
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">排序</label>
+						<div class="layui-input-block">
+							<input type="text" v-model="itemInfo.sortnum" placeholder="排序" lay-verify="required|number" autocomplete="off"
+								   class="layui-input">
 						</div>
 					</div>
 					<div class="layui-form-item">
@@ -102,11 +99,12 @@
 </section>
 <!-- 选择菜单 -->
 <div id="typeLayer" style="display: none;padding:10px;">
+
 	<ul id="typeTree" class="ztree"></ul>
 </div>
-<!-- 模板 -->
+<!-- 身份证模板 -->
 <script type="text/html" id="coverTpl">
-	<img src="{{ d.coverUrl }}" height="100%" width="100%"/>
+	<img src="{{ d.url }}" height="100%" width="100%"/>
 </script>
 <script th:src="@{/plugins/layui/layui.js}" charset="utf-8"></script>
 <script th:src="@{/js/modules/sysEx/wsbanner.js}"></script>

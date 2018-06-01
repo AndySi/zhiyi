@@ -1,9 +1,9 @@
 layui.use(['form', 'upload'], function () {
-    var form = layui.form
+    var $ = layui.jquery
+        , form = layui.form
         , upload = layui.upload;
 
 
-    // 产品封面图片上传
     upload.render({
         elem: '#test10'
         , url: baseURL+'sysWs/baseInfo/uploadImg'
@@ -30,7 +30,7 @@ layui.use(['form', 'upload'], function () {
             parent.layer.closeAll('loading'); //关闭loading
             if (res.code == "0") {
                 alert('上传成功', function (obj) {
-                    vm.itemInfo.coverUrl = res.data.src;
+                    vm.itemInfo.logo = res.data.src;
                 });
             } else {
                 alert(res.msg);
@@ -41,7 +41,6 @@ layui.use(['form', 'upload'], function () {
         }
     });
 
-    // 产品封面图片上传
     upload.render({
         elem: '#btn_qrcode'
         , url: baseURL+'sysWs/baseInfo/uploadImg'
@@ -58,7 +57,7 @@ layui.use(['form', 'upload'], function () {
             $('#btn-uploadCode').removeAttr("disabled");
             // 预读本地文件示例，不支持ie8
             obj.preview(function (index, file, result) {
-                $('#d-review').html('<img src="' + result + '" id="target" alt="' + file.name + '" class="layui-upload-img"/>');
+                $('#d-review-qrcode').html('<img src="' + result + '" id="target" alt="' + file.name + '" class="layui-upload-img"/>');
             });
         }
         , done: function (res) {
@@ -68,7 +67,7 @@ layui.use(['form', 'upload'], function () {
             parent.layer.closeAll('loading'); //关闭loading
             if (res.code == "0") {
                 alert('上传成功', function (obj) {
-                    vm.itemInfo.coverUrl = res.data.src;
+                    vm.itemInfo.qrcode = res.data.src;
                 });
             } else {
                 alert(res.msg);
@@ -81,20 +80,41 @@ layui.use(['form', 'upload'], function () {
 
     // 监听提交
     form.on('submit(btn-ok)', function (data) {
-
+        if (typeof (vm.itemInfo.logo) == "undefined") {
+            parent.layer.msg("请上传logo", {time: 2000, icon: 5, anim: 6});
+            return;
+        }
+        if (typeof (vm.itemInfo.qrcode) == "undefined") {
+            parent.layer.msg("请上传二维码", {time: 2000, icon: 5, anim: 6});
+            return;
+        }
+        $.fn_ajax(null, baseURL+"sysWs/baseInfo/save", vm.itemInfo, function (r) {
+            if (r.code === 0) {
+                parent.layer.msg('操作成功', {
+                    icon: 1
+                    , time: 2000
+                });
+            } else {
+                alert(r.msg);
+            }
+        });
     });
 });
 
 var vm = new Vue({
     el: '#vApp',
     data: {
-        data: {}
+        itemInfo:{}
     }
     , methods: {
         init: function () {
             $.getJSON(baseURL + 'sysWs/baseInfo/info', function (r) {
-                console.log(r);
-                vm.data = r.data;
+                vm.itemInfo = r.data;
+                if(vm.itemInfo.logo!=null){
+                    console.log("-->"+vm.itemInfo.logo)
+                    $('#d-review').html('<img src="' + vm.itemInfo.logo + '" id="target" class="layui-upload-img"/>');
+                }
+
             });
         }
     }

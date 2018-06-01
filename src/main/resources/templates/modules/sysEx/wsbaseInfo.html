@@ -19,7 +19,7 @@
 <body>
 <section class="layui-app-box" style="width: 97%;">
     <div id="vApp" v-cloak>
-        <form class="layui-form" action="">
+        <form class="layui-form" action="javascript:;">
             <div class="layui-form-item">
                 <label class="layui-form-label">公司Logo</label>
                 <div class="layui-input-inline" style="width: 110px;">
@@ -48,48 +48,48 @@
                 <label class="layui-form-label">宣传口号</label>
                 <div class="layui-input-block">
                     <input type="text" name="username" lay-verify="required" placeholder="请输入" autocomplete="off"
-                           class="layui-input" v-model="data.slogan">
+                           class="layui-input" v-model="itemInfo.slogan">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">资讯电话</label>
                 <div class="layui-input-block">
                     <input type="text" name="username" lay-verify="required" placeholder="请输入" autocomplete="off"
-                           class="layui-input" v-model="data.tel">
+                           class="layui-input" v-model="itemInfo.tel">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">腾讯QQ</label>
                 <div class="layui-input-block">
                     <input type="text" name="username" lay-verify="required" placeholder="请输入" autocomplete="off"
-                           class="layui-input" v-model="data.qq">
+                           class="layui-input" v-model="itemInfo.qq">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">服务时间</label>
                 <div class="layui-input-block">
                     <input type="text" name="username" lay-verify="required" placeholder="请输入" autocomplete="off"
-                           class="layui-input" v-model="data.servertime">
+                           class="layui-input" v-model="itemInfo.servertime">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">公司地址</label>
                 <div class="layui-input-block">
                     <input type="text" name="username" lay-verify="required" placeholder="请输入" autocomplete="off"
-                           class="layui-input" v-model="data.addr">
+                           class="layui-input" v-model="itemInfo.addr">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">关于我们</label>
                 <div class="layui-input-block">
-                    <textarea placeholder="请输入内容" lay-verify="required" class="layui-textarea" v-model="data.aboutus"></textarea>
+                    <textarea placeholder="请输入内容" lay-verify="required" class="layui-textarea" v-model="itemInfo.aboutus"></textarea>
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">版权信息</label>
                 <div class="layui-input-block">
                     <input type="text" name="username" lay-verify="required" placeholder="请输入" autocomplete="off"
-                           class="layui-input" v-model="data.copyright">
+                           class="layui-input" v-model="itemInfo.copyright">
                 </div>
             </div>
             <div class="layui-form-item">

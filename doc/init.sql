@@ -1,6 +1,6 @@
 /*
 SQLyog Ultimate v9.30 
-MySQL - 5.5.47 : Database - zhiyi
+MySQL - 5.6.34-log : Database - zhiyi
 *********************************************************************
 */
 
@@ -82,7 +82,7 @@ CREATE TABLE `sys_menu` (
 
 LOCK TABLES `sys_menu` WRITE;
 
-insert  into `sys_menu`(`menu_id`,`parent_id`,`name`,`url`,`perms`,`type`,`icon`,`order_num`) values (1,0,'系统管理',NULL,NULL,0,'fa fa-cog',999),(2,1,'管理员列表','modules/sysBs/user.html',NULL,1,'fa fa-user',1),(3,1,'角色管理','modules/sysBs/role.html',NULL,1,'fa fa-user-secret',2),(4,1,'菜单管理','modules/sysBs/menu.html',NULL,1,'fa fa-th-list',3),(5,1,'SQL监控','druid/sql.html',NULL,1,'fa fa-bug',4),(15,2,'查看',NULL,'sys:user:list,sys:user:info',2,NULL,0),(16,2,'新增',NULL,'sys:user:save,sys:role:select',2,NULL,0),(17,2,'修改',NULL,'sys:user:update,sys:role:select',2,NULL,0),(18,2,'删除',NULL,'sys:user:delete',2,NULL,0),(19,3,'查看',NULL,'sys:role:list,sys:role:info',2,NULL,0),(20,3,'新增',NULL,'sys:role:save,sys:menu:perms',2,NULL,0),(21,3,'修改',NULL,'sys:role:update,sys:menu:perms',2,NULL,0),(22,3,'删除',NULL,'sys:role:delete',2,NULL,0),(23,4,'查看',NULL,'sys:menu:list,sys:menu:info',2,NULL,0),(24,4,'新增',NULL,'sys:menu:save,sys:menu:select',2,NULL,0),(25,4,'修改',NULL,'sys:menu:update,sys:menu:select',2,NULL,0),(26,4,'删除',NULL,'sys:menu:delete',2,NULL,0),(27,1,'参数管理','modules/sysBs/config.html','sys:config:list,sys:config:info,sys:config:save,sys:config:update,sys:config:delete',1,'fa fa-sun-o',6),(29,1,'系统日志','modules/sysBs/log.html','sys:log:list',1,'fa fa-file-text-o',7),(32,0,'用户管理',NULL,NULL,0,'fa fa-book',1),(33,32,'用户列表','modules/wechat/userList.html','wx:user:list,wx:user:info',1,'fa fa-th-list',0),(1015,33,'修改用户状态',NULL,'wx:user:audit',2,NULL,0),(1017,0,'订单管理',NULL,NULL,0,'fa fa-telegram',3),(1018,1017,'订单列表','modules/wechat/orderList.html','wx:order:list',1,'fa fa-th-list',0),(1019,1018,'审核',NULL,'wx:order:audit',2,NULL,0),(1020,0,'商品管理',NULL,NULL,0,'fa fa-product-hunt',0),(1021,1020,'商品列表','modules/wechat/itemList.html','wx:item:list,wx:item:info',1,'fa fa-list',0),(1022,1020,'分类列表','modules/wechat/itemTypeList.html','wx:itemtype:info,wx:itemtype:list',1,'fa fa-list',0),(1023,1021,'修改',NULL,'wx:item:update',2,NULL,0),(1024,1021,'删除',NULL,'wx:item:delete',2,NULL,0),(1025,1021,'新增',NULL,'wx:item:add',2,NULL,0),(1026,0,'属性管理',NULL,NULL,0,'fa fa-cogs',3),(1027,1026,'属性名','modules/wechat/attrNameList.html','wx:attrname:list',1,'fa fa-th-list',0),(1028,1026,'属性值','modules/wechat/attrValueList.html','wx:attrvalue:list',1,'fa fa-th-list',1),(1029,1026,'商品属性','modules/wechat/itemAttrList.html','wx:itemattr:list',1,'fa fa-th-list',3),(1030,1022,'新增',NULL,'wx:itemtype:add',2,NULL,0),(1031,1022,'修改',NULL,'wx:itemtype:update',2,NULL,0),(1032,1022,'删除',NULL,'wx:itemtype:delete',2,NULL,0),(1033,1020,'库存管理','modules/wechat/itemSkuList.html','wx:itemsku:list',1,'fa fa-th-list',3),(1034,1027,'新增',NULL,'wx:attrname:add',2,NULL,0),(1035,1027,'修改',NULL,'wx:attrname:update',2,NULL,0),(1036,1027,'删除',NULL,'wx:attrname:delete',2,NULL,0),(1037,1028,'新增',NULL,'wx:attrvalue:add',2,NULL,0),(1038,1028,'修改',NULL,'wx:attrvalue:update',2,NULL,0),(1039,1028,'删除',NULL,'wx:attrvalue:delete',2,NULL,0),(1040,1029,'新增',NULL,'wx:itemattr:add',2,NULL,0),(1041,1029,'修改',NULL,'wx:itemattr:update',2,NULL,0),(1042,1029,'删除',NULL,'wx:itemattr:delete',2,NULL,0),(1043,1033,'新增',NULL,'wx:itemsku:add',2,NULL,0),(1044,1033,'修改',NULL,'wx:itemsku:update',2,NULL,0),(1045,1033,'删除',NULL,'wx:itemsku:delete',2,NULL,0),(1046,0,'活动管理',NULL,NULL,0,'fa fa-calendar-minus-o',5),(1047,1046,'活动列表','modules/wechat/activityList.html','wx:activity:list',1,'fa fa-gift',0),(1048,1047,'新增',NULL,'wx:activity:add',2,NULL,0),(1049,1047,'修改',NULL,'wx:activity:update',2,NULL,0),(1050,1047,'删除',NULL,'wx:activity:delete',2,NULL,0),(1051,1046,'活动商品','modules/wechat/activityItem.html','wx:activityitem:list',1,'fa fa-gift',1),(1052,1051,'新增',NULL,'wx:activityitem:add',2,NULL,0),(1053,1051,'删除',NULL,'wx:activityitem:delete',2,NULL,0),(1054,1018,'修改',NULL,'wx:order:update',2,NULL,0),(1055,32,'地址管理','modules/wechat/addressList.html','wx:addr:list',1,'fa fa-th',0),(1056,0,'网站管理',NULL,NULL,0,'fa fa-product-hunt',0),(1057,1056,'基本信息','modules/sysEx/wsbaseinfo.html','sysWs:baseinfo:info',1,'fa fa-list',0),(1058,1056,'网站菜单','modules/sysEx/wsmenu.html','sysWs:menu:list',1,'fa fa-th-list',1),(1059,1058,'修改',NULL,'sysWs:menu:update',2,NULL,0),(1060,1056,'首页Banner','modules/sysEx/wsbanner.html','sysWs:banner:list,sysWs:banner:info',1,'fa fa-th-list',2),(1061,1060,'新增',NULL,'sysWs:banner:add',2,NULL,0),(1062,1060,'修改',NULL,'sysWs:banner:update',2,NULL,0),(1063,1060,'删除',NULL,'sysWs:banner:del',2,NULL,0),(1064,0,'案例管理',NULL,NULL,0,'fa fa-telegram',1),(1065,1064,'案例类型','modules/sysEx/wscasetype.html','sysWs:wscasetype:list,sysWs:wscasetype:info',1,'fa fa-th-list',0),(1066,1064,'案例列表','modules/sysEx/wscase.html','sysWs:wscase:list,sysWs:wscase:info',1,'fa fa-th-list',1),(1067,1065,'新增',NULL,'sysWs:wscasetype:add',2,NULL,0),(1068,1065,'修改',NULL,'sysWs:wscasetype:update',2,NULL,0),(1069,1065,'删除',NULL,'sysWs:wscasetype:delete',2,NULL,0),(1070,1066,'新增',NULL,'sysWs:wscase:add',2,NULL,0),(1071,1066,'修改',NULL,'sysWs:wscase:update',2,NULL,0),(1072,1066,'删除',NULL,'sysWs:wscase:delete',2,NULL,0);
+insert  into `sys_menu`(`menu_id`,`parent_id`,`name`,`url`,`perms`,`type`,`icon`,`order_num`) values (1,0,'系统管理',NULL,NULL,0,'fa fa-cog',999),(2,1,'管理员列表','modules/sysBs/user.html',NULL,1,'fa fa-user',1),(3,1,'角色管理','modules/sysBs/role.html',NULL,1,'fa fa-user-secret',2),(4,1,'菜单管理','modules/sysBs/menu.html',NULL,1,'fa fa-th-list',3),(5,1,'SQL监控','druid/sql.html',NULL,1,'fa fa-bug',4),(15,2,'查看',NULL,'sys:user:list,sys:user:info',2,NULL,0),(16,2,'新增',NULL,'sys:user:save,sys:role:select',2,NULL,0),(17,2,'修改',NULL,'sys:user:update,sys:role:select',2,NULL,0),(18,2,'删除',NULL,'sys:user:delete',2,NULL,0),(19,3,'查看',NULL,'sys:role:list,sys:role:info',2,NULL,0),(20,3,'新增',NULL,'sys:role:save,sys:menu:perms',2,NULL,0),(21,3,'修改',NULL,'sys:role:update,sys:menu:perms',2,NULL,0),(22,3,'删除',NULL,'sys:role:delete',2,NULL,0),(23,4,'查看',NULL,'sys:menu:list,sys:menu:info',2,NULL,0),(24,4,'新增',NULL,'sys:menu:save,sys:menu:select',2,NULL,0),(25,4,'修改',NULL,'sys:menu:update,sys:menu:select',2,NULL,0),(26,4,'删除',NULL,'sys:menu:delete',2,NULL,0),(27,1,'参数管理','modules/sysBs/config.html','sys:config:list,sys:config:info,sys:config:save,sys:config:update,sys:config:delete',1,'fa fa-sun-o',6),(29,1,'系统日志','modules/sysBs/log.html','sys:log:list',1,'fa fa-file-text-o',7),(32,0,'用户管理',NULL,NULL,0,'fa fa-book',1),(33,32,'用户列表','modules/wechat/userList.html','wx:user:list,wx:user:info',1,'fa fa-th-list',0),(1015,33,'修改用户状态',NULL,'wx:user:audit',2,NULL,0),(1017,0,'订单管理',NULL,NULL,0,'fa fa-telegram',3),(1018,1017,'订单列表','modules/wechat/orderList.html','wx:order:list',1,'fa fa-th-list',0),(1019,1018,'审核',NULL,'wx:order:audit',2,NULL,0),(1020,0,'商品管理',NULL,NULL,0,'fa fa-product-hunt',0),(1021,1020,'商品列表','modules/wechat/itemList.html','wx:item:list,wx:item:info',1,'fa fa-list',0),(1022,1020,'分类列表','modules/wechat/itemTypeList.html','wx:itemtype:info,wx:itemtype:list',1,'fa fa-list',0),(1023,1021,'修改',NULL,'wx:item:update',2,NULL,0),(1024,1021,'删除',NULL,'wx:item:delete',2,NULL,0),(1025,1021,'新增',NULL,'wx:item:add',2,NULL,0),(1026,0,'属性管理',NULL,NULL,0,'fa fa-cogs',3),(1027,1026,'属性名','modules/wechat/attrNameList.html','wx:attrname:list',1,'fa fa-th-list',0),(1028,1026,'属性值','modules/wechat/attrValueList.html','wx:attrvalue:list',1,'fa fa-th-list',1),(1029,1026,'商品属性','modules/wechat/itemAttrList.html','wx:itemattr:list',1,'fa fa-th-list',3),(1030,1022,'新增',NULL,'wx:itemtype:add',2,NULL,0),(1031,1022,'修改',NULL,'wx:itemtype:update',2,NULL,0),(1032,1022,'删除',NULL,'wx:itemtype:delete',2,NULL,0),(1033,1020,'库存管理','modules/wechat/itemSkuList.html','wx:itemsku:list',1,'fa fa-th-list',3),(1034,1027,'新增',NULL,'wx:attrname:add',2,NULL,0),(1035,1027,'修改',NULL,'wx:attrname:update',2,NULL,0),(1036,1027,'删除',NULL,'wx:attrname:delete',2,NULL,0),(1037,1028,'新增',NULL,'wx:attrvalue:add',2,NULL,0),(1038,1028,'修改',NULL,'wx:attrvalue:update',2,NULL,0),(1039,1028,'删除',NULL,'wx:attrvalue:delete',2,NULL,0),(1040,1029,'新增',NULL,'wx:itemattr:add',2,NULL,0),(1041,1029,'修改',NULL,'wx:itemattr:update',2,NULL,0),(1042,1029,'删除',NULL,'wx:itemattr:delete',2,NULL,0),(1043,1033,'新增',NULL,'wx:itemsku:add',2,NULL,0),(1044,1033,'修改',NULL,'wx:itemsku:update',2,NULL,0),(1045,1033,'删除',NULL,'wx:itemsku:delete',2,NULL,0),(1046,0,'活动管理',NULL,NULL,0,'fa fa-calendar-minus-o',5),(1047,1046,'活动列表','modules/wechat/activityList.html','wx:activity:list',1,'fa fa-gift',0),(1048,1047,'新增',NULL,'wx:activity:add',2,NULL,0),(1049,1047,'修改',NULL,'wx:activity:update',2,NULL,0),(1050,1047,'删除',NULL,'wx:activity:delete',2,NULL,0),(1051,1046,'活动商品','modules/wechat/activityItem.html','wx:activityitem:list',1,'fa fa-gift',1),(1052,1051,'新增',NULL,'wx:activityitem:add',2,NULL,0),(1053,1051,'删除',NULL,'wx:activityitem:delete',2,NULL,0),(1054,1018,'修改',NULL,'wx:order:update',2,NULL,0),(1055,32,'地址管理','modules/wechat/addressList.html','wx:addr:list',1,'fa fa-th',0),(1056,0,'网站管理',NULL,NULL,0,'fa fa-product-hunt',0),(1057,1056,'基本信息','modules/sysEx/wsbaseinfo.html','sysWs:baseinfo:info,sysWs:baseinfo:save',1,'fa fa-list',0),(1058,1056,'网站菜单','modules/sysEx/wsmenu.html','sysWs:menu:list',1,'fa fa-th-list',1),(1059,1058,'修改',NULL,'sysWs:menu:update',2,NULL,0),(1060,1056,'首页Banner','modules/sysEx/wsbanner.html','sysWs:banner:list,sysWs:banner:info',1,'fa fa-th-list',2),(1061,1060,'新增',NULL,'sysWs:banner:add',2,NULL,0),(1062,1060,'修改',NULL,'sysWs:banner:update',2,NULL,0),(1063,1060,'删除',NULL,'sysWs:banner:del',2,NULL,0),(1064,0,'案例管理',NULL,NULL,0,'fa fa-telegram',1),(1065,1064,'案例类型','modules/sysEx/wscasetype.html','sysWs:wscasetype:list,sysWs:wscasetype:info',1,'fa fa-th-list',0),(1066,1064,'案例列表','modules/sysEx/wscase.html','sysWs:wscase:list,sysWs:wscase:info',1,'fa fa-th-list',1),(1067,1065,'新增',NULL,'sysWs:wscasetype:add',2,NULL,0),(1068,1065,'修改',NULL,'sysWs:wscasetype:update',2,NULL,0),(1069,1065,'删除',NULL,'sysWs:wscasetype:delete',2,NULL,0),(1070,1066,'新增',NULL,'sysWs:wscase:add',2,NULL,0),(1071,1066,'修改',NULL,'sysWs:wscase:update',2,NULL,0),(1072,1066,'删除',NULL,'sysWs:wscase:delete',2,NULL,0);
 
 UNLOCK TABLES;
 
@@ -526,15 +526,17 @@ DROP TABLE IF EXISTS `t_ws_banner`;
 
 CREATE TABLE `t_ws_banner` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `url` varchar(50) DEFAULT NULL COMMENT 'banner图片路径',
+  `url` varchar(120) DEFAULT NULL COMMENT 'banner图片路径',
   `link` varchar(50) DEFAULT NULL COMMENT 'banner图片链接',
   `sortNum` int(11) DEFAULT NULL COMMENT '排序',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10007 DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_ws_banner` */
 
 LOCK TABLES `t_ws_banner` WRITE;
+
+insert  into `t_ws_banner`(`id`,`url`,`link`,`sortNum`) values (10003,'http://localhost:8088\\banner\\20180601\\1527843092929133.jpg',NULL,0),(10004,'http://localhost:8088\\banner\\20180601\\1527843092930327.jpg','2',0),(10005,'http://localhost:8088\\banner\\20180601\\1527843092931380.jpg',NULL,0);
 
 UNLOCK TABLES;
 
@@ -544,12 +546,12 @@ DROP TABLE IF EXISTS `t_ws_baseinfo`;
 
 CREATE TABLE `t_ws_baseinfo` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `logo` varchar(50) DEFAULT NULL COMMENT 'logo',
+  `logo` varchar(120) DEFAULT NULL COMMENT 'logo',
   `slogan` varchar(50) DEFAULT NULL COMMENT '口号',
   `tel` varchar(16) DEFAULT NULL COMMENT '服务热线',
   `qq` varchar(32) DEFAULT NULL COMMENT 'QQ',
   `serverTime` varchar(32) DEFAULT NULL COMMENT '服务时间',
-  `qrCode` varchar(50) DEFAULT NULL COMMENT '二维码',
+  `qrCode` varchar(120) DEFAULT NULL COMMENT '二维码',
   `addr` varchar(250) DEFAULT NULL COMMENT '地址',
   `aboutUs` varchar(250) DEFAULT NULL COMMENT '关于我们',
   `copyright` varchar(120) DEFAULT NULL COMMENT '版权信息',
@@ -560,7 +562,7 @@ CREATE TABLE `t_ws_baseinfo` (
 
 LOCK TABLES `t_ws_baseinfo` WRITE;
 
-insert  into `t_ws_baseinfo`(`id`,`logo`,`slogan`,`tel`,`qq`,`serverTime`,`qrCode`,`addr`,`aboutUs`,`copyright`) values (10000,NULL,'中国最具影响力的品牌策划公司之一中国品牌设计50强上','400-8888-888','917661718','周一~周五 08:30~18:00',NULL,'湖南长沙开福区普瑞金大道518号 三角大楼88栋888号','专注于品牌战略与价值管理，善于从市场和竞争的角度出发，通过行业市场分析与消费者调研，同时结合企业的实际情况，找到精准而差异化的定位，并创造出独特的品牌视觉符号，结合相应的产品、定价、渠道、传播策略。','All Rights Reserved. © 2018-2020 湖南长沙致亿策划营销有限公司. 湘ICP备XXXXXXXX号');
+insert  into `t_ws_baseinfo`(`id`,`logo`,`slogan`,`tel`,`qq`,`serverTime`,`qrCode`,`addr`,`aboutUs`,`copyright`) values (10000,'http://localhost:8088\\index\\20180601\\1527845148127866.png','中国最具影响力的品牌策划公司之一中国品牌设计50强上','400-8888-888','917661718','周一~周五 08:30~18:00',NULL,'湖南长沙开福区普瑞金大道518号 三角大楼88栋888号','专注于品牌战略与价值管理，善于从市场和竞争的角度出发，通过行业市场分析与消费者调研，同时结合企业的实际情况，找到精准而差异化的定位，并创造出独特的品牌视觉符号，结合相应的产品、定价、渠道、传播策略。','All Rights Reserved. © 2018-2020 湖南致亿文化传媒有限责任公司. 湘ICP备XXXXXXXX号');
 
 UNLOCK TABLES;
 
@@ -679,7 +681,7 @@ CREATE TABLE `t_ws_menu` (
 
 LOCK TABLES `t_ws_menu` WRITE;
 
-insert  into `t_ws_menu`(`id`,`name`,`sortNum`,`usable`) values (10000,'首页',1,0),(10001,'案例',2,0),(10002,'服务',3,0),(10003,'关于',4,0),(10004,'动态',5,0),(10005,'加入',6,0),(10006,'联系',7,1);
+insert  into `t_ws_menu`(`id`,`name`,`sortNum`,`usable`) values (10000,'首页',1,0),(10001,'案例',2,0),(10002,'服务',3,0),(10003,'关于',4,0),(10004,'动态',5,0),(10005,'加入',6,0),(10006,'联系',7,0);
 
 UNLOCK TABLES;
 

@@ -3,10 +3,7 @@ package com.idou.modules.api.controller;
 import com.idou.common.utils.Query;
 import com.idou.common.utils.R;
 import com.idou.modules.api.domain.WsCaseEntity;
-import com.idou.modules.api.service.WsBannerService;
-import com.idou.modules.api.service.WsBaseInfoService;
-import com.idou.modules.api.service.WsCaseService;
-import com.idou.modules.api.service.WsCaseTypeService;
+import com.idou.modules.api.service.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -36,16 +33,27 @@ public class ApiWsController {
     private WsCaseService wsCaseService;
     @Autowired
     private WsCaseTypeService wsCaseTypeService;
+    @Autowired
+    private WsMenuService wsMenuService;
+    @Autowired
+    private WsLinksService wsLinksService;
+
+    @PostMapping("/base/getLinks")
+    @ApiOperation(value = "获取友情链接", notes = "获取友情链接")
+    public R getLinks() {
+        return R.ok().put("data", wsLinksService.queryList());
+    }
+
 
     @PostMapping("/base/getInfo")
     @ApiOperation(value = "获取基本信息", notes = "网站的基本信息")
-    public R getInfo(){
+    public R getInfo() {
         return R.ok().put("data", wsBaseInfoService.queryObject());
     }
 
     @PostMapping("/banner/getList")
     @ApiOperation(value = "获取banner列表", notes = "首页banner展示")
-    public R getBannerList(){
+    public R getBannerList() {
         return R.ok().put("data", wsBannerService.queryListLimit());
     }
 
@@ -62,5 +70,18 @@ public class ApiWsController {
             return R.ok().put("data", list);
         }
         return R.error("参数错误");
+    }
+
+    @PostMapping("/case/getTypeList")
+    @ApiOperation(value = "获取案例类型列表", notes = "获取案例类型列表")
+    public R getCaseTypeList() {
+        return R.ok().put("data", wsCaseTypeService.queryList());
+    }
+
+
+    @PostMapping("/menu/getList")
+    @ApiOperation(value = "获取菜单列表", notes = "获取菜单列表")
+    public R getMenuList() {
+        return R.ok().put("data", wsMenuService.queryList());
     }
 }

@@ -18,6 +18,15 @@ public class WsMenuEntity implements Serializable {
     //排序号
     private Integer sortnum;
     private Integer usable;
+    private String alias;
+
+    public String getAlias() {
+        return alias;
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
 
     public Integer getUsable() {
         return usable;

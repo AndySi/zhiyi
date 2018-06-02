@@ -27,4 +27,6 @@ public interface WsLinksService {
 	void delete(Long id);
 	
 	void deleteBatch(Long[] ids);
+
+	List<WsLinksEntity> queryList();
 }

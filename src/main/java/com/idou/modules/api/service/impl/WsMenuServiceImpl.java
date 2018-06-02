@@ -15,6 +15,11 @@ public class WsMenuServiceImpl implements WsMenuService {
     private WsMenuDao wsMenuDao;
 
     @Override
+    public List<WsMenuEntity> queryList() {
+        return wsMenuDao.queryAllList();
+    }
+
+    @Override
     public List<WsMenuEntity> queryList(Map<String, Object> map) {
         return wsMenuDao.queryList(map);
     }

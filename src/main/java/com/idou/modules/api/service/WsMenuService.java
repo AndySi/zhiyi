@@ -13,9 +13,11 @@ import java.util.Map;
  * @date 2018-05-29 11:27:30
  */
 public interface WsMenuService {
+	List<WsMenuEntity> queryList();
+
 	List<WsMenuEntity> queryList(Map<String, Object> map);
 	
 	int queryTotal(Map<String, Object> map);
-	
+
 	void update(long id, boolean val);
 }

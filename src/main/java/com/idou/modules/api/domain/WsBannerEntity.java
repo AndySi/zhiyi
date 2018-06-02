@@ -10,11 +10,11 @@ import java.io.Serializable;
  */
 public class WsBannerEntity implements Serializable {
     private static final long serialVersionUID = 1L;
-
     //
     private Long id;
     //banner图片路径
     private String url;
+    private String mobileUrl;
     //banner图片链接
     private String link;
     //排序
@@ -30,6 +30,13 @@ public class WsBannerEntity implements Serializable {
         this.title = title;
     }
 
+    public String getMobileUrl() {
+        return mobileUrl;
+    }
+
+    public void setMobileUrl(String mobileUrl) {
+        this.mobileUrl = mobileUrl;
+    }
     /**
      * 设置：
      */

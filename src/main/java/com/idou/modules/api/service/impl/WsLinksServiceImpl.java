@@ -50,5 +50,10 @@ public class WsLinksServiceImpl implements WsLinksService {
 	public void deleteBatch(Long[] ids){
 		wsLinksDao.deleteBatch(ids);
 	}
-	
+
+	@Override
+	public List<WsLinksEntity> queryList() {
+		return wsLinksDao.queryAllList();
+	}
+
 }

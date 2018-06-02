@@ -23,7 +23,7 @@ import java.util.Map;
  * @date 2018-05-29 16:21:07
  */
 @RestController
-@RequestMapping("/api/wslinks")
+@RequestMapping("/sysWs/wslinks")
 public class WsLinksController {
 	@Autowired
 	private WsLinksService wsLinksService;
@@ -32,17 +32,15 @@ public class WsLinksController {
 	 * 列表
 	 */
 	@RequestMapping("/list")
-	@RequiresPermissions("api:wslinks:list")
+	@RequiresPermissions("sysWs:wslinks:list")
 	public R list(@RequestParam Map<String, Object> params){
 		//查询列表数据
         Query query = new Query(params);
 
-		List<WsLinksEntity> wsLinksList = wsLinksService.queryList(query);
+		List<WsLinksEntity> list = wsLinksService.queryList(query);
 		int total = wsLinksService.queryTotal(query);
-		
-		PageUtils pageUtil = new PageUtils(wsLinksList, total, query.getLimit(), query.getPage());
-		
-		return R.ok().put("page", pageUtil);
+
+		return R.page(total, list);
 	}
 	
 	
@@ -50,18 +48,18 @@ public class WsLinksController {
 	 * 信息
 	 */
 	@RequestMapping("/info/{id}")
-	@RequiresPermissions("api:wslinks:info")
+	@RequiresPermissions("sysWs:wslinks:info")
 	public R info(@PathVariable("id") Long id){
 		WsLinksEntity wsLinks = wsLinksService.queryObject(id);
 		
-		return R.ok().put("wsLinks", wsLinks);
+		return R.ok().put("data", wsLinks);
 	}
 	
 	/**
 	 * 保存
 	 */
 	@RequestMapping("/save")
-	@RequiresPermissions("api:wslinks:save")
+	@RequiresPermissions("sysWs:wslinks:add")
 	public R save(@RequestBody WsLinksEntity wsLinks){
 		wsLinksService.save(wsLinks);
 		
@@ -72,7 +70,7 @@ public class WsLinksController {
 	 * 修改
 	 */
 	@RequestMapping("/update")
-	@RequiresPermissions("api:wslinks:update")
+	@RequiresPermissions("sysWs:wslinks:update")
 	public R update(@RequestBody WsLinksEntity wsLinks){
 		wsLinksService.update(wsLinks);
 		
@@ -83,7 +81,7 @@ public class WsLinksController {
 	 * 删除
 	 */
 	@RequestMapping("/delete")
-	@RequiresPermissions("api:wslinks:delete")
+	@RequiresPermissions("sysWs:wslinks:delete")
 	public R delete(@RequestBody Long[] ids){
 		wsLinksService.deleteBatch(ids);
 		

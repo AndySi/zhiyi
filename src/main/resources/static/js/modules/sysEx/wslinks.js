@@ -1,119 +1,114 @@
-$(function () {
-    $("#jqGrid").jqGrid({
-        url: baseURL + 'api/wslinks/list',
-        datatype: "json",
-        colModel: [			
-			{ label: 'id', name: 'id', index: 'id', width: 50, key: true },
-			{ label: '网址名', name: 'name', index: 'name', width: 80 }, 			
-			{ label: '网址链接', name: 'url', index: 'url', width: 80 }, 			
-			{ label: '', name: 'createtime', index: 'createTime', width: 80 }			
-        ],
-		viewrecords: true,
-        height: 385,
-        rowNum: 10,
-		rowList : [10,30,50],
-        rownumbers: true, 
-        rownumWidth: 25, 
-        autowidth:true,
-        multiselect: true,
-        pager: "#jqGridPager",
-        jsonReader : {
-            root: "page.list",
-            page: "page.currPage",
-            total: "page.totalPage",
-            records: "page.totalCount"
+layui.use(['table', 'form'], function () {
+    var $ = layui.jquery
+        , table = layui.table
+        , form = layui.form
+
+    table.render({
+        elem: '#layui-grid'
+        , url: baseURL + 'sysWs/wslinks/list'
+        , cols: [[
+            {checkbox: true, fixed: true}
+            , {field: 'id', title: 'ID'}
+            , {field: 'name', title: '名称'}
+            , {field: 'url', title: '链接', sort: true}
+            , {field: 'createtime', title: '创建时间', sort: true}
+        ]]
+        , id: 'idLayuiGrid'
+        , page: true
+        , height: 'full-200'
+    });
+
+    // 监听提交
+    form.on('submit(btn-ok)', function () {
+        var url = vm.item.id == null ? baseURL + "sysWs/wslinks/save" : baseURL + "sysWs/wslinks/update";
+        $.fn_ajax(null, url, vm.item, function (r) {
+            if (r.code === 0) {
+                parent.layer.msg('操作成功', {
+                    icon: 1
+                    , time: 2000
+                }, function () {
+                    vm.showList = true;
+                    active.reload();
+                });
+            } else {
+                alert(r.msg);
+            }
+        });
+    });
+
+    var $ = layui.$, active = {
+        reload: function () {
+            table.reload('idLayuiGrid', {
+                where: {}
+            });
         },
-        prmNames : {
-            page:"page", 
-            rows:"limit", 
-            order: "order"
+        goback: function () {
+            vm.showList = true;
         },
-        gridComplete:function(){
-        	//隐藏grid底部滚动条
-        	$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" }); 
+        add: function () {
+            vm.showList = false;
+            vm.title = "新增";
+            vm.item = {name: null, url: null};
+        },
+        update: function () {    //修改
+            var row = fn_getSelectedRow(table);
+            if (row) {
+                $.get(baseURL + "sysWs/wslinks/info/" + row.id, function (r) {
+                    if (r.code == 0) {
+                        vm.showList = false;
+                        vm.title = "修改";
+                        vm.item = r.data;
+                    } else {
+                        alert(r.msg);
+                    }
+                }, 'json');
+            }
+        },
+        delete: function () {
+            var rows = fn_getSelectedRows(table);
+            if (rows.length > 0) {
+                var ids = [];
+                for (var i = 0; i < rows.length; i++) {
+                    ids[i] = rows[i].id;
+                }
+                fn_confirm('确定要删除选中的记录？', function () {
+                    $.ajax({
+                        type: "POST",
+                        url: baseURL + "sysWs/wslinks/delete",
+                        dataType: "json",
+                        contentType: "application/json",
+                        data: JSON.stringify(ids),
+                        success: function (r) {
+                            if (r.code === 0) {
+                                alert('操作成功', function (index) {
+                                    active.reload();
+                                });
+                            } else {
+                                alert(r.msg);
+                            }
+                        }
+                    });
+                });
+            } else {
+                parent.layer.msg('请选择一条记录');
+            }
         }
+    };
+
+    $('#vApp .layui-btn').on('click', function () {
+        var type = $(this).data('type');
+        active[type] ? active[type].call(this) : '';
     });
 });
 
 var vm = new Vue({
-	el:'#rrapp',
-	data:{
-		showList: true,
-		title: null,
-		wsLinks: {}
-	},
-	methods: {
-		query: function () {
-			vm.reload();
-		},
-		add: function(){
-			vm.showList = false;
-			vm.title = "新增";
-			vm.wsLinks = {};
-		},
-		update: function (event) {
-			var id = getSelectedRow();
-			if(id == null){
-				return ;
-			}
-			vm.showList = false;
-            vm.title = "修改";
-            
-            vm.getInfo(id)
-		},
-		saveOrUpdate: function (event) {
-			var url = vm.wsLinks.id == null ? "api/wslinks/save" : "api/wslinks/update";
-			$.ajax({
-				type: "POST",
-			    url: baseURL + url,
-                contentType: "application/json",
-			    data: JSON.stringify(vm.wsLinks),
-			    success: function(r){
-			    	if(r.code === 0){
-						alert('操作成功', function(index){
-							vm.reload();
-						});
-					}else{
-						alert(r.msg);
-					}
-				}
-			});
-		},
-		del: function (event) {
-			var ids = getSelectedRows();
-			if(ids == null){
-				return ;
-			}
-			
-			confirm('确定要删除选中的记录？', function(){
-				$.ajax({
-					type: "POST",
-				    url: baseURL + "api/wslinks/delete",
-                    contentType: "application/json",
-				    data: JSON.stringify(ids),
-				    success: function(r){
-						if(r.code == 0){
-							alert('操作成功', function(index){
-								$("#jqGrid").trigger("reloadGrid");
-							});
-						}else{
-							alert(r.msg);
-						}
-					}
-				});
-			});
-		},
-		getInfo: function(id){
-			$.get(baseURL + "api/wslinks/info/"+id, function(r){
-                vm.wsLinks = r.wsLinks;
-            });
-		},
-		reload: function (event) {
-			vm.showList = true;
-			var page = $("#jqGrid").jqGrid('getGridParam','page');
-			$("#jqGrid").jqGrid('setGridParam',{ 
-                page:page
-            }).trigger("reloadGrid");
-		}
-	}
+    el: '#vApp',
+    data: {
+        item: {
+            name: null,
+            url: null
+        },
+        showList: true,
+        title: null
+    }
 });

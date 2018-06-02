@@ -38,7 +38,7 @@
 			#{id}, 
 			#{title}, 
 			#{content}, 
-			#{createtime}
+			NOW()
 		)
 	</insert>
 	 

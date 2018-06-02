@@ -13,5 +13,8 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface WsServerDao extends BaseDao<WsServerEntity> {
-	
+
+    WsServerEntity queryInfo();
+
+    int del();
 }

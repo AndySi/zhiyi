@@ -37,6 +37,15 @@ public class ApiWsController {
     private WsMenuService wsMenuService;
     @Autowired
     private WsLinksService wsLinksService;
+    @Autowired
+    private WsServerService wsServerService;
+
+    @PostMapping("/server/getInfo")
+    @ApiOperation(value = "获取服务信息", notes = "获取服务内容")
+    public R getServerInfo() {
+        return R.ok().put("data", wsServerService.queryObject());
+    }
+
 
     @PostMapping("/base/getLinks")
     @ApiOperation(value = "获取友情链接", notes = "获取友情链接")
@@ -70,6 +79,15 @@ public class ApiWsController {
             return R.ok().put("data", list);
         }
         return R.error("参数错误");
+    }
+
+    @PostMapping("/case/getInfo")
+    @ApiOperation(value = "获取案例详情", notes = "根据案例ID获取案例详情")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "ID", dataType = "long", paramType = "query")
+    })
+    public R getCaseByTid(@RequestParam("id") long id) {
+        return R.ok().put("data", wsCaseService.queryObject(id));
     }
 
     @PostMapping("/case/getTypeList")

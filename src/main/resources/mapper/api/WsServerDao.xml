@@ -2,27 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.idou.modules.api.dao.WsServerDao">
-	<select id="queryObject" resultType="com.idou.modules.api.domain.WsServerEntity">
-		select * from t_ws_server where id = #{value}
-	</select>
-
-	<select id="queryList" resultType="com.idou.modules.api.domain.WsServerEntity">
+	<select id="queryInfo" resultType="com.idou.modules.api.domain.WsServerEntity">
 		select * from t_ws_server
-        <choose>
-            <when test="sidx != null and sidx.trim() != ''">
-                order by ${sidx} ${order}
-            </when>
-			<otherwise>
-                order by id desc
-			</otherwise>
-        </choose>
-		<if test="offset != null and limit != null">
-			limit #{offset}, #{limit}
-		</if>
-	</select>
-	
- 	<select id="queryTotal" resultType="int">
-		select count(*) from t_ws_server 
 	</select>
 	 
 	<insert id="save" parameterType="com.idou.modules.api.domain.WsServerEntity">
@@ -41,26 +22,9 @@
 			NOW()
 		)
 	</insert>
-	 
-	<update id="update" parameterType="com.idou.modules.api.domain.WsServerEntity">
-		update t_ws_server 
-		<set>
-			<if test="title != null">`title` = #{title}, </if>
-			<if test="content != null">`content` = #{content}, </if>
-			<if test="createtime != null">`createTime` = #{createtime}</if>
-		</set>
-		where id = #{id}
-	</update>
 	
-	<delete id="delete">
-		delete from t_ws_server where id = #{value}
-	</delete>
-	
-	<delete id="deleteBatch">
-		delete from t_ws_server where id in 
-		<foreach item="id" collection="array" open="(" separator="," close=")">
-			#{id}
-		</foreach>
+	<delete id="del">
+		delete from t_ws_server
 	</delete>
 
 </mapper>

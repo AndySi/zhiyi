@@ -464,7 +464,7 @@ CREATE TABLE `t_ws_server` (
 
 LOCK TABLES `t_ws_server` WRITE;
 
-insert  into `t_ws_server`(`id`,`title`,`content`,`createTime`) values (2,'我们能做啥','<p style=\"text-align: center;\">专注为企业解决品牌盈利问题</p><p style=\"text-align: center;\">坚持专项调研，精准诊断，量身定制</p><p style=\"text-align: center;\"><img src=\"http://localhost:8088\\server\\20180602\\1527918231936121.jpg\" alt=\"1527918231936121.jpg\"><br></p>','2018-06-02 13:43:53');
+insert  into `t_ws_server`(`id`,`title`,`content`,`createTime`) values (2,'我们能做啥2','                        <p style=\"text-align: center;\">专注为企业解决品牌盈利问题2</p><p style=\"text-align: center;\">坚持专项调研，精准诊断，量身定制2</p><p style=\"text-align: center;\"><img src=\"http://localhost:8088\\server\\20180602\\1527918231936121.jpg\" alt=\"1527918231936121.jpg\"><br></p>\n                    ','2018-06-02 14:42:40');
 
 UNLOCK TABLES;
 

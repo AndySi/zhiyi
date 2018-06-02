@@ -14,17 +14,9 @@ import java.util.Map;
  */
 public interface WsServerService {
 	
-	WsServerEntity queryObject(Long id);
-	
-	List<WsServerEntity> queryList(Map<String, Object> map);
-	
-	int queryTotal(Map<String, Object> map);
-	
+	WsServerEntity queryObject();
+
 	void save(WsServerEntity wsServer);
 	
-	void update(WsServerEntity wsServer);
-	
 	void delete(Long id);
-	
-	void deleteBatch(Long[] ids);
 }

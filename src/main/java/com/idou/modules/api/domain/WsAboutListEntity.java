@@ -14,7 +14,6 @@ public class WsAboutListEntity implements Serializable {
     private long id;
     private String title;
     private String content;
-    private long aboutId;
 
     public long getId() {
         return id;
@@ -38,13 +37,5 @@ public class WsAboutListEntity implements Serializable {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public long getAboutId() {
-        return aboutId;
-    }
-
-    public void setAboutId(long aboutId) {
-        this.aboutId = aboutId;
     }
 }

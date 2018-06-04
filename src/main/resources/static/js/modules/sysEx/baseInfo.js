@@ -111,7 +111,6 @@ var vm = new Vue({
             $.getJSON(baseURL + 'sysWs/baseInfo/info', function (r) {
                 vm.itemInfo = r.data;
                 if(vm.itemInfo.logo!=null){
-                    console.log("-->"+vm.itemInfo.logo)
                     $('#d-review').html('<img src="' + vm.itemInfo.logo + '" id="target" class="layui-upload-img"/>');
                 }
 

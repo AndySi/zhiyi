@@ -2,6 +2,8 @@ package com.idou.modules.api.controller;
 
 import com.idou.common.utils.Query;
 import com.idou.common.utils.R;
+import com.idou.modules.api.domain.WsAboutEntity;
+import com.idou.modules.api.domain.WsAboutListEntity;
 import com.idou.modules.api.domain.WsCaseEntity;
 import com.idou.modules.api.service.*;
 import io.swagger.annotations.Api;
@@ -39,6 +41,17 @@ public class ApiWsController {
     private WsLinksService wsLinksService;
     @Autowired
     private WsServerService wsServerService;
+    @Autowired
+    private WsAboutService wsAboutService;
+
+    @PostMapping("/about/getInfo")
+    @ApiOperation(value = "获取关于信息", notes = "获取关于内容")
+    public R getAboutInfo() {
+        WsAboutEntity entity = wsAboutService.queryObject();
+        List<WsAboutListEntity> list = wsAboutService.queryList();
+        entity.setAboutList(list);
+        return R.ok().put("data", entity);
+    }
 
     @PostMapping("/server/getInfo")
     @ApiOperation(value = "获取服务信息", notes = "获取服务内容")

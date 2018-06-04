@@ -1,6 +1,5 @@
 package com.idou.modules.sysEx.controller;
 
-import com.idou.common.utils.PageUtils;
 import com.idou.common.utils.Query;
 import com.idou.common.utils.R;
 import com.idou.modules.api.domain.WsNewsTypeEntity;
@@ -23,7 +22,7 @@ import java.util.Map;
  * @date 2018-05-29 16:21:07
  */
 @RestController
-@RequestMapping("/api/wsnewstype")
+@RequestMapping("/sysWs/wsnewstype")
 public class WsNewsTypeController {
 	@Autowired
 	private WsNewsTypeService wsNewsTypeService;
@@ -32,17 +31,13 @@ public class WsNewsTypeController {
 	 * 列表
 	 */
 	@RequestMapping("/list")
-	@RequiresPermissions("api:wsnewstype:list")
+	@RequiresPermissions("sysWs:wsnewstype:list")
 	public R list(@RequestParam Map<String, Object> params){
 		//查询列表数据
         Query query = new Query(params);
-
-		List<WsNewsTypeEntity> wsNewsTypeList = wsNewsTypeService.queryList(query);
+		List<WsNewsTypeEntity> list = wsNewsTypeService.queryList(query);
 		int total = wsNewsTypeService.queryTotal(query);
-		
-		PageUtils pageUtil = new PageUtils(wsNewsTypeList, total, query.getLimit(), query.getPage());
-		
-		return R.ok().put("page", pageUtil);
+		return R.page(total, list);
 	}
 	
 	
@@ -50,18 +45,18 @@ public class WsNewsTypeController {
 	 * 信息
 	 */
 	@RequestMapping("/info/{id}")
-	@RequiresPermissions("api:wsnewstype:info")
+	@RequiresPermissions("sysWs:wsnewstype:info")
 	public R info(@PathVariable("id") Long id){
 		WsNewsTypeEntity wsNewsType = wsNewsTypeService.queryObject(id);
 		
-		return R.ok().put("wsNewsType", wsNewsType);
+		return R.ok().put("data", wsNewsType);
 	}
 	
 	/**
 	 * 保存
 	 */
 	@RequestMapping("/save")
-	@RequiresPermissions("api:wsnewstype:save")
+	@RequiresPermissions("sysWs:wsnewstype:add")
 	public R save(@RequestBody WsNewsTypeEntity wsNewsType){
 		wsNewsTypeService.save(wsNewsType);
 		
@@ -72,7 +67,7 @@ public class WsNewsTypeController {
 	 * 修改
 	 */
 	@RequestMapping("/update")
-	@RequiresPermissions("api:wsnewstype:update")
+	@RequiresPermissions("sysWs:wsnewstype:update")
 	public R update(@RequestBody WsNewsTypeEntity wsNewsType){
 		wsNewsTypeService.update(wsNewsType);
 		
@@ -83,7 +78,7 @@ public class WsNewsTypeController {
 	 * 删除
 	 */
 	@RequestMapping("/delete")
-	@RequiresPermissions("api:wsnewstype:delete")
+	@RequiresPermissions("sysWs:wsnewstype:delete")
 	public R delete(@RequestBody Long[] ids){
 		wsNewsTypeService.deleteBatch(ids);
 		

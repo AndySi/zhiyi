@@ -274,11 +274,13 @@ CREATE TABLE `t_ws_activity_type` (
   `name` varchar(32) DEFAULT NULL,
   `sortNum` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_ws_activity_type` */
 
 LOCK TABLES `t_ws_activity_type` WRITE;
+
+insert  into `t_ws_activity_type`(`id`,`name`,`sortNum`) values (1,'C8动漫CosPlay展 / 2018-05',0),(2,'橘子洲大自然活动 / 2018-03',0);
 
 UNLOCK TABLES;
 

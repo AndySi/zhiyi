@@ -11,7 +11,7 @@ server:
 spring:
     # 环境 dev|test|pro
     profiles:
-        active: dev
+        active: pro
     # jackson时间格式化
     jackson:
         time-zone: GMT+8
@@ -63,5 +63,5 @@ idou:
         header: token
 
 img:
-    location: D:/FTPFinCloud/images/
+    location: /user/FTPFinCloud/
     nginxLocation: http://localhost:8088

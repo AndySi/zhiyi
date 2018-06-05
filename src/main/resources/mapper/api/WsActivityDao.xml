@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.idou.modules.api.dao.WsActivityDao">
+    <select id="queryObject" resultType="com.idou.modules.api.domain.WsActivityEntity">
+		SELECT
+		n.*,
+		t.`name` AS typename
+		FROM
+		t_ws_activity n,
+		`t_ws_activity_type` t
+		WHERE n.`typeId` = t.`id` AND n.id = #{value}
+	</select>
+
+    <select id="queryList" resultType="com.idou.modules.api.domain.WsActivityEntity">
+        SELECT
+        n.*,
+        t.`name` AS typename
+        FROM
+        t_ws_activity n,
+        `t_ws_activity_type` t
+        <where>
+            n.`typeId` = t.`id`
+            <if test="typeid != null and typeid.trim() != ''">
+                and n.`typeId` = #{typeid}
+            </if>
+            <if test="title != null and title.trim() != ''">
+                and n.`title` like concat('%',#{title},'%')
+            </if>
+        </where>
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+            <otherwise>
+                order by n.id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="queryTotal" resultType="int">
+        select count(*) from t_ws_activity
+        <where>
+            <if test="typeid != null">
+                and `typeId` = #{typeid}
+            </if>
+            <if test="title != null and title.trim() != ''">
+                and `title` like concat('%',#{title},'%')
+            </if>
+        </where>
+    </select>
+
+    <insert id="save" parameterType="com.idou.modules.api.domain.WsActivityEntity" useGeneratedKeys="true"
+            keyProperty="id">
+		insert into t_ws_activity
+		(
+			`title`,
+			`link`,
+			`typeId`,
+			`createTime`
+		)
+		values
+		(
+			#{title}, 
+			#{link},
+			#{typeid},
+			NOW()
+		)
+	</insert>
+
+    <update id="update" parameterType="com.idou.modules.api.domain.WsActivityEntity">
+        update t_ws_activity
+        <set>
+            <if test="title != null and title.trim()!=''">`title` = #{title},</if>
+            <if test="link != null and link.trim()!=''">`link` = #{link},</if>
+            <if test="poll != null">`poll` = #{poll},</if>
+            <if test="typeid != null">`typeId` = #{typeid},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+		delete from t_ws_activity where id = #{value}
+	</delete>
+
+    <delete id="deleteBatch">
+        delete from t_ws_activity where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

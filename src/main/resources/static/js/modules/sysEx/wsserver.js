@@ -29,7 +29,6 @@ layui.use(['form', 'layedit', 'layer'], function () {
                     , time: 2000
                 }, function () {
                     vm.showList = true;
-                    active.reload();
                 });
             } else {
                 alert(r.msg);
@@ -46,7 +45,9 @@ var vm = new Vue({
     methods: {
         init: function () {
             $.getJSON(baseURL + 'sysWs/wsserver/info', function (r) {
-                vm.itemInfo = r.data;
+                if(r.data){
+                    vm.itemInfo = r.data;
+                }
             });
         }
     }

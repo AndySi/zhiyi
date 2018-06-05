@@ -1,124 +1,127 @@
-$(function () {
-    $("#jqGrid").jqGrid({
-        url: baseURL + 'api/wscontact/list',
-        datatype: "json",
-        colModel: [			
-			{ label: 'id', name: 'id', index: 'id', width: 50, key: true },
-			{ label: '总机电话', name: 'tel1', index: 'tel1', width: 80 }, 			
-			{ label: '电话', name: 'tel2', index: 'tel2', width: 80 }, 			
-			{ label: '传真', name: 'fax', index: 'fax', width: 80 }, 			
-			{ label: '邮箱', name: 'email', index: 'email', width: 80 }, 			
-			{ label: '地址', name: 'addr', index: 'addr', width: 80 }, 			
-			{ label: '地址图片', name: 'addrpic', index: 'addrPic', width: 80 }, 			
-			{ label: '工作时间', name: 'worktime', index: 'workTime', width: 80 }, 			
-			{ label: 'banner', name: 'banner', index: 'banner', width: 80 }			
-        ],
-		viewrecords: true,
-        height: 385,
-        rowNum: 10,
-		rowList : [10,30,50],
-        rownumbers: true, 
-        rownumWidth: 25, 
-        autowidth:true,
-        multiselect: true,
-        pager: "#jqGridPager",
-        jsonReader : {
-            root: "page.list",
-            page: "page.currPage",
-            total: "page.totalPage",
-            records: "page.totalCount"
-        },
-        prmNames : {
-            page:"page", 
-            rows:"limit", 
-            order: "order"
-        },
-        gridComplete:function(){
-        	//隐藏grid底部滚动条
-        	$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" }); 
+layui.use(['form', 'upload'], function () {
+    var $ = layui.jquery
+        , form = layui.form
+        , upload = layui.upload;
+
+
+    upload.render({
+        elem: '#test10'
+        , url: baseURL + 'sysWs/wscontact/uploadImg'
+        , auto: false   //选择文件后不自动上传
+        , accept: 'images'
+        , size: 260
+        , bindAction: '#btn-uploadLogo' //指向一个按钮触发上传
+        , before: function (obj) {
+            parent.layer.load();    //上传loading
         }
+        , choose: function (obj) {
+            // 按扭启用
+            $('#btn-uploadLogo').removeClass("layui-btn-disabled");
+            $('#btn-uploadLogo').removeAttr("disabled");
+            // 预读本地文件示例，不支持ie8
+            obj.preview(function (index, file, result) {
+                $('#d-review').html('<img src="' + result + '" id="target" alt="' + file.name + '" class="layui-upload-img"/>');
+            });
+        }
+        , done: function (res) {
+            // 按扭禁用
+            $('#btn-uploadLogo').addClass("layui-btn-disabled");
+            $('#btn-uploadLogo').attr("disabled", true);
+            parent.layer.closeAll('loading'); //关闭loading
+            if (res.code == "0") {
+                alert('上传成功', function (obj) {
+                    vm.itemInfo.banner = res.data.src;
+                });
+            } else {
+                alert(res.msg);
+            }
+        }
+        , error: function () {
+            parent.layer.closeAll('loading'); //关闭loading
+        }
+    });
+
+    upload.render({
+        elem: '#btn_qrcode'
+        , url: baseURL + 'sysWs/wscontact/uploadImg'
+        , auto: false   //选择文件后不自动上传
+        , accept: 'images'
+        , size: 260
+        , bindAction: '#btn-uploadCode' //指向一个按钮触发上传
+        , before: function (obj) {
+            parent.layer.load();    //上传loading
+        }
+        , choose: function (obj) {
+            // 按扭启用
+            $('#btn-uploadCode').removeClass("layui-btn-disabled");
+            $('#btn-uploadCode').removeAttr("disabled");
+            // 预读本地文件示例，不支持ie8
+            obj.preview(function (index, file, result) {
+                $('#d-review-qrcode').html('<img src="' + result + '" id="target" alt="' + file.name + '" class="layui-upload-img"/>');
+            });
+        }
+        , done: function (res) {
+            // 按扭禁用
+            $('#btn-uploadCode').addClass("layui-btn-disabled");
+            $('#btn-uploadCode').attr("disabled", true);
+            parent.layer.closeAll('loading'); //关闭loading
+            if (res.code == "0") {
+                alert('上传成功', function (obj) {
+                    vm.itemInfo.addrpic = res.data.src;
+                });
+            } else {
+                alert(res.msg);
+            }
+        }
+        , error: function () {
+            parent.layer.closeAll('loading'); //关闭loading
+        }
+    });
+
+    // 监听提交
+    form.on('submit(btn-ok)', function (data) {
+        if (typeof (vm.itemInfo.banner) == "undefined") {
+            parent.layer.msg("请上传banner", {time: 2000, icon: 5, anim: 6});
+            return;
+        }
+        if (typeof (vm.itemInfo.addrpic) == "undefined") {
+            parent.layer.msg("请上传地图图片", {time: 2000, icon: 5, anim: 6});
+            return;
+        }
+        $.fn_ajax(null, baseURL + "sysWs/wscontact/save", vm.itemInfo, function (r) {
+            if (r.code === 0) {
+                parent.layer.msg('操作成功', {
+                    icon: 1
+                    , time: 2000
+                });
+            } else {
+                alert(r.msg);
+            }
+        });
     });
 });
 
 var vm = new Vue({
-	el:'#rrapp',
-	data:{
-		showList: true,
-		title: null,
-		wsContact: {}
-	},
-	methods: {
-		query: function () {
-			vm.reload();
-		},
-		add: function(){
-			vm.showList = false;
-			vm.title = "新增";
-			vm.wsContact = {};
-		},
-		update: function (event) {
-			var id = getSelectedRow();
-			if(id == null){
-				return ;
-			}
-			vm.showList = false;
-            vm.title = "修改";
-            
-            vm.getInfo(id)
-		},
-		saveOrUpdate: function (event) {
-			var url = vm.wsContact.id == null ? "api/wscontact/save" : "api/wscontact/update";
-			$.ajax({
-				type: "POST",
-			    url: baseURL + url,
-                contentType: "application/json",
-			    data: JSON.stringify(vm.wsContact),
-			    success: function(r){
-			    	if(r.code === 0){
-						alert('操作成功', function(index){
-							vm.reload();
-						});
-					}else{
-						alert(r.msg);
-					}
-				}
-			});
-		},
-		del: function (event) {
-			var ids = getSelectedRows();
-			if(ids == null){
-				return ;
-			}
-			
-			confirm('确定要删除选中的记录？', function(){
-				$.ajax({
-					type: "POST",
-				    url: baseURL + "api/wscontact/delete",
-                    contentType: "application/json",
-				    data: JSON.stringify(ids),
-				    success: function(r){
-						if(r.code == 0){
-							alert('操作成功', function(index){
-								$("#jqGrid").trigger("reloadGrid");
-							});
-						}else{
-							alert(r.msg);
-						}
-					}
-				});
-			});
-		},
-		getInfo: function(id){
-			$.get(baseURL + "api/wscontact/info/"+id, function(r){
-                vm.wsContact = r.wsContact;
+    el: '#vApp',
+    data: {
+        itemInfo: {}
+    }
+    , methods: {
+        init: function () {
+            $.getJSON(baseURL + 'sysWs/wscontact/info', function (r) {
+                if (r.data) {
+                    vm.itemInfo = r.data;
+                    if (vm.itemInfo.banner != null) {
+                        $('#d-review').html('<img src="' + vm.itemInfo.banner + '" class="layui-upload-img"/>');
+                    }
+                    if (vm.itemInfo.addrpic != null) {
+                        $('#d-review-qrcode').html('<img src="' + vm.itemInfo.addrpic + '" class="layui-upload-img"/>');
+                    }
+                }
             });
-		},
-		reload: function (event) {
-			vm.showList = true;
-			var page = $("#jqGrid").jqGrid('getGridParam','page');
-			$("#jqGrid").jqGrid('setGridParam',{ 
-                page:page
-            }).trigger("reloadGrid");
-		}
-	}
+        }
+    }
+    , created: function () {
+        this.init();
+    }
 });

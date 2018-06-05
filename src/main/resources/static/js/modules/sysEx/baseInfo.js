@@ -109,11 +109,12 @@ var vm = new Vue({
     , methods: {
         init: function () {
             $.getJSON(baseURL + 'sysWs/baseInfo/info', function (r) {
-                vm.itemInfo = r.data;
-                if(vm.itemInfo.logo!=null){
-                    $('#d-review').html('<img src="' + vm.itemInfo.logo + '" id="target" class="layui-upload-img"/>');
+                if(r.data){
+                    vm.itemInfo = r.data;
+                    if(vm.itemInfo.logo!=null){
+                        $('#d-review').html('<img src="' + vm.itemInfo.logo + '" id="target" class="layui-upload-img"/>');
+                    }
                 }
-
             });
         }
     }

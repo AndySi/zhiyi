@@ -43,9 +43,45 @@ public class ApiWsController {
     private WsServerService wsServerService;
     @Autowired
     private WsAboutService wsAboutService;
+    @Autowired
+    private WsNewsService wsNewsService;
+    @Autowired
+    private WsJoinService wsJoinService;
+    @Autowired
+    private WsNewsTypeService wsNewsTypeService;
+    @Autowired
+    private WsContactService wsContactService;
+
+    @PostMapping("/contact/getInfo")
+    @ApiOperation(value = "联系", notes = "获取联系内容")
+    public R getContactInfo() {
+        return R.ok().put("data", wsContactService.queryObject());
+    }
+
+
+    @PostMapping("/join/getInfo")
+    @ApiOperation(value = "加入", notes = "获取加入内容")
+    public R getJoinInfo() {
+        return R.ok().put("data", wsJoinService.queryObject());
+    }
+
+    @PostMapping("/news/getInfo")
+    @ApiOperation(value = "获取动态详情", notes = "根据动态ID获取案例详情")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "ID", dataType = "long", paramType = "query")
+    })
+    public R getNewsByTid(@RequestParam("id") long id) {
+        return R.ok().put("data", wsNewsService.queryObject(id));
+    }
+
+    @PostMapping("/news/getTypeList")
+    @ApiOperation(value = "获取动态类型列表", notes = "获取动态类型列表")
+    public R getNewsTypeList() {
+        return R.ok().put("data", wsNewsTypeService.queryList());
+    }
 
     @PostMapping("/about/getInfo")
-    @ApiOperation(value = "获取关于信息", notes = "获取关于内容")
+    @ApiOperation(value = "关于", notes = "获取关于内容")
     public R getAboutInfo() {
         WsAboutEntity entity = wsAboutService.queryObject();
         List<WsAboutListEntity> list = wsAboutService.queryList();
@@ -54,27 +90,27 @@ public class ApiWsController {
     }
 
     @PostMapping("/server/getInfo")
-    @ApiOperation(value = "获取服务信息", notes = "获取服务内容")
+    @ApiOperation(value = "服务", notes = "获取服务内容")
     public R getServerInfo() {
         return R.ok().put("data", wsServerService.queryObject());
     }
 
 
     @PostMapping("/base/getLinks")
-    @ApiOperation(value = "获取友情链接", notes = "获取友情链接")
+    @ApiOperation(value = "友情链接", notes = "获取友情链接")
     public R getLinks() {
         return R.ok().put("data", wsLinksService.queryList());
     }
 
 
     @PostMapping("/base/getInfo")
-    @ApiOperation(value = "获取基本信息", notes = "网站的基本信息")
+    @ApiOperation(value = "基本信息", notes = "网站的基本信息")
     public R getInfo() {
         return R.ok().put("data", wsBaseInfoService.queryObject());
     }
 
     @PostMapping("/banner/getList")
-    @ApiOperation(value = "获取banner列表", notes = "首页banner展示")
+    @ApiOperation(value = "banner列表", notes = "首页banner展示")
     public R getBannerList() {
         return R.ok().put("data", wsBannerService.queryListLimit());
     }

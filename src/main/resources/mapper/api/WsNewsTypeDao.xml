@@ -2,6 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.idou.modules.api.dao.WsNewsTypeDao">
+	<select id="queryAllList" resultType="com.idou.modules.api.domain.WsNewsTypeEntity">
+		select * from t_ws_news_type
+	</select>
+
 	<select id="queryObject" resultType="com.idou.modules.api.domain.WsNewsTypeEntity">
 		select * from t_ws_news_type where id = #{value}
 	</select>

@@ -3,17 +3,37 @@
 
 <mapper namespace="com.idou.modules.api.dao.WsNewsDao">
 	<select id="queryObject" resultType="com.idou.modules.api.domain.WsNewsEntity">
-		select * from t_ws_news where id = #{value}
+		SELECT
+		n.*,
+		t.`name` AS typename
+		FROM
+		t_ws_news n,
+		`t_ws_news_type` t
+		WHERE n.`typeId` = t.`id` AND n.id = #{value}
 	</select>
 
 	<select id="queryList" resultType="com.idou.modules.api.domain.WsNewsEntity">
-		select * from t_ws_news
+		SELECT
+		n.*,
+		t.`name` AS typename
+		FROM
+		t_ws_news n,
+		`t_ws_news_type` t
+		<where>
+			n.`typeId` = t.`id`
+			<if test="typeid != null and typeid.trim() != ''">
+				and n.`typeId` = #{typeid}
+			</if>
+			<if test="title != null and title.trim() != ''">
+				and n.`title` like concat('%',#{title},'%')
+			</if>
+		</where>
         <choose>
             <when test="sidx != null and sidx.trim() != ''">
                 order by ${sidx} ${order}
             </when>
 			<otherwise>
-                order by id desc
+                order by n.id desc
 			</otherwise>
         </choose>
 		<if test="offset != null and limit != null">
@@ -22,7 +42,15 @@
 	</select>
 	
  	<select id="queryTotal" resultType="int">
-		select count(*) from t_ws_news 
+		select count(*) from t_ws_news
+		<where>
+			<if test="typeid != null">
+				and `typeId` = #{typeid}
+			</if>
+			<if test="title != null and title.trim() != ''">
+				and `title` like concat('%',#{title},'%')
+			</if>
+		</where>
 	</select>
 	 
 	<insert id="save" parameterType="com.idou.modules.api.domain.WsNewsEntity" useGeneratedKeys="true" keyProperty="id">
@@ -40,7 +68,7 @@
 			#{content}, 
 			#{typeid}, 
 			#{cover}, 
-			#{createtime}
+			NOW()
 		)
 	</insert>
 	 
@@ -51,7 +79,7 @@
 			<if test="content != null">`content` = #{content}, </if>
 			<if test="typeid != null">`typeId` = #{typeid}, </if>
 			<if test="cover != null">`cover` = #{cover}, </if>
-			<if test="createtime != null">`createTime` = #{createtime}</if>
+			<if test="cover != null">`pv` = #{pv}</if>
 		</set>
 		where id = #{id}
 	</update>

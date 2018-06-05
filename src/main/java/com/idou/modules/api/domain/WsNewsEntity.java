@@ -22,10 +22,28 @@ public class WsNewsEntity implements Serializable {
 	private String content;
 	//类型ID
 	private Long typeid;
+	private String typename;
 	//封面
 	private String cover;
 	//创建时间
 	private Date createtime;
+	private int pv;
+
+	public int getPv() {
+		return pv;
+	}
+
+	public void setPv(int pv) {
+		this.pv = pv;
+	}
+
+	public String getTypename() {
+		return typename;
+	}
+
+	public void setTypename(String typename) {
+		this.typename = typename;
+	}
 
 	/**
 	 * 设置：

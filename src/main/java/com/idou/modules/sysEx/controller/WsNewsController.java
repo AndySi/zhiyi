@@ -1,13 +1,14 @@
 package com.idou.modules.sysEx.controller;
 
-import com.idou.common.utils.PageUtils;
 import com.idou.common.utils.Query;
 import com.idou.common.utils.R;
 import com.idou.modules.api.domain.WsNewsEntity;
 import com.idou.modules.api.service.WsNewsService;
+import com.idou.modules.sysEx.utils.ImageUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -23,26 +24,36 @@ import java.util.Map;
  * @date 2018-05-29 16:21:07
  */
 @RestController
-@RequestMapping("/api/wsnews")
+@RequestMapping("/sysWs/wsnews")
 public class WsNewsController {
 	@Autowired
 	private WsNewsService wsNewsService;
-	
+
+	/**
+	 * 封面图片上传
+	 *
+	 * @param mf
+	 * @return
+	 */
+	@RequestMapping(value = "/uploadCover", method = RequestMethod.POST)
+	@RequiresPermissions("sysWs:wsnewstype:add")
+	public R uploadImg(@RequestParam(value = "file") MultipartFile mf) {
+		return ImageUtils.uploadSave(mf, "news");
+	}
+
 	/**
 	 * 列表
 	 */
 	@RequestMapping("/list")
-	@RequiresPermissions("api:wsnews:list")
+	@RequiresPermissions("sysWs:wsnews:list")
 	public R list(@RequestParam Map<String, Object> params){
 		//查询列表数据
         Query query = new Query(params);
 
-		List<WsNewsEntity> wsNewsList = wsNewsService.queryList(query);
+		List<WsNewsEntity> list = wsNewsService.queryList(query);
 		int total = wsNewsService.queryTotal(query);
 		
-		PageUtils pageUtil = new PageUtils(wsNewsList, total, query.getLimit(), query.getPage());
-		
-		return R.ok().put("page", pageUtil);
+		return R.page(total, list);
 	}
 	
 	
@@ -50,18 +61,18 @@ public class WsNewsController {
 	 * 信息
 	 */
 	@RequestMapping("/info/{id}")
-	@RequiresPermissions("api:wsnews:info")
+	@RequiresPermissions("sysWs:wsnews:info")
 	public R info(@PathVariable("id") Long id){
 		WsNewsEntity wsNews = wsNewsService.queryObject(id);
 		
-		return R.ok().put("wsNews", wsNews);
+		return R.ok().put("data", wsNews);
 	}
 	
 	/**
 	 * 保存
 	 */
 	@RequestMapping("/save")
-	@RequiresPermissions("api:wsnews:save")
+	@RequiresPermissions("sysWs:wsnews:add")
 	public R save(@RequestBody WsNewsEntity wsNews){
 		wsNewsService.save(wsNews);
 		
@@ -72,7 +83,7 @@ public class WsNewsController {
 	 * 修改
 	 */
 	@RequestMapping("/update")
-	@RequiresPermissions("api:wsnews:update")
+	@RequiresPermissions("sysWs:wsnews:update")
 	public R update(@RequestBody WsNewsEntity wsNews){
 		wsNewsService.update(wsNews);
 		
@@ -83,7 +94,7 @@ public class WsNewsController {
 	 * 删除
 	 */
 	@RequestMapping("/delete")
-	@RequiresPermissions("api:wsnews:delete")
+	@RequiresPermissions("sysWs:wsnews:delete")
 	public R delete(@RequestBody Long[] ids){
 		wsNewsService.deleteBatch(ids);
 		

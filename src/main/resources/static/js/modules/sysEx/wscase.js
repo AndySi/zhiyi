@@ -149,14 +149,11 @@ layui.use(['table', 'form', 'laytpl', 'upload', 'layedit', 'layer'], function ()
             });
         },
         goback: function () {
-            vm.showList = true;
-            $('#saveAction').addClass("layui-btn-disabled");
-            $('#saveAction').attr("disabled", true);
+            window.location.reload();
         },
         add: function () {
             vm.showList = false;
             vm.title = "新增";
-            vm.itemInfo = {typename: null, pv: 0};
             vm.getType();
         },
         update: function () {    //修改
@@ -243,7 +240,7 @@ var vm = new Vue({
     data: {
         q: {
             title: null,
-            typeid: 0
+            typeid: null
         },
         itemInfo: {
             pv: 0
@@ -255,7 +252,6 @@ var vm = new Vue({
     methods: {
         getType: function () {
             //加载类型树
-            console.log("加载类型树:" + JSON.stringify(vm.typeList));
             ztree = $.fn.zTree.init($("#typeTree"), setting, vm.typeList);
             if (typeof (vm.itemInfo.typeid) != "undefined") {
                 var node = ztree.getNodeByParam("id", vm.itemInfo.typeid);

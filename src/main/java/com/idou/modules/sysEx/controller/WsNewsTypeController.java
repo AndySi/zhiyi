@@ -26,7 +26,7 @@ import java.util.Map;
 public class WsNewsTypeController {
 	@Autowired
 	private WsNewsTypeService wsNewsTypeService;
-	
+
 	/**
 	 * 列表
 	 */
@@ -84,5 +84,12 @@ public class WsNewsTypeController {
 		
 		return R.ok();
 	}
-	
+
+	@RequestMapping("/queryAllList")
+	@RequiresPermissions("sysWs:wsnewstype:list")
+	public R queryAllList() {
+		//查询列表数据
+		List<WsNewsTypeEntity> list = wsNewsTypeService.queryList();
+		return R.ok().put("data", list);
+	}
 }

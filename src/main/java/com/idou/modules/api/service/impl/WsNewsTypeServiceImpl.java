@@ -25,7 +25,12 @@ public class WsNewsTypeServiceImpl implements WsNewsTypeService {
 	public List<WsNewsTypeEntity> queryList(Map<String, Object> map){
 		return wsNewsTypeDao.queryList(map);
 	}
-	
+
+	@Override
+	public List<WsNewsTypeEntity> queryList() {
+		return wsNewsTypeDao.queryAllList();
+	}
+
 	@Override
 	public int queryTotal(Map<String, Object> map){
 		return wsNewsTypeDao.queryTotal(map);

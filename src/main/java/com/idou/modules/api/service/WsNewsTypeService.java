@@ -17,6 +17,8 @@ public interface WsNewsTypeService {
 	WsNewsTypeEntity queryObject(Long id);
 	
 	List<WsNewsTypeEntity> queryList(Map<String, Object> map);
+
+	List<WsNewsTypeEntity> queryList();
 	
 	int queryTotal(Map<String, Object> map);
 	

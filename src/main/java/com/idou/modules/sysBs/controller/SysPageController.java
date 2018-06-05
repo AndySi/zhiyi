@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  **/
 @Controller
 public class SysPageController {
-    @RequestMapping("/modules/{directory}/{url}.html")
+    @RequestMapping("modules/{directory}/{url}.html")
     public String toRoute(@PathVariable("directory") String directory, @PathVariable("url") String url) {
         return "modules/"+directory+"/" + url;
     }

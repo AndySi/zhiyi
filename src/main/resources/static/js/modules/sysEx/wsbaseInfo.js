@@ -6,7 +6,7 @@ layui.use(['form', 'upload'], function () {
 
     upload.render({
         elem: '#test10'
-        , url: baseURL+'sysWs/baseInfo/uploadImg'
+        , url: baseURL+'sysWs/wsbaseInfo/uploadImg'
         , auto: false   //选择文件后不自动上传
         , accept: 'images'
         , size: 260
@@ -43,7 +43,7 @@ layui.use(['form', 'upload'], function () {
 
     upload.render({
         elem: '#btn_qrcode'
-        , url: baseURL+'sysWs/baseInfo/uploadImg'
+        , url: baseURL+'sysWs/wsbaseInfo/uploadImg'
         , auto: false   //选择文件后不自动上传
         , accept: 'images'
         , size: 260
@@ -88,7 +88,7 @@ layui.use(['form', 'upload'], function () {
             parent.layer.msg("请上传二维码", {time: 2000, icon: 5, anim: 6});
             return;
         }
-        $.fn_ajax(null, baseURL+"sysWs/baseInfo/save", vm.itemInfo, function (r) {
+        $.fn_ajax(null, baseURL+"sysWs/wsbaseInfo/save", vm.itemInfo, function (r) {
             if (r.code === 0) {
                 parent.layer.msg('操作成功', {
                     icon: 1
@@ -108,7 +108,7 @@ var vm = new Vue({
     }
     , methods: {
         init: function () {
-            $.getJSON(baseURL + 'sysWs/baseInfo/info', function (r) {
+            $.getJSON(baseURL + 'sysWs/wsbaseInfo/info', function (r) {
                 if(r.data){
                     vm.itemInfo = r.data;
                     if(vm.itemInfo.logo!=null){

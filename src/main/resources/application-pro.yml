@@ -1,6 +1,6 @@
 spring:
     datasource:
-        url: jdbc:mysql://localhost:3306/zhiyi?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8
+        url: jdbc:mysql://39.107.87.101:3306/zhiyi?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8
         username: root
         password: Zyrootpwd13!
         initialSize: 10

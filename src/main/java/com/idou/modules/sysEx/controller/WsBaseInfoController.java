@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
  * @date 2018-05-29 11:27:30
  */
 @RestController
-@RequestMapping("/sysWs/baseInfo")
+@RequestMapping("/sysWs/wsbaseInfo")
 public class WsBaseInfoController {
 	@Autowired
 	private WsBaseInfoService wsBaseinfoService;
@@ -29,6 +29,7 @@ public class WsBaseInfoController {
 	 * @return
 	 */
 	@RequestMapping(value = "/uploadImg", method = RequestMethod.POST)
+	@RequiresPermissions("sysWs:wsbaseInfo:add")
 	public R uploadImg(@RequestParam(value = "file") MultipartFile mf) {
 		return ImageUtils.uploadSave(mf, "index");
 	}
@@ -37,7 +38,7 @@ public class WsBaseInfoController {
 	 * 信息
 	 */
 	@RequestMapping("/info")
-	@RequiresPermissions("sysWs:baseinfo:info")
+	@RequiresPermissions("sysWs:wsbaseInfo:info")
 	public R info(){
 		WsBaseInfoEntity wsBaseinfo = wsBaseinfoService.queryObject();
 		
@@ -48,7 +49,7 @@ public class WsBaseInfoController {
 	 * 保存
 	 */
 	@RequestMapping("/save")
-	@RequiresPermissions("sysWs:baseinfo:save")
+	@RequiresPermissions("sysWs:wsbaseInfo:add")
 	public R save(@RequestBody WsBaseInfoEntity wsBaseinfo){
 		wsBaseinfoService.save(wsBaseinfo);
 		

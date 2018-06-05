@@ -94,9 +94,6 @@ public class ShiroConfig {
         filterMap.put("/druid/**", "anon");
         // 前端请求过滤
         filterMap.put("/api/**", "anon");
-        // 微信请求过滤
-        filterMap.put("/wechat", "anon");
-        filterMap.put("/wx/**", "anon");
         // 静态资源过滤
         filterMap.put("/**/*.css", "anon");
         filterMap.put("/**/*.js", "anon");

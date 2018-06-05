@@ -9,6 +9,7 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import javax.servlet.MultipartConfigElement;
+import java.io.File;
 
 /**
  * MVC配置
@@ -45,6 +46,10 @@ public class SysMvcConfig extends WebMvcConfigurerAdapter {
     @Bean
     public MultipartConfigElement multipartConfigElement() {
         MultipartConfigFactory factory = new MultipartConfigFactory();
+        File tmpFile = new File(tmpLocation);
+        if (!tmpFile.exists()) {
+            tmpFile.mkdirs();
+        }
         factory.setLocation(tmpLocation);
         return factory.createMultipartConfig();
     }

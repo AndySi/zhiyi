@@ -19,7 +19,7 @@
 		t_ws_case c,
 		`t_ws_case_type` t
 		WHERE c.`typeId` = t.`id`
-		<if test="typeid != null">
+		<if test="typeid != null and typeid.trim() != ''">
 			and c.typeId = #{typeid}
 		</if>
 		<if test="title!=null and title!=''">
@@ -39,7 +39,18 @@
 	</select>
 	
  	<select id="queryTotal" resultType="int">
-		select count(*) from t_ws_case 
+		SELECT
+			count(*)
+		FROM
+		t_ws_case c,
+		`t_ws_case_type` t
+		WHERE c.`typeId` = t.`id`
+		<if test="typeid != null and typeid.trim() != ''">
+			and c.typeId = #{typeid}
+		</if>
+		<if test="title!=null and title!=''">
+			and c.title like concat('%',#{title},'%')
+		</if>
 	</select>
 	 
 	<insert id="save" parameterType="com.idou.modules.api.domain.WsCaseEntity" useGeneratedKeys="true" keyProperty="id">

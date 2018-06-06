@@ -1,15 +1,18 @@
 package com.idou.modules.api.controller;
 
+import com.idou.common.exception.RRException;
 import com.idou.common.utils.Query;
 import com.idou.common.utils.R;
 import com.idou.modules.api.domain.WsAboutEntity;
 import com.idou.modules.api.domain.WsAboutListEntity;
 import com.idou.modules.api.domain.WsCaseEntity;
+import com.idou.modules.api.domain.WsNewsEntity;
 import com.idou.modules.api.service.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -74,6 +77,23 @@ public class ApiWsController {
         return R.ok().put("data", wsNewsService.queryObject(id));
     }
 
+    @PostMapping("/news/getList")
+    @ApiOperation(value = "根据类型获取动态展示列表", notes = "动态分页展示")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page", value = "第几页", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "limit", value = "每页多少条", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "typeId", value = "类型ID", dataType = "String", paramType = "query")
+    })
+    public R getNewsListByTid(@RequestParam("page") int page, @RequestParam("limit") int limit, @RequestParam("typeId")  long typeId) {
+        if (page >= 0 && limit >= 0) {
+            Query query = new Query(page == 0 ? 1 : page, limit == 0 ? 5 : limit);
+            query.put("typeid", typeId);
+            List<WsNewsEntity> list = wsNewsService.queryList(query);
+            return R.ok().put("data", list);
+        }
+        return R.error("参数错误");
+    }
+
     @PostMapping("/news/getTypeList")
     @ApiOperation(value = "获取动态类型列表", notes = "获取动态类型列表")
     public R getNewsTypeList() {
@@ -116,14 +136,22 @@ public class ApiWsController {
     }
 
     @PostMapping("/case/getList")
-    @ApiOperation(value = "获取案例展示列表", notes = "案例展示")
+    @ApiOperation(value = "根据类型获取案例展示列表", notes = "案例分页展示")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "第几页", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "limit", value = "每页多少条", dataType = "String", paramType = "query")
+            @ApiImplicitParam(name = "limit", value = "每页多少条", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "typeId", value = "类型ID", dataType = "String", paramType = "query")
     })
-    public R getInfoByTid(@RequestParam("page") int page, @RequestParam("limit") int limit) {
+    public R getCaseListByTid(@RequestParam("page") int page, @RequestParam("limit") int limit, @RequestParam(value = "typeId", required = false)  String typeId) {
         if (page >= 0 && limit >= 0) {
             Query query = new Query(page == 0 ? 1 : page, limit == 0 ? 5 : limit);
+            if(!StringUtils.isEmpty(typeId)){
+                try {
+                    query.put("typeid", Long.parseLong(typeId));
+                }catch (Exception e){
+                    throw new RRException("参数格式错误");
+                }
+            }
             List<WsCaseEntity> list = wsCaseService.queryList(query);
             return R.ok().put("data", list);
         }

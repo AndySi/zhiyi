@@ -11,7 +11,7 @@ server:
 spring:
     # 环境 dev|test|pro
     profiles:
-        active: pro
+        active: dev
     # jackson时间格式化
     jackson:
         time-zone: GMT+8
@@ -61,7 +61,3 @@ idou:
         # token有效时长，7天，单位秒
         expire: 604800
         header: token
-
-img:
-    location: /usr/FTPFinCloud/
-    nginxLocation: http://localhost:8088

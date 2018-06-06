@@ -17,6 +17,7 @@ public class WsBaseInfoEntity implements Serializable {
 	private Long id;
 	//logo
 	private String logo;
+	private String companyname;
 	//口号
 	private String slogan;
 	//服务热线
@@ -33,6 +34,14 @@ public class WsBaseInfoEntity implements Serializable {
 	private String aboutus;
 	//版权信息
 	private String copyright;
+
+	public String getCompanyname() {
+		return companyname;
+	}
+
+	public void setCompanyname(String companyname) {
+		this.companyname = companyname;
+	}
 
 	/**
 	 * 设置：

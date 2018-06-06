@@ -9,7 +9,8 @@
 	<insert id="save" parameterType="com.idou.modules.api.domain.WsBaseInfoEntity" useGeneratedKeys="true" keyProperty="id">
 		insert into t_ws_baseinfo
 		(
-			`logo`, 
+			`logo`,
+			companyName,
 			`slogan`, 
 			`tel`, 
 			`qq`, 
@@ -21,7 +22,8 @@
 		)
 		values
 		(
-			#{logo}, 
+			#{logo},
+			#{companyname},
 			#{slogan}, 
 			#{tel}, 
 			#{qq}, 

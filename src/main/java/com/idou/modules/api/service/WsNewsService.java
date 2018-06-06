@@ -13,7 +13,6 @@ import java.util.Map;
  * @date 2018-05-29 16:21:07
  */
 public interface WsNewsService {
-	
 	WsNewsEntity queryObject(Long id);
 	
 	List<WsNewsEntity> queryList(Map<String, Object> map);

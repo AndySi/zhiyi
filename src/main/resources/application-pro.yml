@@ -15,3 +15,7 @@ spring:
         testOnReturn: false
         poolPreparedStatements: true
         maxPoolPreparedStatementPerConnectionSize: 20
+
+img:
+    location: /usr/FTPFinCloud/
+    nginxLocation: http://39.107.87.101:8088

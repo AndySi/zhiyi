@@ -21,7 +21,7 @@
 		`t_ws_news_type` t
 		<where>
 			n.`typeId` = t.`id`
-			<if test="typeid != null and typeid.trim() != ''">
+			<if test="typeid != null">
 				and n.`typeId` = #{typeid}
 			</if>
 			<if test="title != null and title.trim() != ''">
@@ -79,7 +79,7 @@
 			<if test="content != null">`content` = #{content}, </if>
 			<if test="typeid != null">`typeId` = #{typeid}, </if>
 			<if test="cover != null">`cover` = #{cover}, </if>
-			<if test="cover != null">`pv` = #{pv}</if>
+			<if test="pv != null">`pv` = #{pv}</if>
 		</set>
 		where id = #{id}
 	</update>

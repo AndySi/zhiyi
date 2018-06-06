@@ -18,7 +18,7 @@ layui.use(['form', 'layedit', 'layer'], function () {
     // 监听提交
     form.on('submit(btn-ok)', function (data) {
         vm.itemInfo.content = layedit.getContent(editIndex);
-        if (layedit.getText(editIndex) == '') {
+        if (layedit.getContent(editIndex) == '') {
             parent.layer.msg("内容不能为空", {time: 2000, icon: 5, anim: 6});
             return;
         }

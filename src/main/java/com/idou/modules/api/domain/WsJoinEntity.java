@@ -16,10 +16,19 @@ public class WsJoinEntity implements Serializable {
 	
 	//
 	private Long id;
+	private String cover;
 	//
 	private String content;
 	//
 	private Date createtime;
+
+	public String getCover() {
+		return cover;
+	}
+
+	public void setCover(String cover) {
+		this.cover = cover;
+	}
 
 	/**
 	 * 设置：

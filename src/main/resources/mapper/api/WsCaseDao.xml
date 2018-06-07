@@ -19,7 +19,7 @@
 		t_ws_case c,
 		`t_ws_case_type` t
 		WHERE c.`typeId` = t.`id`
-		<if test="typeid != null and typeid.trim() != ''">
+		<if test="typeid != null and typeid!=-1">
 			and c.typeId = #{typeid}
 		</if>
 		<if test="title!=null and title!=''">
@@ -45,7 +45,7 @@
 		t_ws_case c,
 		`t_ws_case_type` t
 		WHERE c.`typeId` = t.`id`
-		<if test="typeid != null and typeid.trim() != ''">
+		<if test="typeid != null and typeid!=-1">
 			and c.typeId = #{typeid}
 		</if>
 		<if test="title!=null and title!=''">

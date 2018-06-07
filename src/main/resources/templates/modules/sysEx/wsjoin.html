@@ -21,6 +21,30 @@
 	<div id="vApp" v-cloak>
 		<form class="layui-form" action="javascript:;">
 			<div class="layui-form-item">
+				<label class="layui-form-label">案例封面</label>
+				<div class="layui-input-inline" style="width: 110px;">
+					<button type="button" class="layui-btn" id="test10">
+						<i class="layui-icon">&#xe67c;</i>图片上传
+					</button>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-input-block">
+					<blockquote class="layui-elem-quote layui-quote-nm"
+								style="margin-top: 10px;">
+						预览图：
+						<div class="layui-upload-list" id="d-review"></div>
+					</blockquote>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-input-block">
+					<button id="btn-uploadCover" class="layui-btn layui-btn-normal">
+						<i class="layui-icon">&#xe608;</i>开始上传
+					</button>
+				</div>
+			</div>
+			<div class="layui-form-item">
 				<label class="layui-form-label">内容</label>
 				<div class="layui-input-block">
                     <textarea class="layui-textarea" id="LAY_demo1" style="display: none;">

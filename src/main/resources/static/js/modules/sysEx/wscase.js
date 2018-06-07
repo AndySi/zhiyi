@@ -240,7 +240,7 @@ var vm = new Vue({
     data: {
         q: {
             title: null,
-            typeid: null
+            typeid: -1
         },
         itemInfo: {
             pv: 0

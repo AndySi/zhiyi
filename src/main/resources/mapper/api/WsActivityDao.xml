@@ -21,7 +21,7 @@
         `t_ws_activity_type` t
         <where>
             n.`typeId` = t.`id`
-            <if test="typeid != null and typeid.trim() != ''">
+            <if test="typeid != null and typeid!=-1">
                 and n.`typeId` = #{typeid}
             </if>
             <if test="title != null and title.trim() != ''">
@@ -44,7 +44,7 @@
     <select id="queryTotal" resultType="int">
         select count(*) from t_ws_activity
         <where>
-            <if test="typeid != null">
+            <if test="typeid != null and typeid!=-1">
                 and `typeId` = #{typeid}
             </if>
             <if test="title != null and title.trim() != ''">

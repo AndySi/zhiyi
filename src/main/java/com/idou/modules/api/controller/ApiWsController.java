@@ -96,7 +96,7 @@ public class ApiWsController {
             @ApiImplicitParam(name = "limit", value = "每页多少条", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "typeId", value = "类型ID", dataType = "String", paramType = "query")
     })
-    public R getActivityListByTid(@RequestParam("page") int page, @RequestParam("limit") int limit, @RequestParam("typeId") String typeId) {
+    public R getActivityListByTid(@RequestParam("page") int page, @RequestParam("limit") int limit, @RequestParam(value = "typeId", required = false) String typeId) {
         if (page >= 0 && limit >= 0) {
             Query query = new Query(page == 0 ? 1 : page, limit == 0 ? 5 : limit);
             if (!StringUtils.isEmpty(typeId)) {
@@ -142,7 +142,7 @@ public class ApiWsController {
             @ApiImplicitParam(name = "limit", value = "每页多少条", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "typeId", value = "类型ID", dataType = "String", paramType = "query")
     })
-    public R getNewsListByTid(@RequestParam("page") int page, @RequestParam("limit") int limit, @RequestParam("typeId") String typeId) {
+    public R getNewsListByTid(@RequestParam("page") int page, @RequestParam("limit") int limit, @RequestParam(value = "typeId", required = false) String typeId) {
         if (page >= 0 && limit >= 0) {
             Query query = new Query(page == 0 ? 1 : page, limit == 0 ? 5 : limit);
             if (!StringUtils.isEmpty(typeId)) {

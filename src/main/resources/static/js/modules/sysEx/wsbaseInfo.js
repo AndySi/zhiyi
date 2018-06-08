@@ -114,6 +114,9 @@ var vm = new Vue({
                     if(vm.itemInfo.logo!=null){
                         $('#d-review').html('<img src="' + vm.itemInfo.logo + '" id="target" class="layui-upload-img"/>');
                     }
+                    if(vm.itemInfo.qrcode!=null){
+                        $('#d-review-qrcode').html('<img src="' + vm.itemInfo.qrcode + '" id="target" class="layui-upload-img"/>');
+                    }
                 }
             });
         }

@@ -48,8 +48,7 @@ layui.use(['table', 'form', 'laytpl', 'upload', 'layedit', 'layer'], function ()
                     icon: 1
                     , time: 2000
                 }, function () {
-                    vm.showList = true;
-                    active.reload();
+                    window.location.reload();
                 });
             } else {
                 alert(r.msg);
@@ -102,14 +101,12 @@ layui.use(['table', 'form', 'laytpl', 'upload', 'layedit', 'layer'], function ()
         add: function () {
             vm.showList = false;
             vm.title = "新增";
-            vm.itemInfo = {typename: null, poll: 0};
             vm.getType();
         },
         update: function () {    //修改
             var row = fn_getSelectedRow(table);
             if (row) {
                 $.get(baseURL + "sysWs/wsactivity/info/" + row.id, function (r) {
-                    console.log(JSON.stringify(r.data));
                     if (r.code == 0) {
                         vm.showList = false;
                         vm.title = "修改";

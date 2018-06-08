@@ -1,12 +1,10 @@
 package com.idou.modules.api.controller;
 
 import com.idou.common.exception.RRException;
+import com.idou.common.utils.IPUtils;
 import com.idou.common.utils.Query;
 import com.idou.common.utils.R;
-import com.idou.modules.api.domain.WsAboutEntity;
-import com.idou.modules.api.domain.WsAboutListEntity;
-import com.idou.modules.api.domain.WsCaseEntity;
-import com.idou.modules.api.domain.WsNewsEntity;
+import com.idou.modules.api.domain.*;
 import com.idou.modules.api.service.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -14,11 +12,13 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -54,6 +54,63 @@ public class ApiWsController {
     private WsNewsTypeService wsNewsTypeService;
     @Autowired
     private WsContactService wsContactService;
+    @Autowired
+    private WsActivityTypeService wsActivityTypeService;
+    @Autowired
+    private WsActivityService wsActivityService;
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
+
+    @PostMapping("/activity/doPoll")
+    @ApiOperation(value = "活动投票", notes = "用户投票")
+    @ApiImplicitParams(
+            @ApiImplicitParam(name = "id", value = "ID", dataType = "long", paramType = "query")
+    )
+    public R getDoPoll(HttpServletRequest request, @RequestParam("id") long id) {
+        boolean b = wsActivityService.doPoll(id, IPUtils.getIpAddr(request));
+        if (b) {
+            return R.error("一天只能投一次哦");
+        }
+        return R.ok();
+    }
+
+    @PostMapping("/activity/getTypeList")
+    @ApiOperation(value = "获取活动类型列表", notes = "获取活动类型列表")
+    public R getActivityTypeList() {
+        return R.ok().put("data", wsActivityTypeService.queryList());
+    }
+
+    @PostMapping("/activity/getInfo")
+    @ApiOperation(value = "获取活动详情", notes = "根据活动ID获取活动详情")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "ID", dataType = "long", paramType = "query")
+    })
+    public R getActivityByTid(@RequestParam("id") long id) {
+        return R.ok().put("data", wsActivityService.queryObject(id));
+    }
+
+    @PostMapping("/activity/getList")
+    @ApiOperation(value = "根据活动获取活动展示列表", notes = "活动分页展示")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page", value = "第几页", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "limit", value = "每页多少条", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "typeId", value = "类型ID", dataType = "String", paramType = "query")
+    })
+    public R getActivityListByTid(@RequestParam("page") int page, @RequestParam("limit") int limit, @RequestParam("typeId") String typeId) {
+        if (page >= 0 && limit >= 0) {
+            Query query = new Query(page == 0 ? 1 : page, limit == 0 ? 5 : limit);
+            if (!StringUtils.isEmpty(typeId)) {
+                try {
+                    query.put("typeid", Long.parseLong(typeId));
+                } catch (Exception e) {
+                    throw new RRException("参数格式错误");
+                }
+            }
+            List<WsActivityEntity> list = wsActivityService.queryList(query);
+            return R.ok().put("data", list);
+        }
+        return R.error("参数错误");
+    }
 
     @PostMapping("/contact/getInfo")
     @ApiOperation(value = "联系", notes = "获取联系内容")
@@ -74,6 +131,7 @@ public class ApiWsController {
             @ApiImplicitParam(name = "id", value = "ID", dataType = "long", paramType = "query")
     })
     public R getNewsByTid(@RequestParam("id") long id) {
+        stringRedisTemplate.opsForValue().increment("redis_news_pv_" + id, 1);
         return R.ok().put("data", wsNewsService.queryObject(id));
     }
 
@@ -84,10 +142,16 @@ public class ApiWsController {
             @ApiImplicitParam(name = "limit", value = "每页多少条", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "typeId", value = "类型ID", dataType = "String", paramType = "query")
     })
-    public R getNewsListByTid(@RequestParam("page") int page, @RequestParam("limit") int limit, @RequestParam("typeId")  long typeId) {
+    public R getNewsListByTid(@RequestParam("page") int page, @RequestParam("limit") int limit, @RequestParam("typeId") String typeId) {
         if (page >= 0 && limit >= 0) {
             Query query = new Query(page == 0 ? 1 : page, limit == 0 ? 5 : limit);
-            query.put("typeid", typeId);
+            if (!StringUtils.isEmpty(typeId)) {
+                try {
+                    query.put("typeid", Long.parseLong(typeId));
+                } catch (Exception e) {
+                    throw new RRException("参数格式错误");
+                }
+            }
             List<WsNewsEntity> list = wsNewsService.queryList(query);
             return R.ok().put("data", list);
         }
@@ -142,13 +206,13 @@ public class ApiWsController {
             @ApiImplicitParam(name = "limit", value = "每页多少条", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "typeId", value = "类型ID", dataType = "String", paramType = "query")
     })
-    public R getCaseListByTid(@RequestParam("page") int page, @RequestParam("limit") int limit, @RequestParam(value = "typeId", required = false)  String typeId) {
+    public R getCaseListByTid(@RequestParam("page") int page, @RequestParam("limit") int limit, @RequestParam(value = "typeId", required = false) String typeId) {
         if (page >= 0 && limit >= 0) {
             Query query = new Query(page == 0 ? 1 : page, limit == 0 ? 5 : limit);
-            if(!StringUtils.isEmpty(typeId)){
+            if (!StringUtils.isEmpty(typeId)) {
                 try {
                     query.put("typeid", Long.parseLong(typeId));
-                }catch (Exception e){
+                } catch (Exception e) {
                     throw new RRException("参数格式错误");
                 }
             }
@@ -164,7 +228,9 @@ public class ApiWsController {
             @ApiImplicitParam(name = "id", value = "ID", dataType = "long", paramType = "query")
     })
     public R getCaseByTid(@RequestParam("id") long id) {
-        return R.ok().put("data", wsCaseService.queryObject(id));
+        stringRedisTemplate.opsForValue().increment("redis_case_pv_" + id, 1);
+        WsCaseEntity entity = wsCaseService.queryObject(id);
+        return R.ok().put("data", entity);
     }
 
     @PostMapping("/case/getTypeList")

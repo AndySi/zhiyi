@@ -100,8 +100,7 @@ layui.use(['table', 'form', 'laytpl', 'upload', 'layedit', 'layer'], function ()
                     icon: 1
                     , time: 2000
                 }, function () {
-                    vm.showList = true;
-                    active.reload();
+                    window.location.reload();
                 });
             } else {
                 alert(r.msg);
@@ -243,6 +242,7 @@ var vm = new Vue({
             typeid: -1
         },
         itemInfo: {
+            typename: null,
             pv: 0
         },
         typeList: {},

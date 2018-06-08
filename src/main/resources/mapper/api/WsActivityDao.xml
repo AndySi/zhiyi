@@ -93,4 +93,9 @@
         </foreach>
     </delete>
 
+    <update id="updatePoll" parameterType="com.idou.modules.api.domain.WsActivityEntity">
+        update t_ws_activity
+          SET `poll` = poll + #{poll}
+          WHERE id = #{id}
+    </update>
 </mapper>

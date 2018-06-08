@@ -1,7 +1,6 @@
 package com.idou.modules.api.dao;
 
 import com.idou.modules.api.domain.WsActivityEntity;
-import com.idou.modules.api.domain.WsNewsEntity;
 import com.idou.modules.sysBs.dao.BaseDao;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -14,5 +13,6 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface WsActivityDao extends BaseDao<WsActivityEntity> {
-	
+
+    int updatePoll(WsActivityEntity entity);
 }

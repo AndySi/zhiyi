@@ -87,7 +87,7 @@ var vm = new Vue({
                 if(r.data){
                     vm.itemInfo = r.data;
                     if(vm.itemInfo.cover!=null){
-                        $('#d-review').html('<img src="' + vm.itemInfo.logo + '" id="target" class="layui-upload-img"/>');
+                        $('#d-review').html('<img src="' + vm.itemInfo.cover + '" id="target" class="layui-upload-img"/>');
                     }
                 }
             });

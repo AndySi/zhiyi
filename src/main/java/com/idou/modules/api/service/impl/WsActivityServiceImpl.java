@@ -27,7 +27,7 @@ public class WsActivityServiceImpl implements WsActivityService {
     @Override
     public WsActivityEntity queryObject(Long id) {
         WsActivityEntity entity = wsActivityDao.queryObject(id);
-        if (!StringUtils.isEmpty(stringRedisTemplate.opsForValue().get(REDIS_ACTIVITY_KEY + id))) {
+        if (entity != null && StringUtils.isEmpty(stringRedisTemplate.opsForValue().get(REDIS_ACTIVITY_KEY + id))) {
             entity.setPoll(entity.getPoll() + Integer.valueOf(stringRedisTemplate.opsForValue().get(REDIS_ACTIVITY_KEY + id)));
         }
         return entity;
@@ -77,7 +77,7 @@ public class WsActivityServiceImpl implements WsActivityService {
         // 规则：活动ID+当前年月日+IP
         String key = id + DateUtils.getYmd() + ip;
         String ipNum = stringRedisTemplate.opsForValue().get(key);
-        if(!StringUtils.isEmpty(ipNum)){
+        if (!StringUtils.isEmpty(ipNum)) {
             b = true;
         }
         // 用户同一IP每天投票数存入redis，设置生命周期为一天
@@ -87,7 +87,7 @@ public class WsActivityServiceImpl implements WsActivityService {
         stringRedisTemplate.expire(key, 1, TimeUnit.DAYS);
 
         String pollNum = stringRedisTemplate.opsForValue().get(REDIS_ACTIVITY_KEY + id);
-        if(!StringUtils.isEmpty(pollNum)){
+        if (!StringUtils.isEmpty(pollNum)) {
             // 投票数大于10加入数据库
             int poll = Integer.valueOf(pollNum);
             if (poll > 10) {

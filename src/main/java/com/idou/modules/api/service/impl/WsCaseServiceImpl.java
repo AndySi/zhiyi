@@ -22,18 +22,20 @@ public class WsCaseServiceImpl implements WsCaseService {
     @Override
     public WsCaseEntity queryObject(Long id) {
         WsCaseEntity ret = wsCaseDao.queryObject(id);
-        int redisPv = Integer.valueOf(stringRedisTemplate.opsForValue().get("redis_case_pv_" + id));
-        int pv = ret.getPv() + redisPv;
-        // 访问大于20，写入DB
-        if (redisPv > 20) {
-            WsCaseEntity entity = new WsCaseEntity();
-            entity.setId(id);
-            entity.setPv(pv);
-            wsCaseDao.update(entity);
-            // 清空缓存
-            stringRedisTemplate.delete("redis_case_pv_" + id);
+        if (ret != null) {
+            int redisPv = Integer.valueOf(stringRedisTemplate.opsForValue().get("redis_case_pv_" + id));
+            int pv = ret.getPv() + redisPv;
+            // 访问大于20，写入DB
+            if (redisPv > 20) {
+                WsCaseEntity entity = new WsCaseEntity();
+                entity.setId(id);
+                entity.setPv(pv);
+                wsCaseDao.update(entity);
+                // 清空缓存
+                stringRedisTemplate.delete("redis_case_pv_" + id);
+            }
+            ret.setPv(pv);
         }
-        ret.setPv(pv);
         return ret;
     }
 

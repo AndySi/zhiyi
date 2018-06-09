@@ -22,18 +22,20 @@ public class WsNewsServiceImpl implements WsNewsService {
     @Override
     public WsNewsEntity queryObject(Long id) {
         WsNewsEntity ret = wsNewsDao.queryObject(id);
-        int redisPv = Integer.valueOf(stringRedisTemplate.opsForValue().get("redis_news_pv_" + id));
-        int pv = ret.getPv() + redisPv;
-        // 访问大于20，写入DB
-        if (redisPv > 20) {
-            WsNewsEntity entity = new WsNewsEntity();
-            entity.setId(id);
-            entity.setPv(pv);
-            wsNewsDao.update(entity);
-            // 清空缓存
-            stringRedisTemplate.delete("redis_news_pv_" + id);
+        if (ret != null) {
+            int redisPv = Integer.valueOf(stringRedisTemplate.opsForValue().get("redis_news_pv_" + id));
+            int pv = ret.getPv() + redisPv;
+            // 访问大于20，写入DB
+            if (redisPv > 20) {
+                WsNewsEntity entity = new WsNewsEntity();
+                entity.setId(id);
+                entity.setPv(pv);
+                wsNewsDao.update(entity);
+                // 清空缓存
+                stringRedisTemplate.delete("redis_news_pv_" + id);
+            }
+            ret.setPv(pv);
         }
-        ret.setPv(pv);
         return ret;
     }
 

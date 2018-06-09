@@ -18,5 +18,5 @@ spring:
 
 
 img:
-    location: D:/FTPFinCloud/
+    location: F:/FTPFinCloud/
     nginxLocation: http://localhost:8088

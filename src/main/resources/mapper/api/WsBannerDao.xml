@@ -30,13 +30,15 @@
 		insert into t_ws_banner
 		(
 			`url`, 
-			`link`, 
+			`link`,
+			mobileUrl,
 			`sortNum`
 		)
 		values
 		(
 			#{url}, 
-			#{link}, 
+			#{link},
+			#{mobileurl},
 			#{sortnum}
 		)
 	</insert>
@@ -44,8 +46,9 @@
 	<update id="update" parameterType="com.idou.modules.api.domain.WsBannerEntity">
 		update t_ws_banner 
 		<set>
-			<if test="url != null">`url` = #{url}, </if>
-			<if test="link != null">`link` = #{link}, </if>
+			<if test="url != null and url != ''">`url` = #{url}, </if>
+			<if test="mobileurl != null and mobileurl != ''">`mobileUrl` = #{mobileurl}, </if>
+			<if test="link != null and link != ''">`link` = #{link}, </if>
 			<if test="sortnum != null">`sortNum` = #{sortnum}</if>
 		</set>
 		where id = #{id}

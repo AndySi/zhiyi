@@ -41,7 +41,7 @@
 		<qcloud.cos.version>4.4</qcloud.cos.version>
 		<velocity.version>1.7</velocity.version>
 		<nekohtml-version>1.9.22</nekohtml-version>
-		<jsonp-version>1.9.2</jsonp-version>
+		<jsonp-version>1.15.3</jsonp-version>
 		<httpclient-version>4.5.3</httpclient-version>
 		<dom4j-version>1.6.1</dom4j-version>
 		<jwt.version>0.7.0</jwt.version>
